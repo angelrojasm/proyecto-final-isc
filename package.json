@@ -1,10 +1,12 @@
 {
+  "license": "ISC",
   "devDependencies": {
     "husky": "^6.0.0",
     "prettier": "^2.3.2",
     "pretty-quick": "^3.1.1"
   },
   "scripts": {
+    "dev": "cd server && yarn dev",
     "prepare": "husky install"
   }
 }

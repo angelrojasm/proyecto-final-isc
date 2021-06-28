@@ -1,0 +1,18 @@
+{
+  "type": "mysql",
+  "host": "database-1.clelkudjlfww.us-east-1.rds.amazonaws.com",
+  "port": 3306,
+  "username": "admin",
+  "password": "password",
+  "database": "main",
+  "synchronize": true,
+  "logging": false,
+  "entities": ["src/entities/**/*.ts"],
+  "migrations": ["src/migration/**/*.ts"],
+  "subscribers": ["src/subscriber/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migration",
+    "subscribersDir": "src/subscriber"
+  }
+}
