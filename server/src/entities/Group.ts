@@ -20,7 +20,9 @@ export class Group {
   @Column()
   creationDate: Date;
 
-  @ManyToMany(() => User, (user) => user.groups)
+  @ManyToMany(() => User, (user) => user.groups, {
+    cascade: true,
+  })
   @JoinTable()
   users: User[];
 
@@ -53,8 +55,8 @@ export class Group {
     this.description = description || '';
     this.totalUsers = totalUsers || 0;
     this.creationDate = creationDate || new Date();
-    this.users = users || [];
-    this.posts = posts || [];
-    this.files;
+    this.users = users || null;
+    this.posts = posts || null;
+    this.files = files || null;
   }
 }

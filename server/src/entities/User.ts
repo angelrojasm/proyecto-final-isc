@@ -15,7 +15,7 @@ export class User {
   @Column()
   country: string;
 
-  @Column()
+  @Column({ type: 'simple-array' })
   afflictions: string[];
 
   @ManyToMany(() => Group, (group) => group.users)
@@ -41,6 +41,6 @@ export class User {
     this.email = email || '';
     this.country = country || '';
     this.afflictions = afflictions || [];
-    this.groups = groups || [];
+    this.groups = groups || null;
   }
 }

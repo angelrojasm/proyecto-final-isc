@@ -7,7 +7,9 @@
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "sourceMap": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["node_modules"]
 }

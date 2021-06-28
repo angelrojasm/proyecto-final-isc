@@ -42,6 +42,6 @@ export class Post {
     this.postedBy = postedBy || null;
     this.postedIn = postedIn || null;
     this.date = date || new Date();
-    this.comments = comments || [];
+    this.comments = comments || null;
   }
 }
