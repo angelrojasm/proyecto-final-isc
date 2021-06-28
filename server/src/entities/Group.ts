@@ -29,4 +29,32 @@ export class Group {
 
   @OneToMany(() => File, (file) => file.uploadedIn)
   files: File[];
+
+  constructor();
+  constructor(
+    name?: string,
+    description?: string,
+    totalUsers?: number,
+    creationDate?: Date,
+    users?: User[],
+    posts?: Post[],
+    files?: File[]
+  );
+  constructor(
+    name?: string,
+    description?: string,
+    totalUsers?: number,
+    creationDate?: Date,
+    users?: User[],
+    posts?: Post[],
+    files?: File[]
+  ) {
+    this.name = name || '';
+    this.description = description || '';
+    this.totalUsers = totalUsers || 0;
+    this.creationDate = creationDate || new Date();
+    this.users = users || [];
+    this.posts = posts || [];
+    this.files;
+  }
 }

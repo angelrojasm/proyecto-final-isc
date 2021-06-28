@@ -18,7 +18,7 @@ const Routes = [
   },
   {
     method: 'post',
-    route: '',
+    route: '/',
     controller: UserController,
     action: 'save',
   },

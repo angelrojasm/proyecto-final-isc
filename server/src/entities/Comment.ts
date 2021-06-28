@@ -14,4 +14,13 @@ export class Comment {
 
   @ManyToOne(() => Post, (post) => post.comments)
   leftIn: Post;
+
+  constructor();
+  constructor(content?: string, date?: Date, leftIn?: Post);
+
+  constructor(content?: string, date?: Date, leftIn?: Post) {
+    this.content = content || '';
+    this.date = date || new Date();
+    this.leftIn = leftIn || null;
+  }
 }

@@ -13,4 +13,12 @@ export class File {
 
   @Column()
   date: Date;
+
+  constructor();
+  constructor(filename?: string, uploadedIn?: Group, date?: Date);
+  constructor(filename?: string, uploadedIn?: Group, date?: Date) {
+    this.filename = filename || '';
+    this.uploadedIn = uploadedIn || null;
+    this.date = date || new Date();
+  }
 }

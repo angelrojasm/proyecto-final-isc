@@ -21,4 +21,27 @@ export class Post {
 
   @OneToMany(() => Comment, (comment) => comment.leftIn)
   comments: Comment[];
+
+  constructor();
+  constructor(
+    content?: string,
+    postedBy?: User,
+    postedIn?: Group,
+    date?: Date,
+    comments?: Comment[]
+  );
+
+  constructor(
+    content?: string,
+    postedBy?: User,
+    postedIn?: Group,
+    date?: Date,
+    comments?: Comment[]
+  ) {
+    this.content = content || '';
+    this.postedBy = postedBy || null;
+    this.postedIn = postedIn || null;
+    this.date = date || new Date();
+    this.comments = comments || [];
+  }
 }
