@@ -2,12 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc -w",
-    "start": "ts-node --transpile-only src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "build": "tsc",
+    "start": "yarn build && node dist/index.js",
+    "dev": "concurrently \"yarn watch\" \"nodemon dist/index.js\""
   },
   "keywords": [],
   "author": "",
