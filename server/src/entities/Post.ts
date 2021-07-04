@@ -10,10 +10,10 @@ export class Post {
   @Column()
   content: string;
 
-  @ManyToOne(() => User, (user) => user)
+  @ManyToOne(() => User, (user) => user, { cascade: true })
   postedBy: User;
 
-  @ManyToOne(() => Group, (group) => group)
+  @ManyToOne(() => Group, (group) => group, { cascade: true })
   postedIn: Group;
 
   @Column()

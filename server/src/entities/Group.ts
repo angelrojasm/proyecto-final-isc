@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  PrimaryColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+} from 'typeorm';
 import { File } from './File';
 import { Post } from './Post';
 import { User } from './User';
@@ -32,9 +40,9 @@ export class Group {
   @OneToMany(() => File, (file) => file.uploadedIn)
   files: File[];
 
-  constructor();
+  constructor(name: string);
   constructor(
-    name?: string,
+    name: string,
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
@@ -43,7 +51,7 @@ export class Group {
     files?: File[]
   );
   constructor(
-    name?: string,
+    name: string,
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
@@ -51,7 +59,7 @@ export class Group {
     posts?: Post[],
     files?: File[]
   ) {
-    this.name = name || '';
+    this.name = name;
     this.description = description || '';
     this.totalUsers = totalUsers || 0;
     this.creationDate = creationDate || new Date();

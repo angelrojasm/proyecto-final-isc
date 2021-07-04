@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Post } from './Post';
-
+import { User } from './User';
 @Entity()
 export class Comment {
   @PrimaryGeneratedColumn()
@@ -12,15 +12,19 @@ export class Comment {
   @Column()
   date: Date;
 
-  @ManyToOne(() => Post, (post) => post.comments)
+  @ManyToOne(() => Post, (post) => post.comments, { cascade: true })
   leftIn: Post;
 
-  constructor();
-  constructor(content?: string, date?: Date, leftIn?: Post);
+  @ManyToOne(() => User, (user) => user.comments, { cascade: true })
+  leftBy: User;
 
-  constructor(content?: string, date?: Date, leftIn?: Post) {
+  constructor();
+  constructor(content?: string, date?: Date, leftIn?: Post, leftBy?: User);
+
+  constructor(content?: string, date?: Date, leftIn?: Post, leftBy?: User) {
     this.content = content || '';
     this.date = date || new Date();
     this.leftIn = leftIn || null;
+    this.leftBy = leftBy || null;
   }
 }
