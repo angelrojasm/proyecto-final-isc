@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 import { Group } from './Group';
 import { File } from './File';
 import { Post } from './Post';
@@ -10,6 +17,9 @@ export class User {
 
   @Column()
   username: string;
+
+  @Column()
+  uid: string;
 
   @Column()
   email: string;

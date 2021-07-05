@@ -30,9 +30,10 @@ export class UserController {
       relations: ['groups', 'files', 'comments', 'posts'],
     });
   }
-  @Get(`/:id`)
-  async get(@Param('id') user: User) {
-    return await this.userRepository.findOne(user, {
+  @Get(`/:uid`)
+  async get(@Param('uid') user: string) {
+    return await this.userRepository.find({
+      where: { uid: user },
       relations: ['groups', 'files', 'comments', 'posts', 'posts.postedIn'],
     });
   }
