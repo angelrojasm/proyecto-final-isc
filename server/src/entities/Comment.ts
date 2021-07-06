@@ -15,16 +15,16 @@ export class Comment {
   @ManyToOne(() => Post, (post) => post.comments, { cascade: true })
   leftIn: Post;
 
-  @ManyToOne(() => User, (user) => user.comments, { cascade: true })
-  leftBy: User;
+  @Column()
+  leftBy: string;
 
   constructor();
-  constructor(content?: string, date?: Date, leftIn?: Post, leftBy?: User);
+  constructor(content?: string, date?: Date, leftIn?: Post, leftBy?: string);
 
-  constructor(content?: string, date?: Date, leftIn?: Post, leftBy?: User) {
+  constructor(content?: string, date?: Date, leftIn?: Post, leftBy?: string) {
     this.content = content || '';
     this.date = date || new Date();
     this.leftIn = leftIn || null;
-    this.leftBy = leftBy || null;
+    this.leftBy = leftBy || '';
   }
 }

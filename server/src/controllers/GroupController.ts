@@ -21,17 +21,17 @@ export class GroupController {
     this.groupRepository = getRepository(Group);
   }
   public async findById(id: number) {
-    return await this.groupRepository.findOne(id, { relations: ['users', 'posts', 'files'] });
+    return await this.groupRepository.findOne(id, { relations: ['users'] });
   }
 
   @Get(`/:id`)
   async get(@Param('id') id: number) {
-    return await this.groupRepository.findOne(id, { relations: ['users', 'posts', 'files'] });
+    return await this.groupRepository.findOne(id, { relations: ['users'] });
   }
 
   @Get(`/`)
   getAll() {
-    return this.groupRepository.find({ relations: ['users', 'posts', 'files'] });
+    return this.groupRepository.find({ relations: ['users'] });
   }
 
   @Post(`/`)

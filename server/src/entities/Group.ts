@@ -7,8 +7,7 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { File } from './File';
-import { Post } from './Post';
+
 import { User } from './User';
 
 @Entity({ name: 'groups' })
@@ -34,37 +33,25 @@ export class Group {
   @JoinTable()
   users: User[];
 
-  @OneToMany(() => Post, (post) => post.postedIn)
-  posts: Post[];
-
-  @OneToMany(() => File, (file) => file.uploadedIn)
-  files: File[];
-
   constructor(name: string);
   constructor(
     name: string,
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
-    users?: User[],
-    posts?: Post[],
-    files?: File[]
+    users?: User[]
   );
   constructor(
     name: string,
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
-    users?: User[],
-    posts?: Post[],
-    files?: File[]
+    users?: User[]
   ) {
     this.name = name;
     this.description = description || '';
     this.totalUsers = totalUsers || 0;
     this.creationDate = creationDate || new Date();
     this.users = users || null;
-    this.posts = posts || null;
-    this.files = files || null;
   }
 }

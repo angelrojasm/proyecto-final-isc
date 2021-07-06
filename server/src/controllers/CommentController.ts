@@ -26,7 +26,7 @@ export class CommentController {
     let post = await new PostController().findById(postId);
     return this.commentRepository.find({
       where: { leftIn: post },
-      relations: ['leftIn', 'leftBy'],
+      relations: ['leftIn'],
     });
   }
 
@@ -39,7 +39,7 @@ export class CommentController {
     let post = await new PostController().findById(postId);
     let user = await new UserController().findById(userId);
     comment.leftIn = post;
-    comment.leftBy = user;
+    comment.leftBy = user.username;
     return this.commentRepository.save(comment);
   }
 

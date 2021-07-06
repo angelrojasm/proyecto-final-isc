@@ -9,6 +9,7 @@ import {
   BodyParam,
   Body,
   Param,
+  QueryParam,
 } from 'routing-controllers';
 import {
   EntityFromParam,
@@ -27,21 +28,28 @@ export class UserController {
 
   public async findById(id: number) {
     return await this.userRepository.findOne(id, {
-      relations: ['groups', 'files', 'comments', 'posts'],
+      relations: ['groups'],
     });
   }
   @Get(`/:uid`)
   async get(@Param('uid') user: string) {
     return await this.userRepository.find({
       where: { uid: user },
-      relations: ['groups', 'files', 'comments', 'posts', 'posts.postedIn'],
+      relations: ['groups'],
+    });
+  }
+  @Get(`/`)
+  async getByName(@QueryParam('name') user: string) {
+    return await this.userRepository.find({
+      where: { username: user },
+      relations: ['groups'],
     });
   }
 
   @Get(`/`)
   getAll() {
     return this.userRepository.find({
-      relations: ['groups', 'files', 'comments', 'posts'],
+      relations: ['groups'],
     });
   }
 
@@ -54,6 +62,8 @@ export class UserController {
   async addUGroup(@BodyParam('userId') userId: number, @BodyParam('groupId') groupId: number) {
     let user = await this.findById(userId);
     let group = await new GroupController().findById(groupId);
+    group.totalUsers += 1;
+    //await groupController.update(group)
     user.groups ? user.groups.push(group) : (user.groups = [group]);
     return this.userRepository.save(user);
   }

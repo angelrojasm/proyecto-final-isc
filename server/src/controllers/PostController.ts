@@ -23,15 +23,15 @@ export class PostController {
   }
   public async findById(id: number) {
     return await this.postRepository.findOne(id, {
-      relations: ['comments', 'postedBy', 'postedIn'],
+      relations: ['comments'],
     });
   }
   @Get(`/:id`)
   async getPosts(@Param('id') groupId: number) {
     let group = await new GroupController().findById(groupId);
     return this.postRepository.find({
-      where: { postedIn: group },
-      relations: ['comments', 'postedIn', 'postedBy'],
+      where: { postedIn: group.name },
+      relations: ['comments'],
     });
   }
 
@@ -43,8 +43,8 @@ export class PostController {
   ) {
     let group = await new GroupController().findById(groupId);
     let user = await new UserController().findById(userId);
-    post.postedIn = group;
-    post.postedBy = user;
+    post.postedIn = group.name;
+    post.postedBy = user.username;
     return this.postRepository.save(post);
   }
 

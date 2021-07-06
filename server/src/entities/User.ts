@@ -30,15 +30,6 @@ export class User {
   @Column({ type: 'simple-array' })
   afflictions: string[];
 
-  @OneToMany(() => File, (file) => file.uploadedIn)
-  files: File[];
-
-  @OneToMany(() => Comment, (comment) => comment.leftBy)
-  comments: Comment[];
-
-  @OneToMany(() => Post, (post) => post.postedBy)
-  posts: Post[];
-
   @ManyToMany(() => Group, (group) => group.users)
   groups: Group[];
 
@@ -48,10 +39,7 @@ export class User {
     email?: string,
     country?: string,
     afflictions?: string[],
-    groups?: Group[],
-    files?: File[],
-    comments?: Comment[],
-    posts?: Post[]
+    groups?: Group[]
   );
 
   constructor(
@@ -59,18 +47,12 @@ export class User {
     email?: string,
     country?: string,
     afflictions?: string[],
-    groups?: Group[],
-    files?: File[],
-    comments?: Comment[],
-    posts?: Post[]
+    groups?: Group[]
   ) {
     this.username = username;
     this.email = email || '';
     this.country = country || '';
     this.afflictions = afflictions || [];
     this.groups = groups || null;
-    this.files = files || null;
-    this.comments = comments || null;
-    this.posts = posts || null;
   }
 }

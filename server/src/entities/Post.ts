@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Comment } from './Comment';
 import { Group } from './Group';
-import { User } from './User';
+
 @Entity()
 export class Post {
   @PrimaryGeneratedColumn()
@@ -10,11 +10,11 @@ export class Post {
   @Column()
   content: string;
 
-  @ManyToOne(() => User, (user) => user, { cascade: true })
-  postedBy: User;
+  @Column()
+  postedBy: string;
 
-  @ManyToOne(() => Group, (group) => group, { cascade: true })
-  postedIn: Group;
+  @Column()
+  postedIn: string;
 
   @Column()
   date: Date;
@@ -25,22 +25,22 @@ export class Post {
   constructor();
   constructor(
     content?: string,
-    postedBy?: User,
-    postedIn?: Group,
+    postedBy?: string,
+    postedIn?: string,
     date?: Date,
     comments?: Comment[]
   );
 
   constructor(
     content?: string,
-    postedBy?: User,
-    postedIn?: Group,
+    postedBy?: string,
+    postedIn?: string,
     date?: Date,
     comments?: Comment[]
   ) {
     this.content = content || '';
-    this.postedBy = postedBy || null;
-    this.postedIn = postedIn || null;
+    this.postedBy = postedBy || '';
+    this.postedIn = postedIn || '';
     this.date = date || new Date();
     this.comments = comments || null;
   }

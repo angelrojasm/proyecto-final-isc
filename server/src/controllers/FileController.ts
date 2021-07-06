@@ -26,7 +26,7 @@ export class FileController {
     @EntityFromBodyParam('userId') user: User,
     @Req() request: any
   ) {
-    file.uploadedBy = user;
+    file.uploadedBy = user.username;
     file.uploadedIn = group;
     let { files } = request;
     console.log(files);

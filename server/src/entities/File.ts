@@ -12,18 +12,18 @@ export class File {
   @ManyToOne(() => Group, (group) => group.files, { cascade: true })
   uploadedIn: Group;
 
-  @ManyToOne(() => User, (user) => user.files, { cascade: true })
-  uploadedBy: User;
+  @Column()
+  uploadedBy: string;
 
   @Column()
   date: Date;
 
   constructor();
-  constructor(filename?: string, uploadedIn?: Group, date?: Date, uploadedBy?: User);
-  constructor(filename?: string, uploadedIn?: Group, date?: Date, uploadedBy?: User) {
+  constructor(filename?: string, uploadedIn?: Group, date?: Date, uploadedBy?: string);
+  constructor(filename?: string, uploadedIn?: Group, date?: Date, uploadedBy?: string) {
     this.filename = filename || '';
     this.uploadedIn = uploadedIn || null;
     this.date = date || new Date();
-    this.uploadedBy = uploadedBy || null;
+    this.uploadedBy = uploadedBy || '';
   }
 }
