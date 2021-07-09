@@ -9,11 +9,13 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import { RootStackParamList } from '../utils/types';
+import TabTwoScreen from '../screens/TabTwoScreen';
+import { RootStackParamList, AuthStackParamList } from '../utils/types';
 import GroupBottomTabNavigator from './BottomTabs/GroupNavigator/GroupBottomTabNavigator';
 import BottomTabNavigator from './BottomTabs/MainNavigator/BottomTabNavigator';
 // import LinkingConfiguration from './LinkingConfiguration';
 const Stack = createStackNavigator<RootStackParamList>();
+const AuthStack = createStackNavigator<AuthStackParamList>();
 
 export default function Navigation() {
   return (
@@ -30,9 +32,21 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/*/ Auth Navigator, render if is loggedIn, else not */}
+      <Stack.Screen name="Auth" component={AuthNavigator} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Group" component={GroupBottomTabNavigator} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
+  );
+}
+
+function AuthNavigator() {
+  return (
+    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStack.Screen name="home" component={TabTwoScreen} />
+      <AuthStack.Screen name="logIn" component={TabTwoScreen} />
+      <AuthStack.Screen name="register" component={NotFoundScreen} />
+      <AuthStack.Screen name="profileSetup" component={TabTwoScreen} />
+    </AuthStack.Navigator>
   );
 }

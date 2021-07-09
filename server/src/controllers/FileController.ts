@@ -27,7 +27,7 @@ export class FileController {
     @Req() request: any
   ) {
     file.uploadedBy = user.username;
-    file.uploadedIn = group;
+    file.uploadedIn = group.name;
     let { files } = request;
     console.log(files);
     await s3.uploadFile(files.image);

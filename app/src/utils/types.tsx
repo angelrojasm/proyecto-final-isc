@@ -7,8 +7,15 @@ export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
   Group: undefined;
+  Auth: undefined;
 };
 
+export type AuthStackParamList = {
+  home: undefined;
+  logIn: undefined;
+  register: undefined;
+  profileSetup: undefined;
+};
 export type DashboardParamList = {
   Dashboard: undefined;
 };

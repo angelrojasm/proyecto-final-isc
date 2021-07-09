@@ -9,8 +9,8 @@ export class File {
   @Column()
   filename: string;
 
-  @ManyToOne(() => Group, (group) => group.files, { cascade: true })
-  uploadedIn: Group;
+  @Column()
+  uploadedIn: string;
 
   @Column()
   uploadedBy: string;
@@ -19,10 +19,10 @@ export class File {
   date: Date;
 
   constructor();
-  constructor(filename?: string, uploadedIn?: Group, date?: Date, uploadedBy?: string);
-  constructor(filename?: string, uploadedIn?: Group, date?: Date, uploadedBy?: string) {
+  constructor(filename?: string, uploadedIn?: string, date?: Date, uploadedBy?: string);
+  constructor(filename?: string, uploadedIn?: string, date?: Date, uploadedBy?: string) {
     this.filename = filename || '';
-    this.uploadedIn = uploadedIn || null;
+    this.uploadedIn = uploadedIn || '';
     this.date = date || new Date();
     this.uploadedBy = uploadedBy || '';
   }
