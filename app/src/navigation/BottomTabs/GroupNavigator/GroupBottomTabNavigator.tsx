@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 import * as React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedNavigator from './Tabs/Feed';
 import RoomNavigator from './Tabs/Room';
@@ -23,31 +23,30 @@ export default function GroupBottomTabNavigator() {
       <BottomTab.Navigator
         initialRouteName="Feed"
         backBehavior="history"
-        tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+        tabBarOptions={{
+          activeTintColor: 'rgba(255,255,255,1)',
+          inactiveTintColor: 'rgba(255,255,255,0.6)',
+          tabStyle: { backgroundColor: '#0E4DA4' },
+        }}>
         <BottomTab.Screen
           name="Feed"
           component={FeedNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="dynamic-feed" style={{ marginTop: 3 }} size={25} color={color} />
+            ),
           }}
         />
         <BottomTab.Screen
           name="Room"
           component={RoomNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="meeting-room" style={{ marginTop: 3 }} size={25} color={color} />
+            ),
           }}
         />
       </BottomTab.Navigator>
     </>
   );
 }
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-}
-
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab

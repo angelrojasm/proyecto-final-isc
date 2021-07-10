@@ -1,16 +1,18 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { GroupParamList } from '../../../../utils/types';
-import TabOneScreen from '../../../../screens/TabOneScreen';
+import Groups from '../../../../screens/Groups';
+import GroupSearch from '../../../../screens/GroupSearch';
 const GroupStack = createStackNavigator<GroupParamList>();
 
 export default function GroupsNavigator() {
   return (
     <GroupStack.Navigator>
+      <GroupStack.Screen name="Groups" component={Groups} />
       <GroupStack.Screen
-        name="Groups"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Groups' }}
+        name="GroupSearch"
+        component={GroupSearch}
+        options={{ headerTitle: 'Group Search' }}
       />
     </GroupStack.Navigator>
   );

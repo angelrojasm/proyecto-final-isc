@@ -33,6 +33,8 @@ export type GroupBottomTabParamList = {
 
 export type GroupParamList = {
   Groups: undefined;
+  GroupSearch: undefined;
+  Group: undefined;
 };
 
 export type ProfileParamList = {

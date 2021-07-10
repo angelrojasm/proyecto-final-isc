@@ -4,13 +4,12 @@
  */
 
 import * as React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DashboardNavigator from './Tabs/Dashboard';
 import GroupsNavigator from './Tabs/Groups';
 import ProfileNavigator from './Tabs/Profile';
 
-import Colors from '../../../constants/Colors';
 import useColorScheme from '../../../hooks/useColorScheme';
 
 import { MainBottomTabParamList } from '../../../utils/types';
@@ -25,38 +24,44 @@ export default function BottomTabNavigator() {
       <BottomTab.Navigator
         initialRouteName="Dashboard"
         backBehavior="history"
-        tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+        tabBarOptions={{
+          activeTintColor: 'rgba(255,255,255,1)',
+          inactiveTintColor: 'rgba(255,255,255,0.6)',
+          tabStyle: { backgroundColor: '#0E4DA4' },
+        }}>
         <BottomTab.Screen
           name="Dashboard"
           component={DashboardNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="view-dashboard"
+                size={25}
+                style={{ marginTop: 3 }}
+                color={color}
+              />
+            ),
           }}
         />
         <BottomTab.Screen
           name="Groups"
           component={GroupsNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="groups" style={{ marginTop: 3 }} size={30} color={color} />
+            ),
           }}
         />
         <BottomTab.Screen
           name="Profile"
           component={ProfileNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <FontAwesome name="user" style={{ marginTop: 3 }} size={20} color={color} />
+            ),
           }}
         />
       </BottomTab.Navigator>
     </>
   );
 }
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-}
-
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab

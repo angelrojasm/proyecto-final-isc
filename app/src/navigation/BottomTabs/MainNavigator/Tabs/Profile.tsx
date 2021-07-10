@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ProfileParamList } from '../../../../utils/types';
-import TabOneScreen from '../../../../screens/TabOneScreen';
+import Profile from '../../../../screens/Profile';
 const ProfileStack = createStackNavigator<ProfileParamList>();
 
 export default function ProfileNavigator() {
@@ -9,7 +9,7 @@ export default function ProfileNavigator() {
     <ProfileStack.Navigator>
       <ProfileStack.Screen
         name="Profile"
-        component={TabOneScreen}
+        component={Profile}
         options={{ headerTitle: 'My Profile' }}
       />
     </ProfileStack.Navigator>

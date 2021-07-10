@@ -6,10 +6,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import Register from '../screens/Register';
+import Login from '../screens/Login';
+import Home from '../screens/Home';
+import ProfileSetup from '../screens/ProfileSetup';
 import { RootStackParamList, AuthStackParamList } from '../utils/types';
 import GroupBottomTabNavigator from './BottomTabs/GroupNavigator/GroupBottomTabNavigator';
 import BottomTabNavigator from './BottomTabs/MainNavigator/BottomTabNavigator';
@@ -31,8 +33,8 @@ export default function Navigation() {
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/*/ Auth Navigator, render if is loggedIn, else not */}
-      <Stack.Screen name="Auth" component={AuthNavigator} />
+      {/*/ Auth Navigator, only render if not logged in*/}
+      {/*<Stack.Screen name="Auth" component={AuthNavigator} />*/}
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Group" component={GroupBottomTabNavigator} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
@@ -43,10 +45,10 @@ function RootNavigator() {
 function AuthNavigator() {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="home" component={TabTwoScreen} />
-      <AuthStack.Screen name="logIn" component={TabTwoScreen} />
-      <AuthStack.Screen name="register" component={NotFoundScreen} />
-      <AuthStack.Screen name="profileSetup" component={TabTwoScreen} />
+      <AuthStack.Screen name="home" component={Home} />
+      <AuthStack.Screen name="logIn" component={Login} />
+      <AuthStack.Screen name="register" component={Register} />
+      <AuthStack.Screen name="profileSetup" component={ProfileSetup} />
     </AuthStack.Navigator>
   );
 }
