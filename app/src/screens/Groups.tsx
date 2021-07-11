@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import { GroupParamList } from '../utils/types';
+import { GroupParamList } from '../navigation/types.navigation';
 import { Button } from '../components';
 import { Text } from 'react-native';
 

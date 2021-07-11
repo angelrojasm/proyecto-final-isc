@@ -3,14 +3,14 @@ import * as React from 'react';
 import { StyleSheet, Button } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { RootStackParamList } from '../utils/types';
+import { Text, View } from 'react-native';
+import { RootStackParamList } from '../navigation/types.navigation';
 
 export default function TabTwoScreen({ navigation }: StackScreenProps<RootStackParamList, 'Root'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View style={styles.separator} />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
       <Button onPress={() => navigation.navigate('Group')} title="Click me" />
     </View>

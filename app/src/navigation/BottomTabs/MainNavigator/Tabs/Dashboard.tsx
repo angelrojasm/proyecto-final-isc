@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { DashboardParamList } from '../../../../utils/types';
+import { DashboardParamList } from '../../../types.navigation';
 import Dashboard from '../../../../screens/Dashboard';
 const DashboardStack = createStackNavigator<DashboardParamList>();
 

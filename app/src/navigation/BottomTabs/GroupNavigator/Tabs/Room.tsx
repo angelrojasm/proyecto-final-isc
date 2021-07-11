@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { RoomParamList } from '../../../../utils/types';
+import { RoomParamList } from '../../../types.navigation';
 import GroupRoom from '../../../../screens/GroupRoom';
 const DashboardStack = createStackNavigator<RoomParamList>();
 

@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { RootStackParamList } from '../utils/types';
+import { RootStackParamList } from '../navigation/types.navigation';
 
 export default function NotFoundScreen({
   navigation,

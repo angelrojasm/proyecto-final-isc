@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { FeedParamList } from '../../../../utils/types';
+import { FeedParamList } from '../../../types.navigation';
 import GroupFeed from '../../../../screens/GroupFeed';
 const DashboardStack = createStackNavigator<FeedParamList>();
 

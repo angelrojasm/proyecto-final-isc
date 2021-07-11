@@ -12,7 +12,7 @@ import ProfileNavigator from './Tabs/Profile';
 
 import useColorScheme from '../../../hooks/useColorScheme';
 
-import { MainBottomTabParamList } from '../../../utils/types';
+import { MainBottomTabParamList } from '../../types.navigation';
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 

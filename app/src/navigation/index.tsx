@@ -12,7 +12,7 @@ import Register from '../screens/Register';
 import Login from '../screens/Login';
 import Home from '../screens/Home';
 import ProfileSetup from '../screens/ProfileSetup';
-import { RootStackParamList, AuthStackParamList } from '../utils/types';
+import { RootStackParamList, AuthStackParamList } from './types.navigation';
 import GroupBottomTabNavigator from './BottomTabs/GroupNavigator/GroupBottomTabNavigator';
 import BottomTabNavigator from './BottomTabs/MainNavigator/BottomTabNavigator';
 // import LinkingConfiguration from './LinkingConfiguration';

@@ -11,7 +11,7 @@ import RoomNavigator from './Tabs/Room';
 import Colors from '../../../constants/Colors';
 import useColorScheme from '../../../hooks/useColorScheme';
 
-import { GroupBottomTabParamList } from '../../../utils/types';
+import { GroupBottomTabParamList } from '../../types.navigation';
 
 const BottomTab = createBottomTabNavigator<GroupBottomTabParamList>();
 
