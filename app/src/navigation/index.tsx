@@ -34,7 +34,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/*/ Auth Navigator, only render if not logged in*/}
-      {/*<Stack.Screen name="Auth" component={AuthNavigator} />*/}
+      <Stack.Screen name="Auth" component={AuthNavigator} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Group" component={GroupBottomTabNavigator} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
