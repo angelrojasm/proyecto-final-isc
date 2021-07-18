@@ -146,4 +146,16 @@ export default {
       //   },
     };
   },
+  models() {
+    return {
+      predict: async (message: string) => {
+        let response = await axios.post(`${process.env.modelUrl}/predict`, { message });
+        return response.data;
+      },
+      // recommend: async () => {
+      //   let response = await axios.post(`${process.env.modelUrl}/predict`, { message });
+      //   return response.data;
+      // },
+    };
+  },
 };
