@@ -1,0 +1,16 @@
+find diagnosed users:
+find candidates(3.2)
+if(has negative match or posts <50 on subreddits != mental health) remove
+
+find control users:
+target = 9 control users per diagnosed user
+candidate control user = 0 mental health posts && posts >= 50 
+if (control user has never posted in the same subreddit as diagnosed user OR controluser.posts > diagnoseduser.posts * 2 OR constroluser.posts < diagnoseduser.posts / 2) REMOVE
+
+
+
+
+mental health post = submission on mental health subreddit
+
+ALL MENTAL HEALTH POSTS ARE REMOVED FOR BOTH CONTROL AND DIAGNOSED USERS
+
