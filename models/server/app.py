@@ -16,7 +16,3 @@ def predict():
     request_data = request.get_json()
     vectorizedMessage = vectorizer.transform([request_data['message']])
     return clasifier.predict(vectorizedMessage)[0]
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4001)
