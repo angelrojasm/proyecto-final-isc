@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import { Button } from '../components';
-import tailwind from 'tailwind-rn';
 import { LinearGradient } from 'expo-linear-gradient';
-import { color } from 'react-native-reanimated';
+import { StackScreenProps } from '@react-navigation/stack';
+import { AuthStackParamList} from '../navigation/types.navigation';
 
 const image = { uri: "https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" };
-const Home = () => {
+
+const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -17,10 +17,10 @@ const Home = () => {
           <Text style={styles.text2}>Help us help you help yourself</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('logIn')}>
             <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('register')}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View> 
