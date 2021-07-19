@@ -1,7 +1,7 @@
 import praw
 import time
 import csv
-
+count = 1
 matched = {}
 totalPosts = {}
 subreddits = {
@@ -31,7 +31,7 @@ def isInDistance(s, seq1, seq2):
     s = s.lower()
     seq1_start = s.find(seq1)
     seq1_end = seq1_start + len(seq1)
-    sequence_frame = seq1_end + 40
+    sequence_frame = seq1_end + 50
     return seq2 in s[seq1_end:sequence_frame]
 
 
@@ -84,59 +84,53 @@ reddit = praw.Reddit(client_id=client_id,
 # MyProAna, thinspo, thinspocommunity are quarantined, need to set up quarantine opt in.
 start = time.time()
 for subreddit in mh_subreddits:
-    if(foundCloseMatch == True):
-        break
+    count = 1
+    print('subreddit: ' + subreddit)
     subreddit_posts = []
-    subreddit_list = list(reddit.subreddit(subreddit).hot(limit=100))
+    subreddit_list = list(reddit.subreddit(subreddit).hot(limit=None))
     for post in subreddit_list:
         subreddit_posts.append(post)
 
 # 2. Compare each post title AND selftext(if exists) with diagpatterns.negative. If match, then continue to next post
     for post in subreddit_posts:
-        # foundCloseMatch = False
-        if(foundCloseMatch == True):
-            break
+        print(count, foundCloseMatch)
+        count += 1
         for negative_pattern in diagpatterns_negative:
-            if(foundCloseMatch == True):
-                break
             if(negative_pattern in post.title or negative_pattern in post.selftext):
                 break
 
 # 3. For each post, compare both title AND selftext(if exists) with diagpatterns.postive
         for positive_pattern in diagpatterns_positive:
-            if(foundCloseMatch == True):
-                break
             if(positive_pattern in post.title or positive_pattern in post.selftext):
                 # 4. If #3 matched, compare title/selftext with ALL tokens in /conditions until you find a match between the substrings in < 40 characters. If no match is found, move on to the next post.
                 for condition in conditions:
-                    if(foundCloseMatch == True):
-                        break
                     for condition_pattern in condition:
                         if(condition_pattern in post.title or condition_pattern in post.selftext):
                             if(isInDistance(post.title, positive_pattern, condition_pattern) or isInDistance(post.selftext, positive_pattern, condition_pattern)):
                                 # 6. If #4 matched, then for the selected author, get the number of posts in all subreddits that are not in mh_subreddits. Also, save the array position indicating in which condition file was the match found.
-                                post_author = reddit.redditor(post.author.name)
-                                user_condition = getCondition(
-                                    condition_pattern, conditions)
-                                user_posts = list(
-                                    post_author.submissions.new(limit=None))
-                                healthy_posts = 0
-                                for user_post in user_posts:
-                                    if(user_post.subreddit.name not in mh_subreddits):
-                                        healthy_posts += 1
-                                        if(healthy_posts >= 50):
-                                            break
+                                if post.author != None:
+                                    post_author = reddit.redditor(
+                                        post.author.name)
+
+                                    if(post_author not in matched):
+                                        user_condition = getCondition(
+                                            condition_pattern, conditions)
+                                        user_posts = list(
+                                            post_author.submissions.new(limit=None))
+                                        healthy_posts = 0
+                                        for user_post in user_posts:
+                                            if(user_post.subreddit.display_name not in mh_subreddits):
+                                                healthy_posts += 1
+                                                if(healthy_posts >= 50):
+                                                    break
 
                         # 7. If the total amount of posts on all subreddits not in mh_subreddits is at least  50, add the author and the corresponding Mental Health Condition to 'matched' dictionary. Also add the author and the total number of posts in the totalPosts dictionary.
 
-                                if(healthy_posts >= 50):
-                                    print(f'healthy posts: {healthy_posts}')
-                                    foundCloseMatch = True
-                                    diagnosedSentences.append(
-                                        [post.title, post.selftext])
-                                    totalPosts[post_author.name] = healthy_posts
-                                    matched[post_author.name] = user_condition
-                                    break
+                                        if(healthy_posts >= 50):
+                                            print('adding match: ' +
+                                                  post_author.name)
+                                            matched[post_author.name] = user_condition
+                                            break
 
 
 # Adding User Posts to the dataset

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../api';
 export const SessionContext = React.createContext<IContext | null>(null);
 
@@ -8,7 +9,7 @@ export const Provider = ({ children }: any) => {
 
   const logIn = async (userUID: string): Promise<void> => {
     let user = await api.users().getById(userUID);
-    setCurrentUser(user);
+    setCurrentUser(user[0]);
   };
 
   const joinGroup = async (groupId: number): Promise<void> => {
@@ -19,6 +20,7 @@ export const Provider = ({ children }: any) => {
   const logOut = (): void => {
     setCurrentUser(null);
     setCurrentGroup(null);
+    AsyncStorage.removeItem('uid');
   };
 
   return (

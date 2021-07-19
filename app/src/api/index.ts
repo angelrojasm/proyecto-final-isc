@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? process.env.prodUrl : process.env.devUrl;
+const BASE_PATH = 'https://epr.codes';
 export default {
   users(route = '/users') {
     return {
@@ -149,7 +149,10 @@ export default {
   models() {
     return {
       predict: async (message: string) => {
-        let response = await axios.post(`${process.env.modelUrl}/predict`, { message });
+        let response = await axios.post(
+          `https://proyecto-final-isc-ml-server-lyb9a.ondigitalocean.app/predict`,
+          { message }
+        );
         return response.data;
       },
       // recommend: async () => {

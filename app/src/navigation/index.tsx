@@ -15,23 +15,46 @@ import ProfileSetup from '../screens/ProfileSetup';
 import { RootStackParamList, AuthStackParamList } from './types.navigation';
 import GroupBottomTabNavigator from './BottomTabs/GroupNavigator/GroupBottomTabNavigator';
 import BottomTabNavigator from './BottomTabs/MainNavigator/BottomTabNavigator';
+import { SessionContext } from '../context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import LinkingConfiguration from './LinkingConfiguration';
 const Stack = createStackNavigator<RootStackParamList>();
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
 export default function Navigation() {
-  return (
+  const userContext = React.useContext(SessionContext);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    const getUid = async () => {
+      try {
+        const uid = await AsyncStorage.getItem('uid');
+        if (uid && !userContext?.currentUser) {
+          await userContext?.logIn(uid);
+        }
+        setIsLoaded(true);
+      } catch (err) {}
+    };
+    getUid();
+  }, []);
+
+  return isLoaded ? (
     <NavigationContainer>
-      <RootNavigator />
+      <RootNavigator isUser={!!userContext?.currentUser} />
     </NavigationContainer>
-  );
+  ) : null;
 }
 
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
-
-function RootNavigator() {
-  return (
+const RootNavigator = ({ isUser }: any) => {
+  return isUser ? (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/*/ Auth Navigator, only render if not logged in*/}
+      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Auth" component={AuthNavigator} />
+      <Stack.Screen name="Group" component={GroupBottomTabNavigator} />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </Stack.Navigator>
+  ) : (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/*/ Auth Navigator, only render if not logged in*/}
       <Stack.Screen name="Auth" component={AuthNavigator} />
@@ -40,7 +63,7 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
-}
+};
 
 function AuthNavigator() {
   return (
@@ -52,3 +75,6 @@ function AuthNavigator() {
     </AuthStack.Navigator>
   );
 }
+
+// A root stack navigator is often used for displaying modals on top of all other content
+// Read more here: https://reactnavigation.org/docs/modal

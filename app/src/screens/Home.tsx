@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { Text, View, StyleSheet, Pressable, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackScreenProps } from '@react-navigation/stack';
-import { AuthStackParamList} from '../navigation/types.navigation';
+import { AuthStackParamList } from '../navigation/types.navigation';
 
-const image = { uri: "https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" };
+const image = {
+  uri: 'https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+};
 
 const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
   return (
@@ -17,13 +19,13 @@ const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
           <Text style={styles.text2}>Help us help you help yourself</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('logIn')}>
+          <Pressable style={styles.button} onPress={() => navigation.navigate('logIn')}>
             <Text style={styles.buttonText}>Log In</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('register')}>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => navigation.navigate('register')}>
             <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        </View> 
+          </Pressable>
+        </View>
       </ImageBackground>
     </View>
   );
@@ -31,7 +33,7 @@ const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   buttonContainer: {
     marginTop: 250,
@@ -52,37 +54,37 @@ const styles = StyleSheet.create({
     top: 400,
     height: '60%',
   },
-  button:{
+  button: {
     marginBottom: 30,
     width: 260,
     alignItems: 'center',
     backgroundColor: 'transparent',
     borderColor: '#bd3e6d',
     borderWidth: 3,
-    borderRadius: 50
+    borderRadius: 50,
   },
-  buttonText:{
+  buttonText: {
     color: 'white',
     padding: 15,
   },
   image: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
-  text1:{
+  text1: {
     fontSize: 50,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
-  text2:{
+  text2: {
     fontSize: 20,
     color: 'white',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
-  header:{
+  header: {
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
 
 export default Home;

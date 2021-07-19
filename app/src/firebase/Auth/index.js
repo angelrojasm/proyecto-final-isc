@@ -22,7 +22,6 @@ const logIn = async (email, password) => {
     const currentUser = await firebase.auth().signInWithEmailAndPassword(email, password);
     return {
       uid: currentUser.user.uid,
-      email: currentUser.user.email,
     };
   } catch (err) {
     return err;
