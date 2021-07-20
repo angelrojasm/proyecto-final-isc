@@ -12,6 +12,10 @@ export default {
         let response = await axios.get(`${BASE_PATH}${route}`);
         return response.data;
       },
+      getByName: async (username: string) => {
+        let response = await axios.get(`${BASE_PATH}/find/${username}`);
+        return response.data;
+      },
       create: async (uid: string, email: string, username: string, country: string) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
           uid,
@@ -55,6 +59,10 @@ export default {
       },
       getById: async (groupId: number) => {
         let response = await axios.get(`${BASE_PATH}/${groupId}`);
+        return response.data;
+      },
+      getByName: async (groupName: string) => {
+        let response = await axios.get(`${BASE_PATH}/find/${groupName}`);
         return response.data;
       },
       create: async (userId: number, name: string, description: string) => {

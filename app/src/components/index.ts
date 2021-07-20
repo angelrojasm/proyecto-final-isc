@@ -1,3 +1,3 @@
 import Button from './Button';
-
-export { Button };
+import GroupCard from './GroupCard';
+export { Button, GroupCard };

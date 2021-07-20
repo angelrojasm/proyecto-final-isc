@@ -38,8 +38,8 @@ export class UserController {
       relations: ['groups'],
     });
   }
-  @Get(`/`)
-  async getByName(@QueryParam('name') user: string) {
+  @Get(`/find/:name`)
+  async getByName(@Param('name') user: string) {
     return await this.userRepository.find({
       where: { username: user },
       relations: ['groups'],

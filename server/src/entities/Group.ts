@@ -27,6 +27,9 @@ export class Group {
   @Column()
   creationDate: Date;
 
+  @Column({ type: 'simple-array' })
+  tags: string[];
+
   @ManyToMany(() => User, (user) => user.groups, {
     cascade: true,
   })
@@ -39,19 +42,22 @@ export class Group {
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
-    users?: User[]
+    users?: User[],
+    tags?: string[]
   );
   constructor(
     name: string,
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
-    users?: User[]
+    users?: User[],
+    tags?: string[]
   ) {
     this.name = name;
     this.description = description || '';
     this.totalUsers = totalUsers || 0;
     this.creationDate = creationDate || new Date();
     this.users = users || null;
+    this.tags = tags || [];
   }
 }

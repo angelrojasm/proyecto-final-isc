@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Like } from 'typeorm';
 import { Group } from '../entities/Group';
 import { User } from '../entities/User';
 import {
@@ -9,6 +9,7 @@ import {
   BodyParam,
   Param,
   HeaderParams,
+  QueryParam,
 } from 'routing-controllers';
 import { EntityFromParam, EntityFromBodyParam } from 'typeorm-routing-controllers-extensions';
 import { UserController } from './UserController';
@@ -30,10 +31,25 @@ export class GroupController {
   }
 
   @Get(`/`)
-  getAll() {
-    return this.groupRepository.find({ relations: ['users'] });
+  async getAll() {
+    let groups = await this.groupRepository.find({ relations: ['users'] });
+    for (let group of groups) {
+      group.totalUsers = group.users.length;
+    }
+    return groups;
   }
 
+  @Get('/find/:name')
+  async getByName(@Param('name') name: string) {
+    let groups = await this.groupRepository.find({
+      where: { name: Like(`%${name}%`) },
+      relations: ['users'],
+    });
+    for (let group of groups) {
+      group.totalUsers = group.users.length;
+    }
+    return groups;
+  }
   @Post(`/`)
   async save(@BodyParam('userId') userId: number, @EntityFromBodyParam('group') group: Group) {
     let user = await new UserController().findById(userId);
