@@ -26,7 +26,30 @@ createConnection()
     // setup express app here
     app.use(express.json());
     app.use(fileupload());
-    // ...
+
+    // Setup Socket.io Server
+    let http = require('http').Server(app);
+    let io = require('socket.io')(http);
+
+    //Initialize Connection
+    io.on('connection', (socket) => {
+      //User List
+      let userList = {};
+      console.log('connection established');
+
+      socket.join('chat-room');
+      socket.on('test', (response) => {
+        socket.emit('test-response', 'hola te conectaste');
+      });
+      socket.on('username-response', (response) => {
+        userList[socket.handshake.issued] = response;
+        io.to('chat-room').emit('user-list', userList);
+      });
+      socket.on('disconnect', () => {
+        delete userList[socket.handshake.issued];
+        io.to('chat-room').emit('user-list', userList);
+      });
+    });
 
     // start express server
     app.listen(PORT, () => {

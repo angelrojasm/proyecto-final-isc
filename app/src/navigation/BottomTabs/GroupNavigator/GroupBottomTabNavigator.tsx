@@ -1,23 +1,13 @@
-/**
- * Learn more about createBottomTabNavigator:
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-import * as React from 'react';
+import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedNavigator from './Tabs/Feed';
 import RoomNavigator from './Tabs/Room';
 
-import Colors from '../../../constants/Colors';
-import useColorScheme from '../../../hooks/useColorScheme';
-
 import { GroupBottomTabParamList } from '../../types.navigation';
-
 const BottomTab = createBottomTabNavigator<GroupBottomTabParamList>();
 
 export default function GroupBottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <>
       <BottomTab.Navigator

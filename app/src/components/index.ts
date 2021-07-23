@@ -1,3 +1,3 @@
 import Button from './Button';
-import GroupCard from './GroupCard';
+import GroupCard from './group/GroupCard';
 export { Button, GroupCard };
