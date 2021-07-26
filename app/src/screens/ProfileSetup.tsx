@@ -1,14 +1,14 @@
 import React from 'react';
-import {  Text, View, StyleSheet, Picker, TextInput, Button } from 'react-native';
+import {  Text, View, StyleSheet, TouchableOpacity, TextInput, Button, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList} from '../navigation/types.navigation';
 import { useState } from 'react';
+import RNPickerSelect from 'react-native-picker-select';
 
 
 
 const ProfileSetup = () => {
-  const [selectedValue, setSelectedValue] = useState("asia");
   return (<View style={styles.container}>
     <Text style={styles.thankYou}>
       Thanks for joining our ever-growing community!
@@ -19,19 +19,15 @@ const ProfileSetup = () => {
     <Text>
       What region are you in?
     </Text>
-    <Picker
-        selectedValue={selectedValue}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="Asia" value="asia" />
-        <Picker.Item label="Africa" value="africa" />
-        <Picker.Item label="North America" value="North America" />
-        <Picker.Item label="South America" value="South America" />
-        <Picker.Item label="Europe" value="Europe" />
-        <Picker.Item label="Australia" value="Australia" />
-      </Picker>
-      <Text>
+    <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+                { label: 'Football', value: 'football' },
+                { label: 'Baseball', value: 'baseball' },
+                { label: 'Hockey', value: 'hockey' },
+            ]}
+        />
+    <Text>
       Which of these topics interest you?
     </Text>
   </View>);
@@ -50,6 +46,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 50,
     justifyContent: 'center'
+  },
+  item: {
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
   },
   thankYou:{
     fontWeight: 'bold',
