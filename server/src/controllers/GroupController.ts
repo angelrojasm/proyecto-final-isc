@@ -25,6 +25,12 @@ export class GroupController {
     return await this.groupRepository.findOne(id, { relations: ['users'] });
   }
 
+  public async findByName(name: string) {
+    return await this.groupRepository.find({ where: { name: name } });
+  }
+  public async add(group: Group) {
+    return await this.groupRepository.save(group);
+  }
   @Get(`/:id`)
   async get(@Param('id') id: number) {
     return await this.groupRepository.findOne(id, { relations: ['users'] });

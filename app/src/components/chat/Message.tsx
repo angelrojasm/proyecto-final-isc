@@ -65,6 +65,9 @@ const ChatMessage = ({ message, ownMessage }: AppProps): JSX.Element => {
       <View style={tailwind('px-2 ')}>
         <Text style={tailwind('text-gray-500 text-xs')}>{message.sender}</Text>
         <Text style={tailwind('text-xs font-medium text-black')}>{message.content}</Text>
+        <Text style={tailwind('text-gray-500 text-xs')}>
+          {moment(Date.parse(message.date)).format('LT')}
+        </Text>
       </View>
     </View>
   );

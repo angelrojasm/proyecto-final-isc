@@ -169,4 +169,15 @@ export default {
       // },
     };
   },
+  predictions(route = '/predictions') {
+    return {
+      create: async (label: string, group: string) => {
+        let response = await axios.post(`${BASE_PATH}${route}`, {
+          label,
+          group,
+        });
+        return response.data;
+      },
+    };
+  },
 };

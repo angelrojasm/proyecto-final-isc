@@ -9,6 +9,7 @@ import firebase from '../firebase/config';
 import { unsubscribe, addData } from '../firebase/database';
 import { MessageList } from '../components';
 import moment from 'moment';
+import api from '../api';
 
 type Message = {
   sender?: string;
@@ -39,7 +40,7 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
     };
   }, []);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     let obj = {
       sender: userContext?.currentUser?.username,
       content: message,
@@ -59,6 +60,9 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
         addData('group_messages/grupo1/messages', obj);
         setMessage('');
       });
+
+    let prediction = await api.models().predict(obj.content);
+    api.predictions().create(prediction, 'grupo de prueba 1');
   };
   const setNavigationHeader = () => {
     navigation.setOptions({
@@ -69,7 +73,7 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
   };
   return (
     <View style={{ ...tailwind('flex flex-col-reverse bg-white'), height: '100%' }}>
-      <View style={tailwind('flex flex-row ml-6 my-0')}>
+      <View style={tailwind('flex flex-row ml-6 ')}>
         <TextInput
           placeholder="Say hello!"
           value={message}
@@ -81,7 +85,7 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
           <Ionicons on name="ios-send-sharp" size={25} />
         </TouchableOpacity>
       </View>
-      <View style={tailwind('h-5/6 flex items-center')}>
+      <View style={tailwind('h-5/6 flex items-center ')}>
         <MessageList messages={messageList} />
       </View>
     </View>
