@@ -58,11 +58,11 @@ export default {
         return response.data;
       },
       getById: async (groupId: number) => {
-        let response = await axios.get(`${BASE_PATH}/${groupId}`);
+        let response = await axios.get(`${BASE_PATH}/${route}/${groupId}`);
         return response.data;
       },
       getByName: async (groupName: string) => {
-        let response = await axios.get(`${BASE_PATH}/find/${groupName}`);
+        let response = await axios.get(`${BASE_PATH}${route}/find/${groupName}`);
         return response.data;
       },
       create: async (userId: number, name: string, description: string) => {

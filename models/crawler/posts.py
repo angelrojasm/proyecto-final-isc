@@ -40,14 +40,17 @@ for user in d_users:
     user_posts = list(curr_user.submissions.new(limit=1000))
 
     for user_post in user_posts:
-        if(user_post.subreddit.display_name not in mh_subreddits):
+        if(user_post.subreddit.display_name in mh_subreddits):
             posts[user_post.selftext] = diagnosed_users[user]
 
 c_users = list(control_users.keys())
 for user in c_users:
     curr_user = reddit.redditor(user)
-    user_posts = list(curr_user.submissions.new(limit=1000))
-
+    try:
+        user_posts = list(curr_user.submissions.new(limit=1000))
+    except:
+        print(curr_user)
+        continue
     for user_post in user_posts:
         if(user_post.subreddit.display_name not in mh_subreddits):
             posts[user_post.selftext] = control_users[user]

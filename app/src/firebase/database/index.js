@@ -1,10 +1,10 @@
 import firebase from '../config';
 
-const addData = async (dataObj) => {
+const addData = async (route, dataObj) => {
   try {
     await firebase
       .database()
-      .ref('test/')
+      .ref(`${route}/`)
       .push({
         ...dataObj,
       });
@@ -28,9 +28,9 @@ const addData = async (dataObj) => {
 // 	}
 // };
 
-const unsubscribe = async () => {
+const unsubscribe = async (route) => {
   try {
-    await firebase.database().ref('test/').off('value');
+    await firebase.database().ref(`${route}/`).off('value');
     return { error: false };
   } catch (err) {
     return err;

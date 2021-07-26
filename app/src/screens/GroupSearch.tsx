@@ -17,8 +17,7 @@ const GroupSearch = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const searchGroups = async (): Promise<void> => {
-    //setGroups(await api.groups().getByName(search.toLowerCase()))
-    setGroups(await api.groups().getAll());
+    setGroups(await api.groups().getByName(search));
     setSearchTerm(search);
     setSearch('');
   };
@@ -42,6 +41,11 @@ const GroupSearch = () => {
           {groups?.map((group, idx) => {
             return <GroupCard key={idx} group={group} />;
           })}
+          {groups.length === 0 && (
+            <Text style={tailwind('text-lg font-bold flex items-center text-black my-32')}>
+              No Available Groups...
+            </Text>
+          )}
         </ScrollView>
       )}
     </View>
