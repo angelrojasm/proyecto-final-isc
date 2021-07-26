@@ -19,14 +19,7 @@ const ProfileSetup = () => {
     <Text>
       What region are you in?
     </Text>
-    <RNPickerSelect
-            onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'Football', value: 'football' },
-                { label: 'Baseball', value: 'baseball' },
-                { label: 'Hockey', value: 'hockey' },
-            ]}
-        />
+
     <Text>
       Which of these topics interest you?
     </Text>
