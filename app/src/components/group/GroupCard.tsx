@@ -1,6 +1,7 @@
 import React from 'react';
 import tailwind from 'tailwind-rn';
-import { Text, View, Pressable, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
+
 type IGroupCardProps = {
   group: {
     name: string;

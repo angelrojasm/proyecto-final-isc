@@ -50,4 +50,5 @@ export type RoomParamList = {
 
 export type FeedParamList = {
   Feed: undefined;
+  Replies: undefined;
 };
