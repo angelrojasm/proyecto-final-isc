@@ -21,6 +21,10 @@ const GroupFeed = () => {
     getPosts();
   }, []);
 
+  const refreshPosts = async () => {
+    setPosts(await api.posts().getById(/*userContent?.currentGroup?.id*/ 1));
+  };
+
   const setNavigationHeader = () => {
     navigation.setOptions({
       headerTitle: () => <Text>{/*userContext?.currentGroup.name*/}Group X</Text>,
@@ -30,7 +34,7 @@ const GroupFeed = () => {
   return posts.length > 0 ? (
     <ScrollView contentContainerStyle={tailwind('flex items-center')}>
       {posts.map((post, idx) => {
-        return <FeedPost key={idx} post={post} />;
+        return <FeedPost key={idx} post={post} refreshPosts={refreshPosts} />;
       })}
     </ScrollView>
   ) : null;

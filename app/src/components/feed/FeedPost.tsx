@@ -11,13 +11,16 @@ type Comment = {
 };
 
 interface IFeedPostProps {
-  content: string;
-  postedBy: string;
-  date: string;
-  comments: Comment[];
+  post: {
+    content: string;
+    postedBy: string;
+    date: string;
+    comments: Comment[];
+  };
+  refreshPosts: () => Promise<void>;
 }
 
-const FeedPost = ({ post }: { post: IFeedPostProps }) => {
+const FeedPost = ({ post, refreshPosts }: IFeedPostProps) => {
   const navigation = useNavigation();
   return (
     <View
@@ -50,7 +53,7 @@ const FeedPost = ({ post }: { post: IFeedPostProps }) => {
             'bg-transparent border border-blue-500 rounded-md flex items-center w-1/3 my-3 px-4 py-2'
           )}
           onPress={() => {
-            navigation.navigate('Replies', { post });
+            navigation.navigate('Replies', { post, refreshPosts });
           }}>
           <Text style={tailwind('text-blue-400')}>Reply</Text>
         </TouchableOpacity>
