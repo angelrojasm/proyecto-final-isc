@@ -29,7 +29,7 @@ const GroupCard = ({ group }: IGroupCardProps) => {
       <Text style={tailwind('text-sm font-light text-gray-400 ml-4')}>{group.description}</Text>
       <Text style={tailwind('text-xs text-black font-bold ml-6')}>
         {group.totalUsers}
-        {group.totalUsers > 1 ? ' Members' : ' Member'}
+        {group.totalUsers === 1 ? ' Member' : ' Members'}
       </Text>
       <View style={{ ...tailwind('flex items-center'), width: '100%' }}>
         <TouchableOpacity

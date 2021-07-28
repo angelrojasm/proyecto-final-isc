@@ -57,7 +57,7 @@ const FeedReplies = ({ route }: any) => {
           onPress={() => {
             sendReply(post.id, message);
           }}>
-          <Ionicons on name="ios-send-sharp" size={25} />
+          <Ionicons name="ios-send-sharp" size={25} />
         </TouchableOpacity>
       </View>
     </View>
