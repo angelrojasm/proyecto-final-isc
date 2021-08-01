@@ -14,7 +14,7 @@ const GroupCard = ({ group }: IGroupCardProps) => {
   return (
     <View
       style={{
-        ...tailwind('bg-white rounded flex w-11/12 my-4'),
+        ...tailwind('bg-white rounded flex w-11/12 my-2'),
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -25,19 +25,27 @@ const GroupCard = ({ group }: IGroupCardProps) => {
 
         elevation: 5,
       }}>
-      <Text style={tailwind('text-lg font-bold text-black my-1 ml-2')}>{group.name}</Text>
-      <Text style={tailwind('text-sm font-light text-gray-400 ml-4')}>{group.description}</Text>
-      <Text style={tailwind('text-xs text-black font-bold ml-6')}>
-        {group.totalUsers}
-        {group.totalUsers === 1 ? ' Member' : ' Members'}
-      </Text>
-      <View style={{ ...tailwind('flex items-center'), width: '100%' }}>
-        <TouchableOpacity
-          style={tailwind(
-            'bg-transparent border border-blue-500 rounded-md flex items-center w-1/3 my-3 px-4 py-2'
-          )}>
-          <Text style={tailwind('text-blue-400')}>Join Group</Text>
-        </TouchableOpacity>
+      <View style={tailwind('flex flex-row justify-between')}>
+        <View>
+          <Text style={tailwind('text-lg font-bold text-black my-1 ml-2')}>{group.name}</Text>
+          <Text style={tailwind('text-xs text-black font-bold ml-6')}>
+            {group.totalUsers}
+            {group.totalUsers === 1 ? ' Member' : ' Members'}
+          </Text>
+        </View>
+        <View style={tailwind('flex items-center mr-4')}>
+          <TouchableOpacity
+            style={tailwind(
+              'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
+            )}>
+            <Text style={tailwind('text-white font-bold')}>Join</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={tailwind('flex items-center mb-4')}>
+        <Text style={tailwind('w-11/12 text-base flex items-center font-light text-gray-500')}>
+          {group.description}
+        </Text>
       </View>
     </View>
   );

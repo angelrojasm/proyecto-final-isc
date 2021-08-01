@@ -1,36 +1,85 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useContext, useState } from 'react';
-import { Button, TextInput, View } from 'react-native';
-import { Text } from 'react-native';
-import { RootStackParamList } from '../navigation/types.navigation';
+import React, { useContext, useState, useEffect } from 'react';
+import { Text, ScrollView, View } from 'react-native';
+import { GroupCard } from '../components';
+import { useNavigation } from '@react-navigation/native';
 import api from '../api';
 import { SessionContext } from '../context';
-const Dashboard = ({ navigation }: StackScreenProps<RootStackParamList, 'Root'>) => {
+import tailwind from 'tailwind-rn';
+const Dashboard = () => {
   const [text, setText] = useState<string>('');
   const [predictionResult, setPredictionResult] = useState<string>('');
+  const [recommended, setRecommended] = useState<any[]>([]);
+  const [qod, setQod] = useState({ quote: '', author: '' });
   const userContext = useContext(SessionContext);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => {
+        return (
+          <Text style={tailwind('p-3 pl-4 text-base')}>
+            Hello, <Text style={tailwind('font-bold')}>{userContext?.currentUser?.username}!</Text>
+          </Text>
+        );
+      },
+    });
+    const getData = async () => {
+      const groups = await api.groups().getAll();
+
+      const recommended: any[] = [];
+      //get recommended groups
+      groups.forEach((group: { tags: any }) => {
+        let afflictions = userContext?.currentUser?.afflictions;
+        for (const affl of afflictions) {
+          if (group.tags.includes(affl)) {
+            recommended.push(group);
+            break;
+          }
+        }
+      });
+
+      setRecommended(recommended);
+      //Get quote of the day
+      setQod(await api.utils().getQuoteOfTheDay());
+    };
+    getData();
+  }, []);
+
   return (
-    <View>
-      <Text>Dashboard</Text>
-      <Button
-        title="TO AUTH"
-        onPress={() => {
-          userContext?.logOut();
-          navigation.replace('Auth');
-        }}
-      />
-      <TextInput
-        value={text}
-        placeholder="INPUT YOUR PREDICTION TEXT"
-        onChangeText={setText}></TextInput>
-      <Button
-        title="PREDICT"
-        onPress={async () => {
-          setPredictionResult(await api.models().predict(text));
-        }}
-      />
-      <Text>Prediction: {predictionResult}</Text>
-    </View>
+    <ScrollView contentContainerStyle={{ height: '100%', backgroundColor: 'white' }}>
+      {/* Quote of The Day Section */}
+      <View style={tailwind('flex items-center py-4')}>
+        <Text style={tailwind('text-base font-medium')}>Here's the Quote of The Day:</Text>
+        <View style={tailwind('mt-4 w-5/6 flex items-center')}>
+          <Text style={tailwind('italic text-base font-semibold tracking-normal text-justify')}>
+            "{qod.quote}"
+          </Text>
+          <Text style={tailwind('mt-2 font-bold')}>- {qod.author}</Text>
+        </View>
+      </View>
+
+      {/* Recommended Groups Section */}
+      <View style={tailwind('my-4')}>
+        <Text style={tailwind('text-center mb-2 font-medium text-base')}>
+          Here's some groups we think you might like:
+        </Text>
+        <View style={tailwind('flex items-center ')}>
+          {recommended.map((group, idx) => {
+            if (idx < 2) {
+              return <GroupCard key={idx} group={group} />;
+            }
+            return null;
+          })}
+          <Text
+            style={tailwind('underline text-blue-600 font-bold text-center')}
+            onPress={() => {
+              navigation.navigate('RecommendedList', { recommended });
+            }}>
+            Check out all of the groups
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 

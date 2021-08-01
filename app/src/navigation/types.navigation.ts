@@ -20,6 +20,7 @@ export type AuthStackParamList = {
 };
 export type DashboardParamList = {
   Dashboard: undefined;
+  RecommendedList: undefined;
 };
 
 export type MainBottomTabParamList = {

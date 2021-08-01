@@ -180,4 +180,15 @@ export default {
       },
     };
   },
+  utils() {
+    return {
+      getQuoteOfTheDay: async () => {
+        let response: any = await axios.get('https://quotes.rest/qod?language=en');
+        return {
+          quote: response.data.contents.quotes[0].quote,
+          author: response.data.contents.quotes[0].author,
+        };
+      },
+    };
+  },
 };
