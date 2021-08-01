@@ -62,7 +62,11 @@ export default {
         return response.data;
       },
       getByName: async (groupName: string) => {
-        let response = await axios.get(`${BASE_PATH}${route}/find/${groupName}`);
+        let response = await axios.get(`${BASE_PATH}${route}/name/${groupName}`);
+        return response.data;
+      },
+      getByTags: async (tagName: string) => {
+        let response = await axios.get(`${BASE_PATH}${route}/tag/${tagName}`);
         return response.data;
       },
       create: async (userId: number, name: string, description: string) => {
