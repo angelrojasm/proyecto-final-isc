@@ -21,12 +21,13 @@ const GroupSearch = () => {
 
   const searchGroups = async (): Promise<void> => {
     let returnArr: any = [];
-    if (tags.includes(search)) {
+    /* if (tags.includes(search)) {
       returnArr = await api.groups().getByTags(search);
-    }
+    }*/
     let groupNames = await api.groups().getByName(search);
     returnArr.concat(groupNames);
-    setGroups(returnArr);
+    // setGroups(returnArr);
+    setGroups(groupNames);
     setSearchTerm(search);
     setSearch('');
   };
