@@ -1,6 +1,7 @@
 import React from 'react';
 import tailwind from 'tailwind-rn';
 import { Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 type IGroupCardProps = {
   group: {
@@ -11,6 +12,7 @@ type IGroupCardProps = {
 };
 
 const GroupCard = ({ group }: IGroupCardProps) => {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -37,7 +39,10 @@ const GroupCard = ({ group }: IGroupCardProps) => {
           <TouchableOpacity
             style={tailwind(
               'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
-            )}>
+            )}
+            onPress={() => {
+              navigation.navigate('Group');
+            }}>
             <Text style={tailwind('text-white font-bold')}>Join</Text>
           </TouchableOpacity>
         </View>
