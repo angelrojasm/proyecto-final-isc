@@ -29,7 +29,7 @@ const GroupCard = ({ group }: IGroupCardProps) => {
         elevation: 5,
       }}>
       <View style={tailwind('flex flex-row justify-between')}>
-        <View>
+        <View style={tailwind('w-2/3')}>
           <Text style={tailwind('text-lg font-bold text-black my-1 ml-2')}>{group.name}</Text>
           <Text style={tailwind('text-xs text-black font-bold ml-6')}>
             {group.totalUsers}
