@@ -11,13 +11,22 @@ type Group = {
   users: Array<any>;
   id: number;
 };
+
+const tags = ['anxiety', 'ocd', 'depression', 'ptsd'];
+
 const GroupSearch = () => {
   const [groups, setGroups] = useState<Array<Group> | null>(null);
   const [search, setSearch] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const searchGroups = async (): Promise<void> => {
-    setGroups(await api.groups().getByName(search));
+    let returnArr: any = [];
+    if (tags.includes(search)) {
+      returnArr = await api.groups().getByTags(search);
+    }
+    let groupNames = await api.groups().getByName(search);
+    returnArr.concat(groupNames);
+    setGroups(returnArr);
     setSearchTerm(search);
     setSearch('');
   };

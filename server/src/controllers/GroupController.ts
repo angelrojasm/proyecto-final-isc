@@ -45,7 +45,7 @@ export class GroupController {
     return groups;
   }
 
-  @Get('/find/:name')
+  @Get('/name/:name')
   async getByName(@Param('name') name: string) {
     let groups = await this.groupRepository.find({
       where: { name: Like(`%${name}%`) },
@@ -55,6 +55,20 @@ export class GroupController {
       group.totalUsers = group.users.length;
     }
     return groups;
+  }
+  @Get('/tag/:tag')
+  async getByTag(@Param('tag') tag: string) {
+    let taggedGroups = [];
+    let groups = await this.groupRepository.find({
+      relations: ['users'],
+    });
+    for (let group of groups) {
+      if (group.tags.includes(tag)) {
+        group.totalUsers = group.users.length;
+        taggedGroups.push(group);
+      }
+    }
+    return taggedGroups;
   }
   @Post(`/`)
   async save(@BodyParam('userId') userId: number, @EntityFromBodyParam('group') group: Group) {
