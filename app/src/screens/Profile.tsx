@@ -1,61 +1,59 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import tailwind from 'tailwind-rn';
+import { logOut } from '../firebase/Auth';
+import api from '../api';
+import { SessionContext } from '../context';
+import { RootStackParamList } from '../navigation/types.navigation';
+import { StackScreenProps } from '@react-navigation/stack';
+import { GroupEntry } from '../components';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
+const Profile = ({ navigation }: StackScreenProps<RootStackParamList, 'Root'>) => {
+  const userContext = useContext(SessionContext);
 
-const Profile = () => {
+  const handleLogout = async () => {
+    userContext?.logOut();
+    await logOut();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Auth' }],
+    });
+  };
   return (
-    <View style={styles.container}>
-
+    <View style={tailwind('')}>
+      {/* Header Section */}
+      <View style={tailwind('flex flex-row justify-between')}>
+        <View style={tailwind('flex flex-row')}>
+          {/* logo img*/}
+          <FontAwesome5 name="user-alt" style={tailwind('')} />
+          <View style={tailwind('flex items-center')}>
+            {/* User Info*/}
+            <Text style={tailwind('font-bold text-base')}>
+              {userContext?.currentUser?.username}
+            </Text>
+            <Text style={tailwind('text-sm font-bold')}>{userContext?.currentUser?.country}</Text>
+          </View>
+        </View>
+      </View>
+      {/* Group Section */}
+      <View style={tailwind('')}>
+        <Text style={tailwind('font-bold text-lg')}>Your Groups</Text>
+        {userContext?.currentUser?.groups?.map((group: any, idx: number) => {
+          <GroupEntry key={idx} groupName={group.name} groupId={group.id} />;
+        })}
+      </View>
+      {/*Log out Button */}
+      <TouchableOpacity
+        style={tailwind(
+          'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
+        )}
+        onPress={() => {
+          handleLogout();
+        }}>
+        <Text style={tailwind('text-white font-bold')}>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button:{
-    height: 30,
-    width: 260,
-    alignItems: 'center',
-    backgroundColor: '#1742eb',
-    borderRadius: 50,
-    justifyContent: 'center',
-    marginTop: 60
-  },
-  item: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
-  },
-  thankYou:{
-    fontWeight: 'bold',
-    color: '#1742eb',
-    fontSize: 18,
-    marginBottom: 20
-  },
-  tell:{
-    fontSize: 14,
-    marginBottom: 20
-  },
-  register:{
-    fontWeight:'bold',
-  },
-  interest:{
-    marginTop: 20
-  },
-  buttonText:{
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold'
-},
-regionText:{
-  fontWeight: 'bold'
-}
-});
 
 export default Profile;

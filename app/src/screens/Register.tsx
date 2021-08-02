@@ -10,24 +10,21 @@ import {
   Button,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StackScreenProps } from '@react-navigation/stack';
-import { AuthStackParamList } from '../navigation/types.navigation';
 import { signUp } from '../firebase/Auth';
-import api from '../api';
-import { SessionContext } from '../context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const image = {
   uri: 'https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
 };
 
-const Register = ({ navigation }: StackScreenProps<AuthStackParamList, 'logIn'>) => {
+const Register = () => {
   const [userForm, setUserForm] = useState({
     username: '',
     email: '',
     password: '',
+    uid: '',
   });
-  const userContext = useContext(SessionContext);
+  const navigation = useNavigation();
 
   const handleChange = (name: string, text: string) => {
     setUserForm({
@@ -36,24 +33,12 @@ const Register = ({ navigation }: StackScreenProps<AuthStackParamList, 'logIn'>)
     });
   };
   const register = async (): Promise<void> => {
-    let { uid, email }: { uid: string; email: string } = await signUp(
-      userForm.email,
-      userForm.password
-    );
+    let { uid }: { uid: string; email: string } = await signUp(userForm.email, userForm.password);
     if (uid) {
-      try {
-        let user = await api.users().create(uid, email, userForm.username, 'USA');
-        await userContext?.logIn(uid);
-        await AsyncStorage.setItem('uid', uid);
-        setUserForm({
-          username: '',
-          email: '',
-          password: '',
-        });
-        navigation.replace('profileSetup');
-      } catch (err) {
-        console.log(err);
-      }
+      setUserForm({
+        ...userForm,
+        uid,
+      });
     }
   };
 
@@ -90,7 +75,9 @@ const Register = ({ navigation }: StackScreenProps<AuthStackParamList, 'logIn'>)
           </Pressable>
           <Text style={styles.help}>
             Already have an account?{' '}
-            <Text style={styles.register} onPress={() => navigation.replace('logIn')}>
+            <Text
+              style={styles.register}
+              onPress={() => navigation.navigate('profileSetup', { userForm })}>
               Sign In
             </Text>
           </Text>

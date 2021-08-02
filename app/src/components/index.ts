@@ -4,5 +4,5 @@ import Message from './chat/Message';
 import MessageList from './chat/MessageList';
 import FeedPost from './feed/FeedPost';
 import PostReply from './feed/PostReply';
-
-export { Button, GroupCard, Message, MessageList, FeedPost, PostReply };
+import GroupEntry from './profile/GroupEntry';
+export { Button, GroupCard, Message, MessageList, FeedPost, PostReply, GroupEntry };

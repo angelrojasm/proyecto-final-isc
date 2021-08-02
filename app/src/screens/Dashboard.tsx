@@ -46,7 +46,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={{ height: '100%', backgroundColor: 'white' }}>
+    <ScrollView contentContainerStyle={{ backgroundColor: 'white' }}>
       {/* Quote of The Day Section */}
       <View style={tailwind('flex items-center py-4')}>
         <Text style={tailwind('text-base font-medium')}>Here's the Quote of The Day:</Text>
@@ -59,7 +59,7 @@ const Dashboard = () => {
       </View>
 
       {/* Recommended Groups Section */}
-      <View style={tailwind('my-4')}>
+      <View style={tailwind('my-2')}>
         <Text style={tailwind('text-center mb-2 font-medium text-base')}>
           Here's some groups we think you might like:
         </Text>
