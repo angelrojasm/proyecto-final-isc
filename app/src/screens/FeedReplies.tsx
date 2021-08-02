@@ -42,14 +42,14 @@ const FeedReplies = ({ route }: any) => {
       </ScrollView>
       <View style={tailwind('flex flex-row ml-6 ')}>
         <TextInput
-          placeholder="Say hello!"
+          placeholder="Leave your comments here..."
           value={message}
           onChangeText={setMessage}
           onSubmitEditing={() => {
             sendReply(post.id, message);
           }}
           style={tailwind(
-            'my-4 border bg-white border-black w-5/6 pl-1 mr-3 h-10 text-base rounded'
+            'my-4 border bg-white border-black w-5/6 pl-2 mr-3 h-10 text-base rounded'
           )}
         />
         <TouchableOpacity
