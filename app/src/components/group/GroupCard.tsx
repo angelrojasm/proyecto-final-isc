@@ -2,12 +2,13 @@ import React from 'react';
 import tailwind from 'tailwind-rn';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import AfflictionTags from './AfflictionTags';
 type IGroupCardProps = {
   group: {
     name: string;
     description: string;
     totalUsers: number;
+    tags: string[];
   };
 };
 
@@ -51,6 +52,9 @@ const GroupCard = ({ group }: IGroupCardProps) => {
         <Text style={tailwind('w-11/12 text-base flex items-center font-light text-gray-500')}>
           {group.description}
         </Text>
+      </View>
+      <View style={tailwind('flex flex-row justify-end my-2')}>
+        <AfflictionTags afflictions={group.tags} />
       </View>
     </View>
   );

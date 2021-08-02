@@ -1,17 +1,22 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Text, ScrollView, View } from 'react-native';
+import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import { GroupCard } from '../components';
 import { useNavigation } from '@react-navigation/native';
 import api from '../api';
 import { SessionContext } from '../context';
 import tailwind from 'tailwind-rn';
+
 const Dashboard = () => {
-  const [text, setText] = useState<string>('');
-  const [predictionResult, setPredictionResult] = useState<string>('');
+  const [initialState, setInitialState] = useState(true);
   const [recommended, setRecommended] = useState<any[]>([]);
   const [qod, setQod] = useState({ quote: '', author: '' });
+  const [refreshing, setRefreshing] = React.useState(false);
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -42,11 +47,20 @@ const Dashboard = () => {
       //Get quote of the day
       setQod(await api.utils().getQuoteOfTheDay());
     };
-    getData();
-  }, []);
+    if (initialState) {
+      getData();
+      setInitialState(false);
+    }
+    if (refreshing) {
+      getData();
+      setRefreshing(false);
+    }
+  }, [refreshing]);
 
   return (
-    <ScrollView contentContainerStyle={{ backgroundColor: 'white' }}>
+    <ScrollView
+      contentContainerStyle={{ backgroundColor: 'white', minHeight: '100%' }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       {/* Quote of The Day Section */}
       <View style={tailwind('flex items-center py-4')}>
         <Text style={tailwind('text-base font-medium')}>Here's the Quote of The Day:</Text>
@@ -61,7 +75,7 @@ const Dashboard = () => {
       {/* Recommended Groups Section */}
       <View style={tailwind('my-2')}>
         <Text style={tailwind('text-center mb-2 font-medium text-base')}>
-          Here's some groups we think you might like:
+          Here are some groups we think you might like:
         </Text>
         <View style={tailwind('flex items-center ')}>
           {recommended.map((group, idx) => {
