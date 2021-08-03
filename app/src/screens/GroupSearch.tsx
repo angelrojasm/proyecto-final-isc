@@ -9,6 +9,7 @@ type Group = {
   description: string;
   totalUsers: number;
   users: Array<any>;
+  tags: string[];
   id: number;
 };
 

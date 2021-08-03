@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import api from '../api';
 import { SessionContext } from '../context';
 import { FeedPost } from '../components';
@@ -10,17 +10,29 @@ import { Ionicons } from '@expo/vector-icons';
 const GroupFeed = () => {
   const navigation = useNavigation();
   const [posts, setPosts] = useState<any[]>([]);
+  const [initialState, setInitialState] = useState(true);
   const userContext = useContext(SessionContext);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+  }, []);
 
   useEffect(() => {
     const getPosts = async () => {
       const posts = await api.posts().getById(/*userContent?.currentGroup?.id*/ 1);
       setPosts(posts);
     };
-
     setNavigationHeader();
-    getPosts();
-  }, []);
+    if (initialState) {
+      getPosts();
+      setInitialState(false);
+    }
+    if (refreshing) {
+      getPosts();
+      setRefreshing(false);
+    }
+  }, [refreshing]);
 
   const refreshPosts = async () => {
     setPosts(await api.posts().getById(/*userContent?.currentGroup?.id*/ 1));
@@ -45,7 +57,9 @@ const GroupFeed = () => {
           style={tailwind('rounded-full p-1 bg-blue-400 text-white ')}
         />
       </TouchableOpacity>
-      <ScrollView contentContainerStyle={tailwind('flex items-center')}>
+      <ScrollView
+        contentContainerStyle={tailwind('flex items-center')}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         {posts.map((post, idx) => {
           return <FeedPost key={idx} post={post} refreshPosts={refreshPosts} />;
         })}

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import { GroupCard } from '../components';
 import { useNavigation } from '@react-navigation/native';
@@ -10,11 +10,11 @@ const Dashboard = () => {
   const [initialState, setInitialState] = useState(true);
   const [recommended, setRecommended] = useState<any[]>([]);
   const [qod, setQod] = useState({ quote: '', author: '' });
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
 
