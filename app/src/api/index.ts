@@ -58,7 +58,7 @@ export default {
         return response.data;
       },
       getById: async (groupId: number) => {
-        let response = await axios.get(`${BASE_PATH}/${route}/${groupId}`);
+        let response = await axios.get(`${BASE_PATH}${route}/${groupId}`);
         return response.data;
       },
       getByName: async (groupName: string) => {

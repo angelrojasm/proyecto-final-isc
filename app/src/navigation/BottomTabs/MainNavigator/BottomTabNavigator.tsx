@@ -4,7 +4,7 @@
  */
 
 import * as React from 'react';
-import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DashboardNavigator from './Tabs/Dashboard';
 import GroupsNavigator from './Tabs/Groups';
@@ -57,7 +57,7 @@ export default function BottomTabNavigator() {
           component={ProfileNavigator}
           options={{
             tabBarIcon: ({ color }) => (
-              <FontAwesome name="user" style={{ marginTop: 3 }} size={20} color={color} />
+              <FontAwesome5 name="user-alt" style={{ marginTop: 5 }} size={18} color={color} />
             ),
           }}
         />

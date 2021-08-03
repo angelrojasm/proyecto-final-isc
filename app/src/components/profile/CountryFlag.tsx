@@ -1,24 +1,26 @@
 import React from 'react';
 import { View } from 'react-native';
-import ReactCountryFlag from 'react-country-flag';
+import Flag from 'react-native-flags-typescript';
 
-const CountryFlag = ({ region }: { region: string }) => {
+const CountryFlag = ({ region, style }: { region: string; style: any }) => {
   switch (region) {
     case 'NA':
-      return <ReactCountryFlag countryCode="US" />;
+      return <Flag style={style} code="US" size={24} />;
     case 'EU':
-      return <ReactCountryFlag countryCode="GB-ENG" />;
+      return <Flag style={style} code="GB-ENG" size={24} />;
     case 'ME':
-      return <ReactCountryFlag countryCode="AE" />;
+      return <Flag style={style} code="AE" size={24} />;
     case 'AF':
-      return <ReactCountryFlag countryCode="ZA" />;
+      return <Flag style={style} code="ZA" size={24} />;
     case 'AS':
-      return <ReactCountryFlag countryCode="JP" />;
+      return <Flag style={style} code="JP" size={24} />;
     case 'SA':
-      return <ReactCountryFlag countryCode="CL" />;
+      return <Flag style={style} code="CL" size={24} />;
     case 'AU':
-      return <ReactCountryFlag countryCode="AU" />;
+      return <Flag style={style} code="AU" size={24} />;
   }
+
+  return null;
 };
 
 export default CountryFlag;

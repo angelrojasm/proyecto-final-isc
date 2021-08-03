@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { GroupCard } from '../components';
 import api from '../api';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import tailwind from 'tailwind-rn';
+import { useNavigation } from '@react-navigation/native';
+
 type Group = {
   name: string;
   description: string;
@@ -19,6 +21,7 @@ const GroupSearch = () => {
   const [groups, setGroups] = useState<Array<Group> | null>(null);
   const [search, setSearch] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const navigation = useNavigation();
 
   const searchGroups = async (): Promise<void> => {
     let returnArr: any = [];
@@ -32,8 +35,20 @@ const GroupSearch = () => {
     setSearchTerm(search);
     setSearch('');
   };
+
   return (
     <View style={{ ...tailwind('bg-white'), height: '100%' }}>
+      <TouchableOpacity
+        style={{ alignSelf: 'flex-start', ...tailwind('absolute z-10 bottom-10 right-6') }}
+        onPress={() => {
+          navigation.navigate('GroupCreate');
+        }}>
+        <Ionicons
+          name="add"
+          size={40}
+          style={tailwind('rounded-full p-1 bg-blue-400 text-white ')}
+        />
+      </TouchableOpacity>
       <View style={tailwind('flex flex-row ml-6')}>
         <TextInput
           placeholder="Search for groups here..."

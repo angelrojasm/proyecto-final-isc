@@ -5,6 +5,7 @@ import { SessionContext } from '../../context';
 import api from '../../api';
 import tailwind from 'tailwind-rn';
 import { MaterialIcons } from '@expo/vector-icons';
+
 const GroupEntry = ({ groupName, groupId }: { groupName: string; groupId: number }) => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
@@ -12,13 +13,14 @@ const GroupEntry = ({ groupName, groupId }: { groupName: string; groupId: number
     <View style={tailwind('flex flex-row my-2')}>
       <MaterialIcons
         name="group"
-        style={tailwind('border border-gray-400 rounded-full')}
+        size={22}
+        style={tailwind('border text-gray-500 border-gray-400 rounded-full mr-2 p-1.5')}
         onPress={() => {
           userContext?.joinGroup(groupId);
           navigation.navigate('Group');
         }}
       />
-      <Text style={tailwind('text-base')}>{groupName}</Text>
+      <Text style={tailwind('text-base self-center')}>{groupName}</Text>
     </View>
   );
 };
