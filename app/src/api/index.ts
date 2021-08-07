@@ -76,12 +76,13 @@ export default {
         let response = await axios.get(`${BASE_PATH}${route}/tag/${tagName}`);
         return response.data;
       },
-      create: async (userId: number, name: string, description: string) => {
+      create: async (userId: number, name: string, description: string, tags: string[]) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
           userId,
           group: {
             name,
             description,
+            tags,
           },
         });
         return response.data;

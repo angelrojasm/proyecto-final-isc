@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import tailwind from 'tailwind-rn';
 import { logOut } from '../firebase/Auth';
 import { SessionContext } from '../context';
@@ -32,7 +32,7 @@ const Profile = () => {
     });
   };
   return userContext?.currentUser ? (
-    <View style={tailwind('')}>
+    <ScrollView>
       <View style={tailwind('flex flex-row justify-between my-8 ml-4')}>
         <View style={tailwind('flex flex-row w-5/6')}>
           <FontAwesome5
@@ -86,7 +86,7 @@ const Profile = () => {
         onPress={handleLogout}>
         <Text style={tailwind('text-white font-bold')}>Sign Out</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   ) : null;
 };
 

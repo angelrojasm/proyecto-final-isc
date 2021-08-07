@@ -23,6 +23,7 @@ export class PredictionController {
     if (predictions.length % 10 == 0) {
       let depCount = 0;
       let anxietyCount = 0;
+      let ptsdCount = 0;
 
       predictions.forEach((prediction) => {
         switch (prediction.label) {
@@ -32,6 +33,8 @@ export class PredictionController {
           case 'depression':
             depCount++;
             break;
+          case 'ptsd':
+            ptsdCount++;
           default:
         }
       });
@@ -42,6 +45,9 @@ export class PredictionController {
       }
       if (depCount >= predictions.length * 0.3) {
         group.tags.push('depression');
+      }
+      if (ptsdCount >= predictions.length * 0.3) {
+        group.tags.push('ptsd');
       }
     }
 

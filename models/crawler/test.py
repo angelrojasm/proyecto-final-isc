@@ -2,9 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 import time
-import sklearn
 from sklearn import svm
-
+from sklearn.metrics import classification_report
+from sklearn.metrics import recall_score
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 trainData = pd.read_csv(
-    "./dreaddit.csv")
+    "../datasets/finished_dataset.csv")
 
 x = trainData['content']
 y = trainData['label']
@@ -39,19 +39,20 @@ t2 = time.time()
 time_linear_train = t1-t0
 time_linear_predict = t2-t1
 
-cm = confusion_matrix(y_test, prediction_linear,
-                      labels=classifier_linear.classes_)
-disp = ConfusionMatrixDisplay(
-    confusion_matrix=cm, display_labels=classifier_linear.classes_)
-disp.plot()
+
+# cm = confusion_matrix(y_test, prediction_linear,
+#                       labels=classifier_linear.classes_)
+# disp = ConfusionMatrixDisplay(
+#     confusion_matrix=cm, display_labels=classifier_linear.classes_)
+# disp.plot()
 
 
-plt.show()
+# plt.show()
 # # results
 # print("Training time: %fs; Prediction time: %fs" %
 #       (time_linear_train, time_linear_predict))
-# report = classification_report(
-#     x_test['label'], prediction_linear, output_dict=True)
+print(classification_report(
+    y_test, prediction_linear, output_dict=True))
 # print('depression: ', report['depression'])
 # print('anxiety: ', report['anxiety'])
 # print('autism: ', report['autism'])

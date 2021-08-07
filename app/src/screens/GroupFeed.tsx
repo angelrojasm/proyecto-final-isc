@@ -5,7 +5,7 @@ import { SessionContext } from '../context';
 import { FeedPost } from '../components';
 import tailwind from 'tailwind-rn';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 const GroupFeed = () => {
   const navigation = useNavigation();
@@ -44,10 +44,22 @@ const GroupFeed = () => {
       headerTitle: () => (
         <Text style={tailwind('text-base font-bold')}>{userContext?.currentGroup?.name}</Text>
       ),
+      headerLeft: () => (
+        <AntDesign
+          name="arrowleft"
+          size={25}
+          style={tailwind('ml-4 self-center')}
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Root' }],
+            });
+          }}
+        />
+      ),
     });
   };
-
-  return posts.length > 0 ? (
+  return (
     <>
       <TouchableOpacity
         style={{ alignSelf: 'flex-start', ...tailwind('absolute z-10 bottom-10 right-6') }}
@@ -60,15 +72,17 @@ const GroupFeed = () => {
           style={tailwind('rounded-full p-1 bg-blue-400 text-white ')}
         />
       </TouchableOpacity>
-      <ScrollView
-        contentContainerStyle={tailwind('flex items-center')}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        {posts.map((post, idx) => {
-          return <FeedPost key={idx} post={post} refreshPosts={refreshPosts} />;
-        })}
-      </ScrollView>
+      {posts.length > 0 && (
+        <ScrollView
+          contentContainerStyle={tailwind('flex items-center')}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          {posts.map((post, idx) => {
+            return <FeedPost key={idx} post={post} refreshPosts={refreshPosts} />;
+          })}
+        </ScrollView>
+      )}
     </>
-  ) : null;
+  );
 };
 
 export default GroupFeed;

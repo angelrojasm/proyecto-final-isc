@@ -12,7 +12,7 @@ const FeedPostCreate = ({ route }: any) => {
   const navigation = useNavigation();
   const { refreshPosts } = route.params;
   const addPost = async () => {
-    await api.posts().create(userContext?.currentUser?.id, 1, message);
+    await api.posts().create(userContext?.currentUser?.id, userContext?.currentGroup?.id, message);
     await refreshPosts();
     navigation.goBack();
   };

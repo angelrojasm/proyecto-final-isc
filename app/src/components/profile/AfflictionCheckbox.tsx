@@ -26,8 +26,8 @@ const AfflictionCheckbox = ({ name, desc, onChange }: IAfflictionCheckbox) => {
       <View
         style={
           checked
-            ? tailwind('bg-green-400 border border-black rounded-md self-center mx-4 p-0.5')
-            : tailwind('border border-black rounded-md self-center mx-4 p-0.5')
+            ? tailwind('bg-green-400 border border-gray-300 rounded-md self-center ml-3 mr-4 p-0.5')
+            : tailwind('border border-black rounded-md self-center ml-3 mr-4 p-0.5')
         }>
         <AntDesign
           name="check"

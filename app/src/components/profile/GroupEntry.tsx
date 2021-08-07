@@ -17,7 +17,10 @@ const GroupEntry = ({ groupName, groupId }: { groupName: string; groupId: number
         style={tailwind('border text-gray-500 border-gray-400 rounded-full mr-2 p-1.5')}
         onPress={() => {
           userContext?.joinGroup(groupId);
-          navigation.navigate('Group');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Group' }],
+          });
         }}
       />
       <Text style={tailwind('text-base self-center')}>{groupName}</Text>
