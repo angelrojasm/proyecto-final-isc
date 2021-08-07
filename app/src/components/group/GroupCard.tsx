@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import tailwind from 'tailwind-rn';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AfflictionTags from './AfflictionTags';
+import { SessionContext } from '../../context';
 type IGroupCardProps = {
   group: {
+    id: number;
     name: string;
     description: string;
     totalUsers: number;
@@ -13,6 +15,7 @@ type IGroupCardProps = {
 };
 
 const GroupCard = ({ group }: IGroupCardProps) => {
+  const userContext = useContext(SessionContext);
   const navigation = useNavigation();
   return (
     <View
@@ -41,7 +44,8 @@ const GroupCard = ({ group }: IGroupCardProps) => {
             style={tailwind(
               'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
             )}
-            onPress={() => {
+            onPress={async () => {
+              await userContext?.joinGroup(group.id);
               navigation.navigate('Group');
             }}>
             <Text style={tailwind('text-white font-bold')}>Join</Text>

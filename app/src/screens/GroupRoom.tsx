@@ -27,7 +27,7 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
     setNavigationHeader();
     firebase
       .database()
-      .ref('group_messages/grupo1/messages')
+      .ref(`group_messages/${userContext?.currentGroup?.name}/messages`)
       .on('value', (snapshot) => {
         let messages: any[] = [];
         snapshot.forEach((elem) => {
@@ -48,21 +48,26 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
     };
     let formattedDate = moment(Date.parse(obj.date)).format('L');
     //addData(`group_messages/${userContext?.currentGroup?.name}/messages`, obj)
-    const ref = firebase.database().ref('group_messages/grupo1/dates');
+    const ref = firebase.database().ref(`group_messages/${userContext?.currentGroup?.name}/dates`);
     ref
       .orderByChild('date')
       .equalTo(formattedDate)
       .once('value', (snapshot) => {
         if (!snapshot.val()) {
-          addData(`group_messages/grupo1/dates`, { date: formattedDate });
-          addData(`group_messages/grupo1/messages`, { date: formattedDate, newday: true });
+          addData(`group_messages/${userContext?.currentGroup?.name}/dates`, {
+            date: formattedDate,
+          });
+          addData(`group_messages/${userContext?.currentGroup?.name}/messages`, {
+            date: formattedDate,
+            newday: true,
+          });
         }
-        addData('group_messages/grupo1/messages', obj);
+        addData(`group_messages/${userContext?.currentGroup?.name}/messages`, obj);
         setMessage('');
       });
 
     let prediction = await api.models().predict(obj.content);
-    api.predictions().create(prediction, 'grupo de prueba 1');
+    api.predictions().create(prediction, userContext?.currentGroup?.name);
   };
   const setNavigationHeader = () => {
     navigation.setOptions({

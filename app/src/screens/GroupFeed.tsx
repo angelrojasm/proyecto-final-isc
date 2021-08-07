@@ -19,8 +19,9 @@ const GroupFeed = () => {
   }, []);
 
   useEffect(() => {
+    console.log(userContext?.currentGroup);
     const getPosts = async () => {
-      const posts = await api.posts().getById(/*userContent?.currentGroup?.id*/ 1);
+      const posts = await api.posts().getById(userContext?.currentGroup?.id);
       setPosts(posts);
     };
     setNavigationHeader();
@@ -35,12 +36,14 @@ const GroupFeed = () => {
   }, [refreshing]);
 
   const refreshPosts = async () => {
-    setPosts(await api.posts().getById(/*userContent?.currentGroup?.id*/ 1));
+    setPosts(await api.posts().getById(userContext?.currentGroup?.id));
   };
 
   const setNavigationHeader = () => {
     navigation.setOptions({
-      headerTitle: () => <Text>{/*userContext?.currentGroup.name*/}Group X</Text>,
+      headerTitle: () => (
+        <Text style={tailwind('text-base font-bold')}>{userContext?.currentGroup?.name}</Text>
+      ),
     });
   };
 

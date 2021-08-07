@@ -33,12 +33,13 @@ const Register = () => {
     });
   };
   const register = async (): Promise<void> => {
-    let { uid }: { uid: string; email: string } = await signUp(userForm.email, userForm.password);
+    let { uid } = await signUp(userForm.email, userForm.password);
     if (uid) {
       setUserForm({
         ...userForm,
         uid,
       });
+      navigation.navigate('profileSetup', { userForm });
     }
   };
 
@@ -75,9 +76,7 @@ const Register = () => {
           </Pressable>
           <Text style={styles.help}>
             Already have an account?{' '}
-            <Text
-              style={styles.register}
-              onPress={() => navigation.navigate('profileSetup', { userForm })}>
+            <Text style={styles.register} onPress={() => navigation.navigate('logIn')}>
               Sign In
             </Text>
           </Text>

@@ -16,12 +16,19 @@ export default {
         let response = await axios.get(`${BASE_PATH}/find/${username}`);
         return response.data;
       },
-      create: async (uid: string, email: string, username: string, country: string) => {
+      create: async (
+        uid: string,
+        email: string,
+        username: string,
+        country: string,
+        afflictions: string[]
+      ) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
           uid,
           username,
           email,
           country,
+          afflictions,
         });
         return response.data;
       },

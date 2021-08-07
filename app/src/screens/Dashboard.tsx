@@ -57,7 +57,7 @@ const Dashboard = () => {
     }
   }, [refreshing]);
 
-  return (
+  return qod.quote ? (
     <ScrollView
       contentContainerStyle={{ backgroundColor: 'white', minHeight: '100%' }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
@@ -94,7 +94,7 @@ const Dashboard = () => {
         </View>
       </View>
     </ScrollView>
-  );
+  ) : null;
 };
 
 export default Dashboard;

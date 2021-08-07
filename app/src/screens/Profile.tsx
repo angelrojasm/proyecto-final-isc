@@ -22,15 +22,16 @@ const regionNames: any = {
 const Profile = () => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
+
   const handleLogout = async () => {
-    userContext?.logOut();
     await logOut();
+    userContext?.logOut();
     navigation.reset({
       index: 0,
       routes: [{ name: 'Auth' }],
     });
   };
-  return (
+  return userContext?.currentUser ? (
     <View style={tailwind('')}>
       <View style={tailwind('flex flex-row justify-between my-8 ml-4')}>
         <View style={tailwind('flex flex-row w-5/6')}>
@@ -41,9 +42,9 @@ const Profile = () => {
               'text-white text-center self-center bg-black rounded-full h-16 w-16 pt-2 mx-2'
             )}
           />
-          <View style={tailwind('flex items-center')}>
+          <View style={tailwind('flex items-start')}>
             {/* User Info*/}
-            <Text style={tailwind('font-bold text-base my-1 right-8')}>
+            <Text style={tailwind('font-bold text-base my-1 ')}>
               {userContext?.currentUser?.username}
             </Text>
             <View style={tailwind('flex flex-row')}>
@@ -70,18 +71,23 @@ const Profile = () => {
           return <GroupEntry key={idx} groupName={group.name} groupId={group.id} />;
         })}
       </View>
+      {userContext?.currentUser?.groups.length === 0 && (
+        <View style={tailwind('flex items-center')}>
+          <Text style={tailwind('font-bold text-gray-700 text-lg text-center w-10/12')}>
+            You are not currently in any groups. Please join a group!
+          </Text>
+        </View>
+      )}
       {/*Log out Button */}
       <TouchableOpacity
         style={tailwind(
           'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-16 px-8 py-2 w-3/4 self-center'
         )}
-        onPress={() => {
-          handleLogout();
-        }}>
+        onPress={handleLogout}>
         <Text style={tailwind('text-white font-bold')}>Sign Out</Text>
       </TouchableOpacity>
     </View>
-  );
+  ) : null;
 };
 
 export default Profile;

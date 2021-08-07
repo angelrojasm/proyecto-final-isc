@@ -3,9 +3,9 @@ import React from 'react';
 import tailwind from 'tailwind-rn';
 
 const tagColors: any = {
-  ptsd: 'blue',
-  anxiety: 'purple',
-  stress: 'green',
+  depression: 'blue',
+  ptsd: 'purple',
+  anxiety: 'green',
 };
 
 const AfflictionTags = ({ afflictions }: { afflictions: string[] }) => {
