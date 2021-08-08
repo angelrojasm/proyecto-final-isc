@@ -79,7 +79,7 @@ const Dashboard = () => {
         </Text>
         <View style={tailwind('flex items-center ')}>
           {recommended.map((group, idx) => {
-            if (idx < 2) {
+            if (idx < 2 && group.users[0]?.username !== userContext?.currentUser.username) {
               return <GroupCard key={idx} group={group} />;
             }
             return null;
