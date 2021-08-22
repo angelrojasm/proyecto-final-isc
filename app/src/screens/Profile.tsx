@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
+import { Text, TouchableOpacity, View, ScrollView, RefreshControl } from 'react-native';
 import tailwind from 'tailwind-rn';
 import { logOut } from '../firebase/Auth';
 import { SessionContext } from '../context';
@@ -9,6 +9,8 @@ import { GroupEntry } from '../components';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import CountryFlag from '../components/profile/CountryFlag';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const regionNames: any = {
   NA: 'North America',
   SA: 'South America and the Caribbean',
@@ -22,7 +24,23 @@ const regionNames: any = {
 const Profile = () => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+  }, []);
+
+  useEffect(() => {
+    const refreshUser = async () => {
+      const uid: any = await AsyncStorage.getItem('uid');
+      userContext?.logIn(uid);
+    };
+
+    if (refreshing) {
+      refreshUser();
+      setRefreshing(false);
+    }
+  }, [refreshing]);
   const handleLogout = async () => {
     await logOut();
     userContext?.logOut();
@@ -32,7 +50,7 @@ const Profile = () => {
     });
   };
   return userContext?.currentUser ? (
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={tailwind('flex flex-row justify-between my-8 ml-4')}>
         <View style={tailwind('flex flex-row w-5/6')}>
           <FontAwesome5
@@ -55,6 +73,17 @@ const Profile = () => {
               <Text style={tailwind('text-sm font-bold')}>
                 {regionNames[userContext?.currentUser?.country]}
               </Text>
+            </View>
+            <View style={tailwind('flex flex-row')}>
+              <Text style={tailwind('text-sm font-bold')}>Interests: </Text>
+              {userContext?.currentUser?.afflictions.map((aff: any, idx: number) => {
+                return (
+                  <Text key={idx} style={tailwind('italic')}>
+                    {aff}
+                    {idx === userContext?.currentUser?.afflictions.length - 1 ? '' : ', '}
+                  </Text>
+                );
+              })}
             </View>
           </View>
         </View>

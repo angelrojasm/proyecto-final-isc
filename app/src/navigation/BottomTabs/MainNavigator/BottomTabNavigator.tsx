@@ -10,15 +10,11 @@ import DashboardNavigator from './Tabs/Dashboard';
 import GroupsNavigator from './Tabs/Groups';
 import ProfileNavigator from './Tabs/Profile';
 
-import useColorScheme from '../../../hooks/useColorScheme';
-
 import { MainBottomTabParamList } from '../../types.navigation';
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <>
       <BottomTab.Navigator

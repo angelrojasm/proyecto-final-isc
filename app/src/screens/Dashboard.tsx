@@ -73,26 +73,30 @@ const Dashboard = () => {
       </View>
 
       {/* Recommended Groups Section */}
-      <View style={tailwind('my-2')}>
-        <Text style={tailwind('text-center mb-2 font-medium text-base')}>
-          Here are some groups we think you might like:
-        </Text>
-        <View style={tailwind('flex items-center ')}>
-          {recommended.map((group, idx) => {
-            if (idx < 2 && group.users[0]?.username !== userContext?.currentUser.username) {
-              return <GroupCard key={idx} group={group} />;
-            }
-            return null;
-          })}
-          <Text
-            style={tailwind('underline text-blue-600 font-bold text-center')}
-            onPress={() => {
-              navigation.navigate('RecommendedList', { recommended });
-            }}>
-            Check out all of the groups
+      {recommended.length > 0 && (
+        <View style={tailwind('my-2')}>
+          <Text style={tailwind('text-center mb-2 font-medium text-base')}>
+            Here are some groups we think you might like:
           </Text>
+          <View style={tailwind('flex items-center ')}>
+            {recommended.map((group, idx) => {
+              if (idx < 2 && group.users[0]?.username !== userContext?.currentUser.username) {
+                return <GroupCard key={idx} group={group} />;
+              }
+              return null;
+            })}
+            {recommended.length > 2 && (
+              <Text
+                style={tailwind('underline text-blue-600 font-bold text-center')}
+                onPress={() => {
+                  navigation.navigate('RecommendedList', { recommended });
+                }}>
+                Check out all of the groups
+              </Text>
+            )}
+          </View>
         </View>
-      </View>
+      )}
     </ScrollView>
   ) : null;
 };

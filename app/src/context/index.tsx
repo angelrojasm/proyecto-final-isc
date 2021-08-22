@@ -12,7 +12,7 @@ export const Provider = ({ children }: any) => {
     if (user) {
       setCurrentUser(user[0]);
     } else {
-      console.log('No user found');
+      console.log('user not found');
     }
   };
 
@@ -22,8 +22,6 @@ export const Provider = ({ children }: any) => {
   };
 
   const logOut = (): void => {
-    setCurrentUser(null);
-    setCurrentGroup(null);
     AsyncStorage.removeItem('uid');
   };
 
