@@ -9,7 +9,11 @@ export const Provider = ({ children }: any) => {
 
   const logIn = async (userUID: string): Promise<void> => {
     let user = await api.users().getById(userUID);
-    setCurrentUser(user[0]);
+    if (user) {
+      setCurrentUser(user[0]);
+    } else {
+      console.log('No user found');
+    }
   };
 
   const joinGroup = async (groupId: number): Promise<void> => {

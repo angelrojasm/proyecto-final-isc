@@ -54,7 +54,7 @@ export class UserController {
   }
 
   @Post(`/`)
-  save(@EntityFromBody() user: User) {
+  async save(@EntityFromBody() user: User) {
     return this.userRepository.save(user);
   }
 

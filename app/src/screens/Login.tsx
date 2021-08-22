@@ -59,6 +59,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
           <Pressable style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Log In</Text>
           </Pressable>
+
           <Text style={styles.help}>
             Don't have an account?{' '}
             <Text style={styles.register} onPress={() => navigation.replace('register')}>

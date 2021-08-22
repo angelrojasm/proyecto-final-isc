@@ -15,7 +15,7 @@ const regionNames: any = {
   AS: 'Asia',
   AF: 'Africa',
   AU: 'Australia',
-  EU: 'European Union',
+  EU: 'Europe',
   ME: 'Middle East',
 };
 

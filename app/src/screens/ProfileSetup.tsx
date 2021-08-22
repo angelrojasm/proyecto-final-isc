@@ -11,7 +11,7 @@ import tailwind from 'tailwind-rn';
 import { AfflictionCheckbox } from '../components';
 
 const ProfileSetup = ({ route }: { route: any }) => {
-  const { userForm } = route.params;
+  const { username, uid, email } = route.params;
   const [region, setRegion] = useState<any>('NA');
   const [afflictions, setAfflictions] = useState<any>({});
   const userContext = useContext(SessionContext);
@@ -32,11 +32,9 @@ const ProfileSetup = ({ route }: { route: any }) => {
 
     if (afflictionArr.length > 0) {
       try {
-        await api
-          .users()
-          .create(userForm.uid, userForm.email, userForm.username, region, afflictionArr);
-        await userContext?.logIn(userForm.uid);
-        await AsyncStorage.setItem('uid', userForm.uid);
+        await api.users().create(uid, email, username, region, afflictionArr);
+        await userContext?.logIn(uid);
+        await AsyncStorage.setItem('uid', uid);
         navigation.reset({
           index: 0,
           routes: [{ name: 'Root' }],

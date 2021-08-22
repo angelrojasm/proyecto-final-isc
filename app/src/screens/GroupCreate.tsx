@@ -13,6 +13,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 const GroupCreate = () => {
   const [name, setName] = useState('');
+  const [createError, setCreateError] = useState<boolean>(false);
   const [description, setDescription] = useState('');
   const [afflictions, setAfflictions] = useState<any>({});
   const userContext = useContext(SessionContext);
@@ -25,20 +26,25 @@ const GroupCreate = () => {
   };
 
   const handleCreate = async () => {
-    let afflictionArr = [];
-    for (const [key, value] of Object.entries(afflictions)) {
-      if (value) afflictionArr.push(key.toLowerCase());
-    }
+    const duplicates = await api.groups().getByName(name);
+    if (duplicates.length > 0) {
+      setCreateError(true);
+    } else {
+      let afflictionArr = [];
+      for (const [key, value] of Object.entries(afflictions)) {
+        if (value) afflictionArr.push(key.toLowerCase());
+      }
 
-    if (afflictionArr.length > 0) {
-      let { id } = await api
-        .groups()
-        .create(userContext?.currentUser?.id, name, description, afflictionArr);
-      await userContext?.joinGroup(id);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Group' }],
-      });
+      if (afflictionArr.length > 0) {
+        let { id } = await api
+          .groups()
+          .create(userContext?.currentUser?.id, name, description, afflictionArr);
+        await userContext?.joinGroup(id);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Group' }],
+        });
+      }
     }
   };
   return (
@@ -90,6 +96,7 @@ const GroupCreate = () => {
         />
       </View>
       <View style={tailwind('flex items-center ')}>
+        {createError && <Text style={tailwind('text-red-500')}>Group Name Already Exists</Text>}
         <TouchableOpacity style={tailwind('my-12 w-1/3')} onPress={handleCreate}>
           <Text
             style={tailwind(

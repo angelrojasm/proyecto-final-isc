@@ -13,7 +13,7 @@ export default {
         return response.data;
       },
       getByName: async (username: string) => {
-        let response = await axios.get(`${BASE_PATH}/find/${username}`);
+        let response = await axios.get(`${BASE_PATH}${route}/find/${username}`);
         return response.data;
       },
       create: async (

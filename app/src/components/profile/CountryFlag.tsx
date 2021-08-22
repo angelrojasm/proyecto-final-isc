@@ -7,7 +7,7 @@ const CountryFlag = ({ region, style }: { region: string; style: any }) => {
     case 'NA':
       return <Flag style={style} code="US" size={24} />;
     case 'EU':
-      return <Flag style={style} code="GB-ENG" size={24} />;
+      return <Flag style={style} code="GB" size={24} />;
     case 'ME':
       return <Flag style={style} code="AE" size={24} />;
     case 'AF':
