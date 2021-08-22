@@ -31,7 +31,12 @@ const GroupSearch = () => {
     let groupNames = await api.groups().getByName(search.toLowerCase());
     console.log(groupNames);
     let newArr = returnArr.concat(groupNames);
-    setGroups(newArr);
+
+    const filteredArr = newArr.filter(
+      (element: any, index: number, array: any) =>
+        array.findIndex((obj: any) => JSON.stringify(obj) === JSON.stringify(element)) === index
+    );
+    setGroups(filteredArr);
     setSearchTerm(search);
     setSearch('');
   };
