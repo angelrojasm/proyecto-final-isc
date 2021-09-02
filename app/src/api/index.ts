@@ -65,16 +65,31 @@ export default {
         return response.data;
       },
       getById: async (groupId: number) => {
-        let response = await axios.get(`${BASE_PATH}${route}/${groupId}`);
-        return response.data;
+        try {
+          let response = await axios.get(`${BASE_PATH}${route}/${groupId}`);
+          return response.data;
+        } catch (err) {
+          console.log(err);
+          return;
+        }
       },
       getByName: async (groupName: string) => {
-        let response = await axios.get(`${BASE_PATH}${route}/name/${groupName}`);
-        return response.data;
+        try {
+          let response = await axios.get(`${BASE_PATH}${route}/name/${groupName}`);
+          return response.data;
+        } catch (err) {
+          console.log(err);
+          return;
+        }
       },
       getByTags: async (tagName: string) => {
-        let response = await axios.get(`${BASE_PATH}${route}/tag/${tagName}`);
-        return response.data;
+        try {
+          let response = await axios.get(`${BASE_PATH}${route}/tag/${tagName}`);
+          return response.data;
+        } catch (err) {
+          console.log(err);
+          return;
+        }
       },
       create: async (userId: number, name: string, description: string, tags: string[]) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {

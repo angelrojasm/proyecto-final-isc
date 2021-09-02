@@ -3,11 +3,10 @@ import {
   Text,
   View,
   StyleSheet,
-  Pressable,
   ImageBackground,
   KeyboardAvoidingView,
   TextInput,
-  Button,
+  TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -48,7 +47,9 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
             value={email}
             placeholder="Email"
             style={styles.input}
-            onChangeText={onEmailInput}></TextInput>
+            onChangeText={(text) => {
+              onEmailInput(text.toLowerCase());
+            }}></TextInput>
           <Text style={styles.text1}>Password</Text>
           <TextInput
             value={password}
@@ -56,9 +57,9 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
             secureTextEntry
             style={styles.input}
             onChangeText={onPasswordInput}></TextInput>
-          <Pressable style={styles.button} onPress={handleLogin}>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Log In</Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <Text style={styles.help}>
             Don't have an account?{' '}

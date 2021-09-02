@@ -30,19 +30,21 @@ const Dashboard = () => {
     });
     const getData = async () => {
       const groups = await api.groups().getAll();
-
       const recommended: any[] = [];
       //get recommended groups
-      groups.forEach((group: { tags: any }) => {
+      groups.forEach((group: { tags: any; users: any[] }) => {
         let afflictions = userContext?.currentUser?.afflictions;
         for (const affl of afflictions) {
-          if (group.tags.includes(affl)) {
+          if (
+            group.tags.includes(affl) &&
+            group.users?.filter((user) => user.id === userContext?.currentUser.id).length === 0
+          ) {
+            console.log('ENTRE', group);
             recommended.push(group);
             break;
           }
         }
       });
-
       setRecommended(recommended);
       //Get quote of the day
       setQod(await api.utils().getQuoteOfTheDay());
@@ -80,7 +82,7 @@ const Dashboard = () => {
           </Text>
           <View style={tailwind('flex items-center ')}>
             {recommended.map((group, idx) => {
-              if (idx < 2 && group.users[0]?.username !== userContext?.currentUser.username) {
+              if (idx < 2) {
                 return <GroupCard key={idx} group={group} />;
               }
               return null;

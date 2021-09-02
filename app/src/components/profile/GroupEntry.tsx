@@ -15,8 +15,8 @@ const GroupEntry = ({ groupName, groupId }: { groupName: string; groupId: number
         name="group"
         size={22}
         style={tailwind('border text-gray-500 border-gray-400 rounded-full mr-2 p-1.5')}
-        onPress={() => {
-          userContext?.joinGroup(groupId);
+        onPress={async () => {
+          await userContext?.joinGroup(groupId);
           navigation.reset({
             index: 0,
             routes: [{ name: 'Group' }],

@@ -6,7 +6,6 @@ dp_dr
 dpdr
 feelgood
 hardshipmates
-makemefeelbetter
 mentalhealth
 Psychiatry
 psychoticreddit
@@ -51,7 +50,6 @@ BipolarReddit
 cyclothymia
 bipolarart
 BipolarSOs
-manicdepression
 OCD
 ROCD
 OCPD

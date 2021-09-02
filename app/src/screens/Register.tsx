@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { signUp } from '../firebase/Auth';
@@ -74,9 +75,9 @@ const Register = () => {
             style={styles.input}
             value={userForm.password}
             onChangeText={(text) => handleChange('password', text)}></TextInput>
-          <Pressable style={styles.button} onPress={register}>
+          <TouchableOpacity style={styles.button} onPress={register}>
             <Text style={styles.buttonText}>Register</Text>
-          </Pressable>
+          </TouchableOpacity>
           {registerError && <Text style={styles.errorMessage}>Error Registering User</Text>}
           <Text style={styles.help}>
             Already have an account?{' '}

@@ -3,8 +3,6 @@ import { Text, TouchableOpacity, View, ScrollView, RefreshControl } from 'react-
 import tailwind from 'tailwind-rn';
 import { logOut } from '../firebase/Auth';
 import { SessionContext } from '../context';
-import { RootStackParamList } from '../navigation/types.navigation';
-import { StackScreenProps } from '@react-navigation/stack';
 import { GroupEntry } from '../components';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import CountryFlag from '../components/profile/CountryFlag';
