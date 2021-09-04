@@ -34,14 +34,13 @@ const Dashboard = () => {
       //get recommended groups
       groups.forEach((group: { tags: any; users: any[] }) => {
         let afflictions = userContext?.currentUser?.afflictions;
-        for (const affl of afflictions) {
-          if (
-            group.tags.includes(affl) &&
-            group.users?.filter((user) => user.id === userContext?.currentUser.id).length === 0
-          ) {
-            console.log('ENTRE', group);
-            recommended.push(group);
-            break;
+        if (afflictions) {
+          for (const affl of afflictions) {
+            if (group.tags.includes(affl) && !group.users?.includes(userContext?.currentUser?.id)) {
+              console.log('ENTRE', group);
+              recommended.push(group);
+              break;
+            }
           }
         }
       });

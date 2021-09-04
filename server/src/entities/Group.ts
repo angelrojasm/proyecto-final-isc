@@ -30,11 +30,8 @@ export class Group {
   @Column({ type: 'simple-array' })
   tags: string[];
 
-  @ManyToMany(() => User, (user) => user.groups, {
-    cascade: true,
-  })
-  @JoinTable()
-  users: User[];
+  @Column({ type: 'simple-array' })
+  users: number[];
 
   constructor(name: string);
   constructor(
@@ -42,7 +39,7 @@ export class Group {
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
-    users?: User[],
+    users?: number[],
     tags?: string[]
   );
   constructor(
@@ -50,14 +47,14 @@ export class Group {
     description?: string,
     totalUsers?: number,
     creationDate?: Date,
-    users?: User[],
+    users?: number[],
     tags?: string[]
   ) {
     this.name = name;
     this.description = description || '';
     this.totalUsers = totalUsers || 0;
     this.creationDate = creationDate || new Date();
-    this.users = users || null;
+    this.users = users || [];
     this.tags = tags || [];
   }
 }

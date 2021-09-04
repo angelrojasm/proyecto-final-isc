@@ -26,45 +26,48 @@ export class UserController {
     this.userRepository = getRepository(User);
   }
 
-  public async findById(id: number) {
-    return await this.userRepository.findOne(id, {
-      relations: ['groups'],
-    });
+  private async getRelations(user: User) {
+    const groupController = new GroupController();
+    let newGroups = [];
+    for (const id of user.groups) {
+      let group = await groupController.findById(id);
+      newGroups.push(group);
+    }
+    user.groups = newGroups;
+    return user;
   }
+
+  public async findById(id: number) {
+    return await this.userRepository.findOne(id);
+  }
+
+  public async add(user: User) {
+    return await this.userRepository.save(user);
+  }
+
   @Get(`/:uid`)
   async get(@Param('uid') user: string) {
-    return await this.userRepository.find({
-      where: { uid: user },
-      relations: ['groups'],
-    });
+    return this.getRelations(
+      await this.userRepository.findOne({
+        where: { uid: user },
+        relations: ['groups'],
+      })
+    );
   }
   @Get(`/find/:name`)
   async getByName(@Param('name') user: string) {
     return await this.userRepository.find({
       where: { username: user },
-      relations: ['groups'],
     });
   }
 
   @Get(`/`)
   getAll() {
-    return this.userRepository.find({
-      relations: ['groups'],
-    });
+    return this.userRepository.find();
   }
 
   @Post(`/`)
   async save(@EntityFromBody() user: User) {
-    return this.userRepository.save(user);
-  }
-
-  @Post(`/addGroup`)
-  async addUGroup(@BodyParam('userId') userId: number, @BodyParam('groupId') groupId: number) {
-    let user = await this.findById(userId);
-    let group = await new GroupController().findById(groupId);
-    group.totalUsers += 1;
-    //await groupController.update(group)
-    user.groups ? user.groups.push(group) : (user.groups = [group]);
     return this.userRepository.save(user);
   }
 

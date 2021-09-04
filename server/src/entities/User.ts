@@ -1,15 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
-import { Group } from './Group';
-import { File } from './File';
-import { Post } from './Post';
-import { Comment } from './Comment';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -30,8 +20,8 @@ export class User {
   @Column({ type: 'simple-array' })
   afflictions: string[];
 
-  @ManyToMany(() => Group, (group) => group.users)
-  groups: Group[];
+  @Column({ type: 'simple-array' })
+  groups: number[];
 
   constructor(username: string);
   constructor(
@@ -39,7 +29,7 @@ export class User {
     email?: string,
     country?: string,
     afflictions?: string[],
-    groups?: Group[]
+    groups?: number[]
   );
 
   constructor(
@@ -47,12 +37,12 @@ export class User {
     email?: string,
     country?: string,
     afflictions?: string[],
-    groups?: Group[]
+    groups?: number[]
   ) {
     this.username = username;
     this.email = email || '';
     this.country = country || '';
     this.afflictions = afflictions || [];
-    this.groups = groups || null;
+    this.groups = groups || [];
   }
 }
