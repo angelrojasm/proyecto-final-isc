@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import tailwind from 'tailwind-rn';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AfflictionTags from './AfflictionTags';
 import { SessionContext } from '../../context';
+import api from '../../api';
 type IGroupCardProps = {
   group: {
     id: number;
@@ -17,6 +18,31 @@ type IGroupCardProps = {
 const GroupCard = ({ group }: IGroupCardProps) => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
+
+  const visitGroup = async () => {
+    await userContext?.joinGroup(group.id);
+    navigation.navigate('Group');
+  };
+
+  const joinGroup = async () => {
+    let success = await api.groups().addUser(userContext?.currentUser?.id, group);
+    if (success) {
+      await userContext?.joinGroup(group.id);
+      navigation.navigate('Group');
+    }
+  };
+
+  const findInGroup = (): boolean => {
+    for (let userGroup of userContext?.currentUser?.groups) {
+      if (userGroup.id === group.id) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const memoFindInGroup = useMemo(findInGroup, [userContext?.currentUser, group]);
+
   return (
     <View
       style={{
@@ -40,16 +66,23 @@ const GroupCard = ({ group }: IGroupCardProps) => {
           </Text>
         </View>
         <View style={tailwind('flex items-center mr-4')}>
-          <TouchableOpacity
-            style={tailwind(
-              'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
-            )}
-            onPress={async () => {
-              await userContext?.joinGroup(group.id);
-              navigation.navigate('Group');
-            }}>
-            <Text style={tailwind('text-white font-bold')}>Join</Text>
-          </TouchableOpacity>
+          {memoFindInGroup ? (
+            <TouchableOpacity
+              style={tailwind(
+                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
+              )}
+              onPress={visitGroup}>
+              <Text style={tailwind('text-white font-bold')}>Visit</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={tailwind(
+                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
+              )}
+              onPress={joinGroup}>
+              <Text style={tailwind('text-white font-bold')}>Join</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View style={tailwind('flex items-center mb-4')}>

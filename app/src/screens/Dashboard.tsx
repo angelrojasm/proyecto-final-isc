@@ -37,7 +37,6 @@ const Dashboard = () => {
         if (afflictions) {
           for (const affl of afflictions) {
             if (group.tags.includes(affl) && !group.users?.includes(userContext?.currentUser?.id)) {
-              console.log('ENTRE', group);
               recommended.push(group);
               break;
             }

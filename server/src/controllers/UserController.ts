@@ -50,7 +50,6 @@ export class UserController {
     return this.getRelations(
       await this.userRepository.findOne({
         where: { uid: user },
-        relations: ['groups'],
       })
     );
   }

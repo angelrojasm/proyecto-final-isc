@@ -102,10 +102,22 @@ export default {
         });
         return response.data;
       },
-      removeUser: async (userId: number, groupId: number) => {
+
+      addUser: async (userId: number, group: any) => {
+        try {
+          let response = await axios.post(`${BASE_PATH}${route}/addUser`, {
+            userId,
+            group,
+          });
+          return response.data;
+        } catch (err) {
+          return false;
+        }
+      },
+      removeUser: async (userId: number, group: any) => {
         let response = await axios.post(`${BASE_PATH}${route}/removeUser`, {
           userId,
-          groupId,
+          group,
         });
         return response.data;
       },
