@@ -8,11 +8,15 @@ export const Provider = ({ children }: any) => {
   const [currentGroup, setCurrentGroup] = useState<IGroup | null>(null);
 
   const logIn = async (userUID: string): Promise<void> => {
-    let user = await api.users().getById(userUID);
-    if (user) {
-      setCurrentUser(user[0]);
-    } else {
-      console.log('user not found');
+    try {
+      let user = await api.users().getById(userUID);
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        console.log('user not found');
+      }
+    } catch (err) {
+      setCurrentUser(null);
     }
   };
 

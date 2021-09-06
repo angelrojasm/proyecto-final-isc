@@ -27,13 +27,16 @@ export default function Navigation() {
 
   React.useEffect(() => {
     const getUid = async () => {
+      let x: any = '';
       try {
         const uid = await AsyncStorage.getItem('uid');
         if (uid && !userContext?.currentUser) {
-          await userContext?.logIn(uid);
+          x = await userContext?.logIn(uid);
         }
         setIsLoaded(true);
-      } catch (err) {}
+      } catch (err) {
+        console.log(x);
+      }
     };
     getUid();
   }, []);

@@ -24,21 +24,26 @@ const GroupSearch = () => {
   const navigation = useNavigation();
 
   const searchGroups = async (): Promise<void> => {
-    let returnArr: any = [];
-    if (tags.includes(search.toLowerCase())) {
-      returnArr = await api.groups().getByTags(search.toLowerCase());
-    }
-    let groupNames = await api.groups().getByName(search.toLowerCase());
-    console.log(groupNames);
-    let newArr = returnArr.concat(groupNames);
+    if (search === '') {
+      setGroups(await api.groups().getAll());
+      setSearchTerm('All Groups');
+    } else {
+      let returnArr: any = [];
+      if (tags.includes(search.toLowerCase())) {
+        returnArr = await api.groups().getByTags(search.toLowerCase());
+      }
+      let groupNames = await api.groups().getByName(search.toLowerCase());
+      console.log(groupNames);
+      let newArr = returnArr.concat(groupNames);
 
-    const filteredArr = newArr.filter(
-      (element: any, index: number, array: any) =>
-        array.findIndex((obj: any) => JSON.stringify(obj) === JSON.stringify(element)) === index
-    );
-    setGroups(filteredArr);
-    setSearchTerm(search);
-    setSearch('');
+      const filteredArr = newArr.filter(
+        (element: any, index: number, array: any) =>
+          array.findIndex((obj: any) => JSON.stringify(obj) === JSON.stringify(element)) === index
+      );
+      setGroups(filteredArr);
+      setSearchTerm(search);
+      setSearch('');
+    }
   };
 
   return (

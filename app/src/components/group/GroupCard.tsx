@@ -41,8 +41,6 @@ const GroupCard = ({ group }: IGroupCardProps) => {
     return false;
   };
 
-  const memoFindInGroup = useMemo(findInGroup, [userContext?.currentUser, group]);
-
   return (
     <View
       style={{
@@ -66,7 +64,7 @@ const GroupCard = ({ group }: IGroupCardProps) => {
           </Text>
         </View>
         <View style={tailwind('flex items-center mr-4')}>
-          {memoFindInGroup ? (
+          {findInGroup() ? (
             <TouchableOpacity
               style={tailwind(
                 'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
