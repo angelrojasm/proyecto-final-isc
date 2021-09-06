@@ -16,7 +16,7 @@ export class GroupController {
   }
 
   public async findByName(name: string) {
-    return await this.groupRepository.find({ where: { name: name } });
+    return await this.groupRepository.findOne({ where: { name: name } });
   }
   public async add(group: Group) {
     return await this.groupRepository.save(group);
@@ -56,9 +56,11 @@ export class GroupController {
     let user = await userController.findById(userId);
     group.totalUsers += 1;
     group.users ? group.users.push(userId) : (group.users = [userId]);
-    user.groups.push(group.id);
+    await this.groupRepository.save(group);
+    const createdGroup = await this.findByName(group.name);
+    user.groups.push(createdGroup.id);
     await userController.add(user);
-    return this.groupRepository.save(group);
+    return createdGroup;
   }
 
   @Post(`/addUser`)

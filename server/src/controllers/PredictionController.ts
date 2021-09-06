@@ -15,8 +15,7 @@ export class PredictionController {
   async save(@BodyParam('label') label: string, @BodyParam('group') groupName: string) {
     const prediction = new Prediction(label, groupName);
     const groupController = new GroupController();
-    const groups = await groupController.findByName(groupName);
-    const group = groups[0];
+    const group = await groupController.findByName(groupName);
     await this.predictionRepository.save(prediction);
     const predictions = await this.predictionRepository.find({ where: { group: groupName } });
 
