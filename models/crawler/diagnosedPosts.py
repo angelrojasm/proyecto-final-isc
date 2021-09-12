@@ -85,7 +85,7 @@ start = time.time()
 for i in range(0, mh_subreddits_length):
     subreddit = mh_subreddits[i]
     print('subreddit: ' + subreddit)
-    subreddit_posts = list(reddit.subreddit(subreddit).hot(limit=None))
+    subreddit_posts = list(reddit.subreddit(subreddit).hot(limit=1000))
     for post in subreddit_posts:
         for condition in conditions:
             for condition_pattern in condition:
@@ -108,7 +108,7 @@ with open('../datasets/new_finished_posts.csv', 'w', encoding='UTF8') as f:
     for key, value in total_posts:
 
         # write a row to the csv file
-        writer.writerow([key, value])
+        writer.writerow([value, key])
 
 # for subreddit in mh_subreddits:
 #     print('subreddit: ' + subreddit)

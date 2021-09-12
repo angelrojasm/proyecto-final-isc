@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 trainData = pd.read_csv(
-    "../datasets/finished_dataset.csv")
+    "../datasets/new_finished_posts.csv")
 
 x = trainData['content']
 y = trainData['label']
@@ -40,19 +40,21 @@ time_linear_train = t1-t0
 time_linear_predict = t2-t1
 
 
-# cm = confusion_matrix(y_test, prediction_linear,
-#                       labels=classifier_linear.classes_)
-# disp = ConfusionMatrixDisplay(
-#     confusion_matrix=cm, display_labels=classifier_linear.classes_)
-# disp.plot()
-
-
-# plt.show()
 # # results
 # print("Training time: %fs; Prediction time: %fs" %
 #       (time_linear_train, time_linear_predict))
 print(classification_report(
     y_test, prediction_linear, output_dict=True))
+
+
+cm = confusion_matrix(y_test, prediction_linear,
+                      labels=classifier_linear.classes_)
+disp = ConfusionMatrixDisplay(
+    confusion_matrix=cm, display_labels=classifier_linear.classes_)
+disp.plot()
+
+
+plt.show()
 # print('depression: ', report['depression'])
 # print('anxiety: ', report['anxiety'])
 # print('autism: ', report['autism'])
