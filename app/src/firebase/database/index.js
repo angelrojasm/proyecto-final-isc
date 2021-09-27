@@ -28,9 +28,9 @@ const addData = async (route, dataObj) => {
 // 	}
 // };
 
-const unsubscribe = async (route) => {
+const unsubscribe = (route) => {
   try {
-    await firebase.database().ref(`${route}/`).off('value');
+    firebase.database().ref(`${route}/`).off('value');
     return { error: false };
   } catch (err) {
     return err;

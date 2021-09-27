@@ -21,6 +21,8 @@ export type AuthStackParamList = {
 export type DashboardParamList = {
   Dashboard: undefined;
   RecommendedList: undefined;
+  PrivateMessaging: undefined;
+  MessageChat: undefined;
 };
 
 export type MainBottomTabParamList = {
@@ -48,10 +50,14 @@ export type ProfileParamList = {
 
 export type RoomParamList = {
   Room: undefined;
+  UserList: undefined;
+  MessageChat: undefined;
 };
 
 export type FeedParamList = {
   Feed: undefined;
   Replies: undefined;
   PostCreate: undefined;
+  UserList: undefined;
+  MessageChat: undefined;
 };

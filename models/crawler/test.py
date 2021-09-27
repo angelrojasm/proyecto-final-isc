@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 trainData = pd.read_csv(
-    "../datasets/new_finished_posts.csv")
+    "../datasets/filtered.csv")
 
 x = trainData['content']
 y = trainData['label']
@@ -30,7 +30,7 @@ test_vectors = vectorizer.transform(x_test.values.astype('U'))
 
 # Perform classification with SVM, kernel=linear
 
-classifier_linear = svm.SVC(kernel='linear')
+classifier_linear = svm.SVC(kernel='linear', probability=True)
 t0 = time.time()
 classifier_linear.fit(train_vectors, y_train)
 t1 = time.time()
@@ -41,30 +41,28 @@ time_linear_predict = t2-t1
 
 
 # # results
-# print("Training time: %fs; Prediction time: %fs" %
-#       (time_linear_train, time_linear_predict))
-print(classification_report(
-    y_test, prediction_linear, output_dict=True))
+print("Training time: %fs; Prediction time: %fs" %
+      (time_linear_train, time_linear_predict))
+
+joblib.dump(classifier_linear, '../server/prob_classifier.joblib')
+joblib.dump(vectorizer, '../server/prob_vectorizer.joblib')
+# print(classification_report(
+#     y_test, prediction_linear, output_dict=True))
 
 
-cm = confusion_matrix(y_test, prediction_linear,
-                      labels=classifier_linear.classes_)
-disp = ConfusionMatrixDisplay(
-    confusion_matrix=cm, display_labels=classifier_linear.classes_)
-disp.plot()
+# cm = confusion_matrix(y_test, prediction_linear,
+#                       labels=classifier_linear.classes_)
+# disp = ConfusionMatrixDisplay(
+#     confusion_matrix=cm, display_labels=classifier_linear.classes_)
+# disp.plot()
 
 
-plt.show()
-# print('depression: ', report['depression'])
-# print('anxiety: ', report['anxiety'])
-# print('autism: ', report['autism'])
-# print('bipolar: ', report['bipolar'])
-# print('none: ', report['none'])
+# plt.show()
 
-# joblib.dump(classifier_linear, '../server/new_classifier.joblib')
-# joblib.dump(vectorizer, '../server/new_vectorizer.joblib')
 
-# while True:
-#     review = input('Input your chat message: \n')
-#     review_vector = vectorizer.transform([review])  # vectorizing
-#     print(classifier_linear.predict(review_vector))
+while True:
+    review = input('Input your chat message: \n')
+    review_vector = vectorizer.transform([review])  # vectorizing
+    prob_matrix_string = classifier_linear.predict_proba(review_vector)[0]
+    probabilities = prob_matrix_string.split(" ", 1)
+    print(f"ADHD: {format(probabilities[0], '.8f')}\n Anxiety: {format(probabilities[1], '.8f')} \n Autism: {format(probabilities[2], '.8f')}\n Bipolar: {format(probabilities[3], '.8f')}\n Depression: {format(probabilities[4], '.8f')}\n Eating: {format(probabilities[5], '.8f')}\n None: {format(probabilities[6], '.8f')}")

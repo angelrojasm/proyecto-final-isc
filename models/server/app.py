@@ -5,7 +5,7 @@ import pandas as pd
 import joblib
 
 
-clasifier = joblib.load('./classifier.joblib')
+classifier = joblib.load('./classifier.joblib')
 vectorizer = joblib.load('./vectorizer.joblib')
 
 app = Flask(__name__)
@@ -15,4 +15,4 @@ app = Flask(__name__)
 def predict():
     request_data = request.get_json()
     vectorizedMessage = vectorizer.transform([request_data['message']])
-    return clasifier.predict(vectorizedMessage)[0]
+    return classifier.predict(vectorizedMessage)[0]

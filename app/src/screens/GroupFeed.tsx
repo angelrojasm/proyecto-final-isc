@@ -5,7 +5,7 @@ import { SessionContext } from '../context';
 import { FeedPost } from '../components';
 import tailwind from 'tailwind-rn';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 const GroupFeed = () => {
   const navigation = useNavigation();
@@ -42,7 +42,9 @@ const GroupFeed = () => {
   const setNavigationHeader = () => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={tailwind('text-base font-bold')}>{userContext?.currentGroup?.name}</Text>
+        <Text style={tailwind('text-base font-bold w-4/5 text-center')}>
+          {userContext?.currentGroup?.name} Feed
+        </Text>
       ),
       headerLeft: () => (
         <AntDesign

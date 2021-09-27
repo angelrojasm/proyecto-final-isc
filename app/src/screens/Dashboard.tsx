@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../api';
 import { SessionContext } from '../context';
 import tailwind from 'tailwind-rn';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Dashboard = () => {
   const [initialState, setInitialState] = useState(true);
@@ -20,13 +21,21 @@ const Dashboard = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => {
-        return (
-          <Text style={tailwind('p-3 pl-4 text-base')}>
-            Hello, <Text style={tailwind('font-bold')}>{userContext?.currentUser?.username}!</Text>
-          </Text>
-        );
-      },
+      headerTitle: () => (
+        <Text style={tailwind('p-3 pl-4 text-base')}>
+          Hello, <Text style={tailwind('font-bold')}>{userContext?.currentUser?.username}!</Text>
+        </Text>
+      ),
+      headerRight: () => (
+        <MaterialCommunityIcons
+          name="message-processing"
+          style={tailwind('text-gray-500 mr-5')}
+          size={30}
+          onPress={() => {
+            navigation.navigate('PrivateMessaging');
+          }}
+        />
+      ),
     });
     const getData = async () => {
       const groups = await api.groups().getAll();

@@ -81,6 +81,7 @@ reddit = praw.Reddit(client_id=client_id,
 # 1. Loop Through each subreddit in mh_subreddits and get All Posts (For this test, cap at 1k posts. Reddit API will only return 1000 posts at a time)
 # MyProAna, thinspo, thinspocommunity are quarantined, need to set up quarantine opt in.
 total_posts = []
+seen_posts = []
 start = time.time()
 for i in range(0, mh_subreddits_length):
     subreddit = mh_subreddits[i]
@@ -92,7 +93,8 @@ for i in range(0, mh_subreddits_length):
                 if(condition_pattern in post.title or condition_pattern in post.selftext):
                     user_condition = getCondition(
                         condition_pattern, conditions)
-                    if [post.selftext, user_condition] not in total_posts:
+                    if post.selftext not in seen_posts:
+                        seen_posts.append(post.selftext)
                         total_posts.append([post.selftext, user_condition])
 
 # Adding User Posts to the dataset

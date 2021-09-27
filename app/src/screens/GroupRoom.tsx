@@ -3,13 +3,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { GroupBottomTabParamList } from '../navigation/types.navigation';
 import { SessionContext } from '../context';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import tailwind from 'tailwind-rn';
 import firebase from '../firebase/config';
 import { unsubscribe, addData } from '../firebase/database';
 import { MessageList } from '../components';
 import moment from 'moment';
 import api from '../api';
+import { useNavigation } from '@react-navigation/native';
 
 type Message = {
   sender?: string;
@@ -18,13 +19,41 @@ type Message = {
   newday?: boolean;
 };
 
-const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Room'>) => {
+const GroupRoom = () => {
+  const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>('');
   const userContext = useContext(SessionContext);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    setNavigationHeader();
+    const addOnlineUser = async () => {
+      firebase
+        .database()
+        .ref(`group_messages/${userContext?.currentGroup?.name}/online_users`)
+        .orderByChild('name')
+        .equalTo(userContext?.currentUser.username)
+        .once('value', async (snapshot) => {
+          if (!snapshot.hasChildren()) {
+            await addData(`group_messages/${userContext?.currentGroup?.name}/online_users`, {
+              name: userContext?.currentUser?.username,
+            });
+          }
+        });
+    };
+
+    addOnlineUser();
+    firebase
+      .database()
+      .ref(`group_messages/${userContext?.currentGroup?.name}/online_users`)
+      .on('value', (snapshot) => {
+        let messages: any[] = [];
+        snapshot.forEach((elem) => {
+          messages.push(elem.val());
+        });
+        setOnlineUsers(messages);
+        setNavigationHeader(messages.length);
+      });
     firebase
       .database()
       .ref(`group_messages/${userContext?.currentGroup?.name}/messages`)
@@ -35,8 +64,21 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
         });
         setMessageList(messages);
       });
+
     return () => {
-      unsubscribe();
+      firebase
+        .database()
+        .ref(`group_messages/${userContext?.currentGroup?.name}/online_users`)
+        .orderByChild('name')
+        .equalTo(userContext?.currentUser.username)
+        .once('value', (snapshot) => {
+          //snapshot.ref.remove();
+          const jsonRef: any = snapshot.toJSON();
+          const refEntry = Object.keys(jsonRef)[0];
+          snapshot.ref.child(refEntry).remove();
+        });
+      unsubscribe(`group_messages/${userContext?.currentGroup?.name}/online_users`);
+      unsubscribe(`group_messages/${userContext?.currentGroup?.name}/messages`);
     };
   }, []);
 
@@ -69,10 +111,22 @@ const GroupRoom = ({ navigation }: StackScreenProps<GroupBottomTabParamList, 'Ro
     let prediction = await api.models().predict(obj.content);
     api.predictions().create(prediction, userContext?.currentGroup?.name);
   };
-  const setNavigationHeader = () => {
+  const setNavigationHeader = (num: number) => {
     navigation.setOptions({
-      headerTitle: (props) => (
-        <Text>{/*userContext?.currentGroup.name*/}Room Chat - X People Online</Text>
+      headerTitle: () => (
+        <Text style={tailwind('ml-16 text-center font-bold text-base')}>
+          {userContext?.currentGroup.name} Room Chat
+        </Text>
+      ),
+      headerRight: () => (
+        <FontAwesome5
+          name="users"
+          size={23}
+          style={tailwind('mr-5 self-center text-black')}
+          onPress={() => {
+            navigation.navigate('UserList');
+          }}
+        />
       ),
     });
   };
