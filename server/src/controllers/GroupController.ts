@@ -56,11 +56,26 @@ export class GroupController {
     let user = await userController.findById(userId);
     group.totalUsers += 1;
     group.users ? group.users.push(userId) : (group.users = [userId]);
+    group.region = user.country;
     await this.groupRepository.save(group);
     const createdGroup = await this.findByName(group.name);
     user.groups.push(createdGroup.id);
     await userController.add(user);
     return createdGroup;
+  }
+
+  @Post(`/banUser`)
+  async banUser(@BodyParam('userId') userId: number, @EntityFromBodyParam('group') group: Group) {
+    const userController = new UserController();
+    let user = await userController.findById(userId);
+    if (group.users[0] !== user.id) {
+      group.totalUsers -= 1;
+      group.users = group.users.filter((groupUserId) => userId !== groupUserId);
+      await this.groupRepository.save(group);
+      const createdGroup = await this.findByName(group.name);
+      user.groups = user.groups.filter((groupId) => groupId !== createdGroup.id);
+      await userController.add(user);
+    }
   }
 
   @Post(`/addUser`)

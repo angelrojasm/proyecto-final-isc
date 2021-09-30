@@ -1,14 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  PrimaryColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-} from 'typeorm';
-
-import { User } from './User';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity({ name: 'groups' })
 export class Group {
@@ -22,13 +12,22 @@ export class Group {
   description: string;
 
   @Column()
+  region: string;
+
+  @Column()
   totalUsers: number;
 
   @Column()
   creationDate: Date;
 
+  @Column()
+  isPrivate: boolean;
+
   @Column({ type: 'simple-array' })
   tags: string[];
+
+  @Column({ type: 'simple-array' })
+  bannedUsers: number[];
 
   @Column({ type: 'simple-array' })
   users: number[];
@@ -40,7 +39,10 @@ export class Group {
     totalUsers?: number,
     creationDate?: Date,
     users?: number[],
-    tags?: string[]
+    bannedUsers?: number[],
+    isPrivate?: boolean,
+    tags?: string[],
+    region?: string
   );
   constructor(
     name: string,
@@ -48,13 +50,19 @@ export class Group {
     totalUsers?: number,
     creationDate?: Date,
     users?: number[],
-    tags?: string[]
+    bannedUsers?: number[],
+    isPrivate?: boolean,
+    tags?: string[],
+    region?: string
   ) {
     this.name = name;
     this.description = description || '';
     this.totalUsers = totalUsers || 0;
     this.creationDate = creationDate || new Date();
     this.users = users || [];
+    this.bannedUsers = bannedUsers || [];
+    this.isPrivate = isPrivate || false;
     this.tags = tags || [];
+    this.region = region || '';
   }
 }

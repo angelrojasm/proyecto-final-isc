@@ -17,6 +17,9 @@ export class User {
   @Column()
   country: string;
 
+  @Column()
+  role: string;
+
   @Column({ type: 'simple-array' })
   afflictions: string[];
 
@@ -29,7 +32,8 @@ export class User {
     email?: string,
     country?: string,
     afflictions?: string[],
-    groups?: number[]
+    groups?: number[],
+    role?: string
   );
 
   constructor(
@@ -37,12 +41,14 @@ export class User {
     email?: string,
     country?: string,
     afflictions?: string[],
-    groups?: number[]
+    groups?: number[],
+    role?: string
   ) {
     this.username = username;
     this.email = email || '';
     this.country = country || '';
     this.afflictions = afflictions || [];
     this.groups = groups || [];
+    this.role = role || 'user';
   }
 }
