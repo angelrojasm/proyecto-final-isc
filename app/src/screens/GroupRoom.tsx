@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { GroupBottomTabParamList } from '../navigation/types.navigation';
 import { SessionContext } from '../context';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
@@ -130,6 +130,12 @@ const GroupRoom = () => {
       ),
     });
   };
+
+  messageList.length === 0 && (
+    <View style={{ height: '100%' }}>
+      <ActivityIndicator size="large" style={{ position: 'absolute', left: '50%', top: '50%' }} />;
+    </View>
+  );
   return (
     <View style={{ ...tailwind('flex flex-col-reverse bg-white'), height: '100%' }}>
       <View style={tailwind('flex flex-row ml-6 ')}>

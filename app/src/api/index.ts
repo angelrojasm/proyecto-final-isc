@@ -91,13 +91,22 @@ export default {
           return;
         }
       },
-      create: async (userId: number, name: string, description: string, tags: string[]) => {
+      create: async (
+        userId: number,
+        name: string,
+        description: string,
+        tags: string[],
+        isPrivate: boolean,
+        passcode: string
+      ) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
           userId,
           group: {
             name,
             description,
             tags,
+            isPrivate,
+            passcode,
           },
         });
         return response.data;

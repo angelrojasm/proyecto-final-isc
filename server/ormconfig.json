@@ -14,5 +14,8 @@
     "entitiesDir": "src/entities",
     "migrationsDir": "src/migration",
     "subscribersDir": "src/subscriber"
+  },
+  "extra": {
+    "charset": "utf8mb4_unicode_ci"
   }
 }

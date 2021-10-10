@@ -23,6 +23,9 @@ export class Group {
   @Column()
   isPrivate: boolean;
 
+  @Column()
+  passcode: string;
+
   @Column({ type: 'simple-array' })
   tags: string[];
 
@@ -42,7 +45,8 @@ export class Group {
     bannedUsers?: number[],
     isPrivate?: boolean,
     tags?: string[],
-    region?: string
+    region?: string,
+    passcode?: string
   );
   constructor(
     name: string,
@@ -53,7 +57,8 @@ export class Group {
     bannedUsers?: number[],
     isPrivate?: boolean,
     tags?: string[],
-    region?: string
+    region?: string,
+    passcode?: string
   ) {
     this.name = name;
     this.description = description || '';
@@ -64,5 +69,6 @@ export class Group {
     this.isPrivate = isPrivate || false;
     this.tags = tags || [];
     this.region = region || '';
+    this.passcode = passcode || '';
   }
 }

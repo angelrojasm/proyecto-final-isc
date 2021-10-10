@@ -26,7 +26,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
   const userContext = useContext(SessionContext);
 
   const handleLogin = async (): Promise<void> => {
-    let { uid }: { uid: string } = await logIn(email, password);
+    let { uid }: any = await logIn(email, password);
     if (uid) {
       try {
         await userContext?.logIn(uid);

@@ -73,7 +73,9 @@ const GroupSearch = () => {
       </View>
       {groups && (
         <ScrollView contentContainerStyle={tailwind('flex items-center')}>
-          <Text style={tailwind('text-xl mr-16 font-bold')}>Showing Results for: {searchTerm}</Text>
+          <Text style={tailwind('text-xl font-bold text-center')}>
+            Showing Results for: {searchTerm}
+          </Text>
           {groups?.map((group, idx) => {
             return <GroupCard key={idx} group={group} />;
           })}

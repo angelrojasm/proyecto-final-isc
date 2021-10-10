@@ -8,6 +8,8 @@ from sklearn.metrics import recall_score
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import csv
+import time
 # train Data
 
 
@@ -58,11 +60,18 @@ joblib.dump(vectorizer, '../server/prob_vectorizer.joblib')
 
 
 # plt.show()
+test_lines = []
+with open('../datasets/HEE.csv', mode='r') as infile:
+    reader = csv.reader(infile)
+    for row in reader:
+        test_lines.append(row[1])
 
+print(test_lines[0])
+print(f"\n {test_lines[1]}")
 
-while True:
-    review = input('Input your chat message: \n')
-    review_vector = vectorizer.transform([review])  # vectorizing
-    prob_matrix_string = classifier_linear.predict_proba(review_vector)[0]
-    probabilities = prob_matrix_string.split(" ", 1)
-    print(f"ADHD: {format(probabilities[0], '.8f')}\n Anxiety: {format(probabilities[1], '.8f')} \n Autism: {format(probabilities[2], '.8f')}\n Bipolar: {format(probabilities[3], '.8f')}\n Depression: {format(probabilities[4], '.8f')}\n Eating: {format(probabilities[5], '.8f')}\n None: {format(probabilities[6], '.8f')}")
+# while True:
+#     review = input('Input your chat message: \n')
+#     review_vector = vectorizer.transform([review])  # vectorizing
+#     prob_matrix_string = classifier_linear.predict_proba(review_vector)[0]
+#     probabilities = prob_matrix_string.split(" ", 1)
+#     print(f"ADHD: {format(probabilities[0], '.8f')}\n Anxiety: {format(probabilities[1], '.8f')} \n Autism: {format(probabilities[2], '.8f')}\n Bipolar: {format(probabilities[3], '.8f')}\n Depression: {format(probabilities[4], '.8f')}\n Eating: {format(probabilities[5], '.8f')}\n None: {format(probabilities[6], '.8f')}")

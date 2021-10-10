@@ -6,6 +6,7 @@ import { LogBox } from 'react-native';
 import useCachedResources from './src/hooks/useCachedResources';
 import { Provider } from './src/context/index';
 import Navigation from './src/navigation';
+import Toast from 'react-native-toast-message';
 
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 LogBox.ignoreLogs(['Setting a timer']);
@@ -20,6 +21,7 @@ export default function App() {
       <SafeAreaProvider>
         <Provider>
           <Navigation />
+          <Toast ref={(ref: any) => Toast.setRef(ref)} />
         </Provider>
         <StatusBar />
       </SafeAreaProvider>

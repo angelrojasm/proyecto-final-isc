@@ -7,6 +7,16 @@ import { SessionContext } from '../context';
 import tailwind from 'tailwind-rn';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+const regionCoordinates: any = {
+  NA: [42.41536, -102.4569],
+  EU: [49.71739, 21.29309],
+  ME: [34.00715, 54.33996],
+  AF: [7.87428, 20.2384],
+  AS: [37.84885, 96.70324],
+  SA: [-11.01667, -58.68737],
+  AU: [-21.29959, 132.56262],
+};
+
 const Dashboard = () => {
   const [initialState, setInitialState] = useState(true);
   const [recommended, setRecommended] = useState<any[]>([]);
@@ -40,8 +50,9 @@ const Dashboard = () => {
     const getData = async () => {
       const groups = await api.groups().getAll();
       const recommended: any[] = [];
+      const userRegion = userContext?.currentUser?.country;
       //get recommended groups
-      groups.forEach((group: { tags: any; users: any[] }) => {
+      groups.forEach((group: { tags: any; users: any[]; distance: number; region: string }) => {
         let afflictions = userContext?.currentUser?.afflictions;
         if (afflictions) {
           for (const affl of afflictions) {
@@ -49,13 +60,15 @@ const Dashboard = () => {
               group.tags.includes(affl) &&
               !group.users?.includes(userContext?.currentUser?.id.toString())
             ) {
+              if (group.distance) group.distance = getDistance(group.region, userRegion);
               recommended.push(group);
               break;
             }
           }
         }
       });
-      setRecommended(recommended);
+      const sorted = recommended.sort((a, b) => a.distance - b.distance);
+      setRecommended(sorted);
       //Get quote of the day
       setQod(await api.utils().getQuoteOfTheDay());
     };
@@ -68,6 +81,27 @@ const Dashboard = () => {
       setRefreshing(false);
     }
   }, [refreshing]);
+
+  const getDistance = (from: string, to: string) => {
+    const fromCoordinates = regionCoordinates[from];
+    const toCoordinates = regionCoordinates[to];
+    const [lat1, lon1] = fromCoordinates;
+    const [lat2, lon2] = toCoordinates;
+
+    const R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2 - lat1); // deg2rad below
+    let dLon = deg2rad(lon2 - lon1);
+    let a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c; // Distance in km
+    return d;
+
+    function deg2rad(deg: number) {
+      return deg * (Math.PI / 180);
+    }
+  };
 
   return qod.quote ? (
     <ScrollView

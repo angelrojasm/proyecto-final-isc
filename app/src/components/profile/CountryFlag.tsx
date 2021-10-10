@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Flag from 'react-native-flags-typescript';
 
-const CountryFlag = ({ region, style }: { region: string; style: any }) => {
+const CountryFlag = ({ region, style }: { region: string | undefined; style: any }) => {
   switch (region) {
     case 'NA':
       return <Flag style={style} code="US" size={24} />;
@@ -18,9 +18,9 @@ const CountryFlag = ({ region, style }: { region: string; style: any }) => {
       return <Flag style={style} code="CL" size={24} />;
     case 'AU':
       return <Flag style={style} code="AU" size={24} />;
+    default:
+      return null;
   }
-
-  return null;
 };
 
 export default CountryFlag;

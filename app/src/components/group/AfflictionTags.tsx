@@ -10,17 +10,14 @@ const tagColors: any = {
 
 const AfflictionTags = ({ afflictions }: { afflictions: string[] }) => {
   return (
-    <View style={tailwind('flex flex-row')}>
+    <View style={tailwind('flex flex-row mr-1')}>
+      <Text style={tailwind('text-sm font-bold')}>Relevant Topics: </Text>
       {afflictions.map((affl: string, idx: number) => {
         return (
-          <View
-            key={idx}
-            style={{
-              ...tailwind('rounded-2xl mx-1 flex items-center'),
-              backgroundColor: tagColors[affl],
-            }}>
-            <Text style={tailwind('font-bold text-white text-sm p-1 px-2')}>{affl}</Text>
-          </View>
+          <Text key={idx} style={tailwind('italic')}>
+            {affl}
+            {idx === afflictions.length - 1 ? '' : ', '}
+          </Text>
         );
       })}
     </View>

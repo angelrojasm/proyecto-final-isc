@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Text, ScrollView, View, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
@@ -15,6 +15,8 @@ const GroupCreate = () => {
   const [name, setName] = useState('');
   const [createError, setCreateError] = useState<boolean>(false);
   const [description, setDescription] = useState('');
+  const [passcode, setPassCode] = useState('');
+  const [type, setType] = useState('public');
   const [afflictions, setAfflictions] = useState<any>({});
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
@@ -25,6 +27,20 @@ const GroupCreate = () => {
     });
   };
 
+  useEffect(() => {
+    getPasscode();
+  }, []);
+
+  const getPasscode = () => {
+    let availableCharacters = '0123456789';
+    let passCode = '';
+    for (let i = 0; i < 7; i++) {
+      let digit = Math.floor(Math.random() * availableCharacters.length);
+      passCode += availableCharacters[digit];
+    }
+    setPassCode(passCode);
+    return passCode;
+  };
   const handleCreate = async () => {
     const duplicates = await api.groups().getByName(name);
     if (duplicates.length > 0) {
@@ -38,7 +54,14 @@ const GroupCreate = () => {
       if (afflictionArr.length > 0) {
         let { id } = await api
           .groups()
-          .create(userContext?.currentUser?.id, name, description, afflictionArr);
+          .create(
+            userContext?.currentUser?.id,
+            name,
+            description,
+            afflictionArr,
+            type === 'private',
+            passcode
+          );
         await userContext?.joinGroup(id);
         navigation.reset({
           index: 0,
@@ -49,10 +72,7 @@ const GroupCreate = () => {
   };
   return (
     <ScrollView>
-      <Text style={tailwind('text-blue-700 text-xl text-center font-bold mb-8')}>
-        Create a Group:
-      </Text>
-      <View style={tailwind('flex items-center')}>
+      <View style={tailwind('flex items-center mt-4')}>
         <Text style={tailwind('text-base')}>What is your group's name?</Text>
         <TextInput
           placeholder="Input your group name!"
@@ -77,7 +97,7 @@ const GroupCreate = () => {
             textAlignVertical: 'top',
           }}
         />
-        <Text style={tailwind('text-base mt-8 mb-3')}>
+        <Text style={tailwind('text-base mt-8 mb-3 text-center')}>
           Which of these topics will your group be discussing?
         </Text>
       </View>
@@ -94,6 +114,31 @@ const GroupCreate = () => {
           desc="Clinic and Chronic Depression"
           onChange={handleAfflictions}
         />
+      </View>
+      <View style={tailwind('flex items-center')}>
+        {/* Private/Public Section */}
+        <Text style={tailwind('text-base mt-8 mb-3 text-center')}>
+          Please choose the availability of your group!
+        </Text>
+        <View style={tailwind('border rounded-md border-gray-400 bg-white')}>
+          <Picker
+            style={tailwind('py-4 w-64')}
+            selectedValue={type}
+            onValueChange={(value) => setType(value)}>
+            <Picker.Item label="Public" value="public" />
+            <Picker.Item label="Private" value="private" />
+          </Picker>
+        </View>
+        {type === 'private' && (
+          <View style={tailwind('flex items-center')}>
+            <Text style={tailwind('text-base mt-8 mb-3 text-center')}>
+              This is your group's unique passcode:
+            </Text>
+            <Text selectable style={tailwind('rounded-lg bg-white p-6 font-bold text-2xl')}>
+              {passcode}
+            </Text>
+          </View>
+        )}
       </View>
       <View style={tailwind('flex items-center ')}>
         {createError && <Text style={tailwind('text-red-500')}>Group Name Already Exists</Text>}
