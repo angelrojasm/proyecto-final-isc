@@ -8,6 +8,7 @@ import { SessionContext } from '../../context';
 import api from '../../api';
 import Toast from 'react-native-toast-message';
 import CountryFlag from '../profile/CountryFlag';
+import { Entypo } from '@expo/vector-icons';
 
 type IGroupCardProps = {
   group: {
@@ -132,12 +133,13 @@ const GroupCard = ({ group }: IGroupCardProps) => {
           ) : group.isPrivate ? (
             <TouchableOpacity
               style={tailwind(
-                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
+                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-6 py-2 flex-row'
               )}
               onPress={() => {
                 setVisible(true);
               }}>
-              <Text style={tailwind('text-white font-bold')}>Join with Password</Text>
+              <Text style={tailwind('text-white font-bold')}>Join</Text>
+              <Entypo name="lock" size={20} style={tailwind('ml-2 text-white font-bold')} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity

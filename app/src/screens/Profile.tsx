@@ -88,7 +88,9 @@ const Profile = () => {
         <MaterialIcons
           name="edit"
           size={24}
-          style={tailwind('self-center p-2 border border-blue-400 text-blue-500 rounded-lg mr-8')}
+          style={tailwind(
+            'self-center p-2 border border-blue-400 text-blue-500 rounded-lg mr-8 mb-2'
+          )}
         />
       </View>
       {/* Group Section */}

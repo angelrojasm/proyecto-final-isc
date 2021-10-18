@@ -2,7 +2,16 @@ import { getRepository, Repository } from 'typeorm';
 import { File } from '../entities/File';
 import { Group } from '../entities/Group';
 import { User } from '../entities/User';
-import { Controller, Get, Post, Delete, Req } from 'routing-controllers';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Req,
+  BodyParam,
+  UploadedFile,
+  Param,
+} from 'routing-controllers';
 import { EntityFromParam, EntityFromBodyParam } from 'typeorm-routing-controllers-extensions';
 import * as s3 from '../aws/controller/s3';
 
@@ -15,23 +24,23 @@ export class FileController {
   }
 
   @Get(`/:id`)
-  getFiles(@EntityFromParam('id') group: Group) {
+  getFiles(@Param('id') group: number) {
     return this.fileRepository.find({ where: { uploadedIn: group } });
   }
 
   @Post(`/`)
   async save(
-    @EntityFromBodyParam('file') file: File,
-    @EntityFromBodyParam('groupId') group: Group,
-    @EntityFromBodyParam('userId') user: User,
-    @Req() request: any
+    @BodyParam('groupId') uploadedIn: number,
+    @BodyParam('userId') uploadedBy: number,
+    @UploadedFile('file') file: any
   ) {
-    file.uploadedBy = user.username;
-    file.uploadedIn = group.name;
-    let { files } = request;
-    console.log(files);
-    await s3.uploadFile(files.image);
-    return this.fileRepository.save(file);
+    const fileObject = new File(file.originalname, uploadedIn, new Date(), uploadedBy);
+    const response = await s3.uploadFile(file);
+    if (response === 'Ok') {
+      return this.fileRepository.save(fileObject);
+    } else {
+      return { error: response };
+    }
   }
 
   @Delete(`/:id`)

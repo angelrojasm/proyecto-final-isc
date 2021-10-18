@@ -1,6 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Group } from './Group';
-import { User } from './User';
 @Entity()
 export class File {
   @PrimaryGeneratedColumn()
@@ -10,20 +8,20 @@ export class File {
   filename: string;
 
   @Column()
-  uploadedIn: string;
+  uploadedIn: number;
 
   @Column()
-  uploadedBy: string;
+  uploadedBy: number;
 
   @Column()
   date: Date;
 
   constructor();
-  constructor(filename?: string, uploadedIn?: string, date?: Date, uploadedBy?: string);
-  constructor(filename?: string, uploadedIn?: string, date?: Date, uploadedBy?: string) {
+  constructor(filename?: string, uploadedIn?: number, date?: Date, uploadedBy?: number);
+  constructor(filename?: string, uploadedIn?: number, date?: Date, uploadedBy?: number) {
     this.filename = filename || '';
-    this.uploadedIn = uploadedIn || '';
+    this.uploadedIn = uploadedIn || 0;
     this.date = date || new Date();
-    this.uploadedBy = uploadedBy || '';
+    this.uploadedBy = uploadedBy || 0;
   }
 }

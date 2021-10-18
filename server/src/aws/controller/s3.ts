@@ -1,5 +1,4 @@
 import aws from 'aws-sdk';
-const s3Bucket = process.env.bucket;
 aws.config.update({
   region: process.env.region,
   accessKeyId: process.env.accessKeyId,
@@ -8,9 +7,10 @@ aws.config.update({
 
 const s3 = new aws.S3();
 
-export const uploadFile = (file) => {
+export const uploadFile = (file: any) => {
   return new Promise((resolve, reject) => {
-    let fileParts = file.name.split('.');
+    const s3Bucket = process.env.bucket;
+    let fileParts = file.originalname.split('.');
     let fileName = fileParts[0];
     let fileType = fileParts[1];
 
@@ -19,8 +19,9 @@ export const uploadFile = (file) => {
         Bucket: s3Bucket,
         Key: `${fileName}.${fileType}`,
         ACL: 'public-read',
-        Body: file.data,
-        Metadata: { type: fileType },
+        ContentType: file.mimetype,
+        Body: file.buffer,
+        Metadata: { type: file.mimetype },
       },
       function (err) {
         if (err) {
@@ -33,11 +34,11 @@ export const uploadFile = (file) => {
   });
 };
 export const getFile = (fileName, res) => {
-  const fileBase = fileName.split('.')[0];
+  const s3Bucket = process.env.bucket;
   s3.getObject(
     {
       Bucket: s3Bucket,
-      Key: `${fileBase}/${fileName}`,
+      Key: `${fileName}`,
     },
     (err, data) => {
       if (err) {

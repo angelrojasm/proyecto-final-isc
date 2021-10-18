@@ -11,14 +11,12 @@ export default function TabOneScreen() {
 
   const x = async () => {
     let x = counter + 1;
-    console.log(await addData({ count: x }));
     setCounter(x);
   };
 
   const getUsers = async () => {
     const users = await fetch('https://proyecto-final-isc-u4bkm.ondigitalocean.app/users');
     const data = await users.json();
-    console.log(data[0].email);
   };
   const y = () => {
     firebase

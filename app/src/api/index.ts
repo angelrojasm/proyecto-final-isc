@@ -182,24 +182,23 @@ export default {
   },
   files(route = '/files') {
     return {
-      // getById: async (id: number) => {
-      //     let response = await axios.get(`${BASE_PATH}${route}/${id}`);
-      //     return response.data;
-      //   },
-      //   create: async (userId: number, postId: number, content: string) => {
-      //     let response = await axios.post(`${BASE_PATH}${route}`, {
-      //       userId,
-      //       postId,
-      //       comment: {
-      //         content,
-      //       },
-      //     });
-      //     return response.data;
-      //   },
-      //   delete: async (id: number) => {
-      //     let response = await axios.delete(`${BASE_PATH}${route}/${id}`);
-      //     return response.data;
-      //   },
+      upload: async (groupId: number, userId: number, file: any) => {
+        const formData = new FormData();
+
+        formData.append('groupId', groupId.toString());
+        formData.append('userId', userId.toString());
+        formData.append('file', file);
+
+        let response = await axios.post(`${BASE_PATH}${route}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        return response.data;
+      },
+      getByGroup: async (groupId: number) => {
+        const response = await axios.get(`${BASE_PATH}${route}/${groupId}`);
+        return response.data;
+      },
     };
   },
   models() {

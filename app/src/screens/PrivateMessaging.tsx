@@ -11,6 +11,7 @@ const PrivateMessaging = () => {
   const userContext = useContext(SessionContext);
   const [conversations, setConversations] = useState<any[]>([]);
   const navigation = useNavigation();
+  const [convName, setConvName] = useState<string>('');
 
   useEffect(() => {
     let convs: any[] = [];
@@ -20,6 +21,7 @@ const PrivateMessaging = () => {
       .on('value', async (snapshot) => {
         snapshot.forEach((elem) => {
           if (elem.key?.includes(userContext?.currentUser?.username)) {
+            setConvName(elem.key);
             let endUser = elem.key
               .split('---')
               .filter((elem) => elem !== userContext?.currentUser?.username)[0];
@@ -35,7 +37,7 @@ const PrivateMessaging = () => {
       });
 
     return () => {
-      //unsubscribe(`group_messages/${userContext?.currentGroup?.name}/online_users`);
+      unsubscribe(`private_messages`);
     };
   }, []);
 
@@ -49,7 +51,7 @@ const PrivateMessaging = () => {
           underlayColor="#eee"
           onPress={() =>
             navigation.navigate('MessageChat', {
-              convName: `${userContext?.currentUser?.username}---${conversation.endUser}`,
+              convName,
             })
           }>
           <View style={tailwind('w-11/12 flex flex-row justify-between')}>
