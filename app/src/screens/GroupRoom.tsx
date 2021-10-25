@@ -21,7 +21,7 @@ type Message = {
 
 const GroupRoom = () => {
   const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
-  const [messageList, setMessageList] = useState<Message[]>([]);
+  const [messageList, setMessageList] = useState<Message[] | null>(null);
   const [message, setMessage] = useState<string>('');
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
@@ -131,11 +131,14 @@ const GroupRoom = () => {
     });
   };
 
-  messageList.length === 0 && (
-    <View style={{ height: '100%' }}>
-      <ActivityIndicator size="large" style={{ position: 'absolute', left: '50%', top: '50%' }} />;
-    </View>
-  );
+  if (!messageList) {
+    return (
+      <View style={{ height: '100%' }}>
+        <ActivityIndicator size="large" color="#0000ff" style={tailwind('p-8')} />
+      </View>
+    );
+  }
+
   return (
     <View style={{ ...tailwind('flex flex-col-reverse bg-white'), height: '100%' }}>
       <View style={tailwind('flex flex-row ml-6 ')}>

@@ -1,15 +1,23 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { Text, ScrollView, TouchableOpacity, RefreshControl, View } from 'react-native';
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+import Modal from 'react-native-modal';
 import api from '../api';
 import { SessionContext } from '../context';
 import { FeedPost } from '../components';
-import tailwind from 'tailwind-rn';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { Buffer } from 'buffer';
 import FilePost from '../components/file/FilePost';
+import tailwind from 'tailwind-rn';
 
 const optionTextStyle = {
   ...tailwind('font-medium text-base py-4 ml-6 '),
@@ -20,17 +28,21 @@ const selectedTextStyle = {
 
 const GroupFeed = () => {
   const navigation = useNavigation();
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<any[] | null>(null);
   const [files, setFiles] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [initialState, setInitialState] = useState(true);
   const userContext = useContext(SessionContext);
   const [refreshing, setRefreshing] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState('posts');
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
+
+  const hideModal = () => setVisible(false);
+
   const getFiles = async () => {
     const files = await api.files().getByGroup(userContext?.currentGroup?.id);
     setFiles(files);
@@ -64,7 +76,7 @@ const GroupFeed = () => {
 
   const uploadFile = async () => {
     const local: any = await DocumentPicker.getDocumentAsync();
-
+    setVisible(true);
     const base64 = await FileSystem.readAsStringAsync(local.uri, {
       encoding: FileSystem.EncodingType.Base64,
     });
@@ -79,8 +91,9 @@ const GroupFeed = () => {
       .files()
       .upload(userContext?.currentGroup?.id, userContext?.currentUser?.id, file);
     if (!response.error) {
-      getFiles();
+      await getFiles();
     }
+    hideModal();
   };
 
   const setNavigationHeader = () => {
@@ -122,7 +135,7 @@ const GroupFeed = () => {
           style={tailwind('rounded-full p-1 bg-blue-400 text-white ')}
         />
       </TouchableOpacity>
-      {posts.length > 0 && (
+      {posts.length > 0 ? (
         <ScrollView
           contentContainerStyle={tailwind('flex items-center')}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
@@ -130,27 +143,57 @@ const GroupFeed = () => {
             return <FeedPost key={idx} post={post} refreshPosts={refreshPosts} />;
           })}
         </ScrollView>
+      ) : (
+        <Text style={tailwind('text-center mt-3 text-base')}>
+          This group has no posts yet. Create a post!
+        </Text>
       )}
     </>
   );
 
   const FileSection = () => (
-    <ScrollView
-      contentContainerStyle={tailwind('')}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      {files.map((file, idx) => (
-        <FilePost
-          key={idx}
-          name={file.filename}
-          date={file.date}
-          poster={users.filter((user) => user.id === file.uploadedBy)[0].username}
-        />
-      ))}
-    </ScrollView>
+    <>
+      {files.length > 0 ? (
+        <ScrollView
+          contentContainerStyle={tailwind('')}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          {files.map((file, idx) => (
+            <FilePost
+              key={idx}
+              name={file.filename}
+              date={file.date}
+              poster={users.filter((user) => user.id === file.uploadedBy)[0].username}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        <Text style={tailwind('text-center mt-3 text-base')}>
+          This group has no files yet. Be the first one to upload a file!
+        </Text>
+      )}
+    </>
   );
 
+  if (!posts) {
+    return (
+      <View style={{ height: '100%' }}>
+        <ActivityIndicator size="large" color="#0000ff" style={tailwind('p-8')} />
+      </View>
+    );
+  }
   return (
     <>
+      <Modal
+        isVisible={visible}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        onBackdropPress={hideModal}
+        onBackButtonPress={hideModal}>
+        <View style={tailwind('rounded-lg bg-white border border-gray-400 flex items-center')}>
+          <Text style={tailwind('font-bold text-lg mt-4')}>Uploading ...</Text>
+          <ActivityIndicator size="large" color="#0000ff" style={tailwind('p-8')} />
+        </View>
+      </Modal>
       <View style={tailwind('bg-gray-200 flex flex-row items-center justify-between')}>
         <View style={tailwind('flex flex-row')}>
           <Text

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = 'https://4aee-186-7-62-9.ngrok.io';
+const BASE_PATH = 'https://epr.codes';
 export default {
   users(route = '/users') {
     return {
