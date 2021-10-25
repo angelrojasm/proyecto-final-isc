@@ -119,6 +119,14 @@ const GroupFeed = () => {
     });
   };
 
+  if (!posts) {
+    return (
+      <View style={{ height: '100%' }}>
+        <ActivityIndicator size="large" color="#0000ff" style={tailwind('p-8')} />
+      </View>
+    );
+  }
+
   const Feed = () => (
     <>
       <TouchableOpacity
@@ -174,13 +182,6 @@ const GroupFeed = () => {
     </>
   );
 
-  if (!posts) {
-    return (
-      <View style={{ height: '100%' }}>
-        <ActivityIndicator size="large" color="#0000ff" style={tailwind('p-8')} />
-      </View>
-    );
-  }
   return (
     <>
       <Modal
