@@ -11,11 +11,13 @@ import {
   BodyParam,
   UploadedFile,
   Param,
+  Body,
+  JsonController,
 } from 'routing-controllers';
 import { EntityFromParam, EntityFromBodyParam } from 'typeorm-routing-controllers-extensions';
 import * as s3 from '../aws/controller/s3';
 
-@Controller('/files')
+@JsonController('/files')
 export class FileController {
   private fileRepository: Repository<File>;
 
@@ -32,9 +34,12 @@ export class FileController {
   async save(
     @BodyParam('groupId') uploadedIn: number,
     @BodyParam('userId') uploadedBy: number,
-    @UploadedFile('file') file: any
+    @Body({ options: { limit: '50mb' } }) body: any
   ) {
-    const fileObject = new File(file.originalname, uploadedIn, new Date(), uploadedBy);
+    const { file } = body;
+    file.buffer.data = Buffer.from(file.buffer.data);
+
+    const fileObject = new File(file.name, uploadedIn, new Date(), uploadedBy);
     const response = await s3.uploadFile(file);
     if (response === 'Ok') {
       return this.fileRepository.save(fileObject);

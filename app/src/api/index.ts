@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = 'https://epr.codes';
+const BASE_PATH = 'https://4aee-186-7-62-9.ngrok.io';
 export default {
   users(route = '/users') {
     return {
@@ -183,16 +183,11 @@ export default {
   files(route = '/files') {
     return {
       upload: async (groupId: number, userId: number, file: any) => {
-        const formData = new FormData();
-
-        formData.append('groupId', groupId.toString());
-        formData.append('userId', userId.toString());
-        formData.append('file', file);
-
-        let response = await axios.post(`${BASE_PATH}${route}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        let response = await axios.post(`${BASE_PATH}${route}`, {
+          userId,
+          groupId,
+          file,
         });
-
         return response.data;
       },
       getByGroup: async (groupId: number) => {

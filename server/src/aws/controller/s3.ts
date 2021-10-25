@@ -10,7 +10,7 @@ const s3 = new aws.S3();
 export const uploadFile = (file: any) => {
   return new Promise((resolve, reject) => {
     const s3Bucket = process.env.bucket;
-    let fileParts = file.originalname.split('.');
+    let fileParts = file.name.split('.');
     let fileName = fileParts[0];
     let fileType = fileParts[1];
 
@@ -19,9 +19,9 @@ export const uploadFile = (file: any) => {
         Bucket: s3Bucket,
         Key: `${fileName}.${fileType}`,
         ACL: 'public-read',
-        ContentType: file.mimetype,
-        Body: file.buffer,
-        Metadata: { type: file.mimetype },
+        ContentType: fileType,
+        Body: file.buffer.data,
+        Metadata: { type: fileType },
       },
       function (err) {
         if (err) {

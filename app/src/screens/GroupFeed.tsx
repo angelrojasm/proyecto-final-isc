@@ -9,6 +9,7 @@ import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { Buffer } from 'buffer';
+import FilePost from '../components/file/FilePost';
 
 const optionTextStyle = {
   ...tailwind('font-medium text-base py-4 ml-6 '),
@@ -21,6 +22,7 @@ const GroupFeed = () => {
   const navigation = useNavigation();
   const [posts, setPosts] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [initialState, setInitialState] = useState(true);
   const userContext = useContext(SessionContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -29,25 +31,29 @@ const GroupFeed = () => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
-
   const getFiles = async () => {
     const files = await api.files().getByGroup(userContext?.currentGroup?.id);
     setFiles(files);
+  };
+  const getUsers = async () => {
+    const users = await api.users().getAll();
+    setUsers(users);
   };
   useEffect(() => {
     const getPosts = async () => {
       const posts = await api.posts().getById(userContext?.currentGroup?.id);
       setPosts(posts);
     };
+    getUsers();
     setNavigationHeader();
     if (initialState) {
       getPosts();
-      //getFiles()
+      getFiles();
       setInitialState(false);
     }
     if (refreshing) {
       getPosts();
-      //getFiles()
+      getFiles();
       setRefreshing(false);
     }
   }, [refreshing]);
@@ -63,7 +69,7 @@ const GroupFeed = () => {
       encoding: FileSystem.EncodingType.Base64,
     });
 
-    const buffer = Buffer.from(base64, 'base64');
+    const buffer: any = Buffer.from(base64, 'base64');
 
     const file = {
       name: local.name,
@@ -73,7 +79,7 @@ const GroupFeed = () => {
       .files()
       .upload(userContext?.currentGroup?.id, userContext?.currentUser?.id, file);
     if (!response.error) {
-      //getFiles();
+      getFiles();
     }
   };
 
@@ -128,7 +134,20 @@ const GroupFeed = () => {
     </>
   );
 
-  const FileSection = () => <></>;
+  const FileSection = () => (
+    <ScrollView
+      contentContainerStyle={tailwind('')}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      {files.map((file, idx) => (
+        <FilePost
+          key={idx}
+          name={file.filename}
+          date={file.date}
+          poster={users.filter((user) => user.id === file.uploadedBy)[0].username}
+        />
+      ))}
+    </ScrollView>
+  );
 
   return (
     <>
@@ -166,7 +185,7 @@ const GroupFeed = () => {
           </TouchableOpacity>
         )}
       </View>
-      {selected === 'posts' && <Feed />}
+      {selected === 'posts' ? <Feed /> : <FileSection />}
     </>
   );
 };

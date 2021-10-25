@@ -12,8 +12,6 @@ export const Provider = ({ children }: any) => {
       let user = await api.users().getById(userUID);
       if (user) {
         setCurrentUser(user);
-      } else {
-        console.log('user not found');
       }
     } catch (err) {
       setCurrentUser(null);
