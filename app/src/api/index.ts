@@ -213,11 +213,21 @@ export default {
   },
   predictions(route = '/predictions') {
     return {
-      create: async (label: string, group: string) => {
+      create: async (type: string, entityId: number, values: number[]) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
-          label,
-          group,
+          type,
+          entityId,
+          values,
         });
+        return response.data;
+      },
+    };
+  },
+
+  recommendations(route = '/recommendations') {
+    return {
+      getUserRecommendations: async (userId: number) => {
+        let response = await axios.get(`${BASE_PATH}${route}/${userId}`);
         return response.data;
       },
     };

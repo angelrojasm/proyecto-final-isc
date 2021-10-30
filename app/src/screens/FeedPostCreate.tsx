@@ -11,8 +11,12 @@ const FeedPostCreate = ({ route }: any) => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
   const { refreshPosts } = route.params;
+
   const addPost = async () => {
     await api.posts().create(userContext?.currentUser?.id, userContext?.currentGroup?.id, message);
+    let prediction = await api.models().predict(message);
+    api.predictions().create('group', userContext?.currentGroup?.id, prediction);
+    api.predictions().create('user', userContext?.currentUser?.id, prediction);
     await refreshPosts();
     navigation.goBack();
   };

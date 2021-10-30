@@ -14,7 +14,9 @@ export class GroupController {
   public async findById(id: number) {
     return await this.groupRepository.findOne(id);
   }
-
+  public async find() {
+    return await this.groupRepository.find();
+  }
   public async findByName(name: string) {
     return await this.groupRepository.findOne({ where: { name: name } });
   }

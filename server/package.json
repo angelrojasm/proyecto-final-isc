@@ -26,6 +26,7 @@
   "dependencies": {
     "aws-sdk": "^2.935.0",
     "body-parser": "^1.18.1",
+    "calculate-correlation": "^1.2.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "express": "^4.15.4",

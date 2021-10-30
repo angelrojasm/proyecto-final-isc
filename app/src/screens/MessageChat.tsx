@@ -72,9 +72,6 @@ const MessageChat = ({ route }: any) => {
         addData(`private_messages/${convName}/messages`, obj);
         setMessage('');
       });
-
-    // let prediction = await api.models().predict(obj.content);
-    // api.predictions().create(prediction, userContext?.currentGroup?.name);
   };
 
   return (
