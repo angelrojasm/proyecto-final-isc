@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = 'https://epr.codes';
+const BASE_PATH = 'https://cddb-186-7-62-9.ngrok.io';
 export default {
   users(route = '/users') {
     return {

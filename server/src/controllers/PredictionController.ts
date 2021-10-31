@@ -23,18 +23,25 @@ export class PredictionController {
       where: { type: prediction.type, entityId: prediction.entityId },
     });
     //return predictions;
-    if (predictions.length >= 1) {
+    if (predictions.length >= 2) {
       const values: number[] = [0, 0, 0, 0, 0, 0, 0];
       predictions.forEach((prediction) => {
         prediction.values.forEach((val, idx) => {
-          values[idx] += val;
+          values[idx] += Number(val);
         });
       });
       for (let i = 0; i < values.length; i++) {
-        values[i] = values[i] / values.length;
+        values[i] = values[i] / predictions.length;
       }
-      const distribution = new Distribution(prediction.entityId, prediction.type, values);
       const distributionRepository = getRepository(Distribution);
+      let distribution = await distributionRepository.findOne({
+        where: { entityId: prediction.entityId, type: prediction.type },
+      });
+      if (!distribution) {
+        distribution = new Distribution(prediction.entityId, prediction.type, values);
+      } else {
+        distribution.values = values;
+      }
       await this.predictionRepository.delete({
         type: prediction.type,
         entityId: prediction.entityId,
@@ -45,20 +52,36 @@ export class PredictionController {
 
         const user = await userController.findById(prediction.entityId);
         const groups = await distributionRepository.find({ where: { type: 'group' } });
-
+        user.groups = user.groups.map(Number);
         const vacantGroups = groups.filter((elem) => !user.groups.includes(elem.entityId));
+        const correlations = [];
+        if (vacantGroups && vacantGroups.length > 0) {
+          const recommendedGroups = vacantGroups.filter((group) => {
+            group.values = group.values.map(Number);
+            distribution.values = distribution.values.map(Number);
+            const corr = calculateCorrelation(distribution.values, group.values);
+            if (corr >= 0.55) {
+              correlations.push(corr);
+              return true;
+            }
+          });
 
-        const recommendedGroups = vacantGroups.filter(
-          (group) => calculateCorrelation(distribution.values, group.values) >= 0.55
-        );
-
-        const groupIds = [];
-        recommendedGroups.forEach((group) => {
-          groupIds.push(group.entityId);
-        });
-        const recommendation = new Recommendations(user.id, groupIds);
-        const recommendationRepository = getRepository(Recommendations);
-        await recommendationRepository.save(recommendation);
+          const groupIds = [];
+          recommendedGroups.forEach((group) => {
+            groupIds.push(group.entityId);
+          });
+          const recommendationRepository = getRepository(Recommendations);
+          let recommendations = await recommendationRepository.findOne({
+            where: { userId: user.id },
+          });
+          if (!recommendations) {
+            recommendations = new Recommendations(user.id, groupIds, correlations);
+          } else {
+            recommendations.groups = groupIds;
+            recommendations.correlations = correlations;
+          }
+          await recommendationRepository.save(recommendations);
+        }
       }
       return distributionRepository.save(distribution);
     }

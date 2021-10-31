@@ -109,8 +109,8 @@ const GroupRoom = () => {
       });
 
     let prediction = await api.models().predict(obj.content);
-    api.predictions().create('group', userContext?.currentGroup?.id, prediction);
-    api.predictions().create('user', userContext?.currentUser?.id, prediction);
+    await api.predictions().create('group', userContext?.currentGroup?.id, prediction);
+    await api.predictions().create('user', userContext?.currentUser?.id, prediction);
   };
   const setNavigationHeader = (num: number) => {
     navigation.setOptions({
