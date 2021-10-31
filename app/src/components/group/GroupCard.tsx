@@ -20,6 +20,7 @@ type IGroupCardProps = {
     isPrivate?: boolean;
     passcode?: string;
     region?: string;
+    match?: number;
   };
 };
 
@@ -157,6 +158,18 @@ const GroupCard = ({ group }: IGroupCardProps) => {
           {group.description}
         </Text>
       </View>
+      {group.match && (
+        <View style={tailwind('flex flex-row justify-end mr-2')}>
+          <Text style={tailwind('font-bold')}>Match Rate:</Text>
+          <Text>
+            {' '}
+            {(group.match * 100)
+              .toString()
+              .slice(0, (group.match * 100).toString().indexOf('.') + 2)}
+            %
+          </Text>
+        </View>
+      )}
       <View style={tailwind('flex flex-row justify-end my-2')}>
         <AfflictionTags afflictions={group.tags} />
       </View>

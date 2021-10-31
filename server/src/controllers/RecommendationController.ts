@@ -12,6 +12,6 @@ export class RecommendationController {
 
   @Get(`/:id`)
   async save(@Param('id') userId: number) {
-    return this.RecommendationRepository.find({ where: { userId: userId } });
+    return this.RecommendationRepository.findOne({ where: { userId: userId } });
   }
 }

@@ -51,24 +51,38 @@ const Dashboard = () => {
       const groups = await api.groups().getAll();
       const recommended: any[] = [];
       const userRegion = userContext?.currentUser?.country;
-      //get recommended groups
-      groups.forEach((group: { tags: any; users: any[]; distance: number; region: string }) => {
-        let afflictions = userContext?.currentUser?.afflictions;
-        if (afflictions) {
-          for (const affl of afflictions) {
-            if (
-              group.tags.includes(affl) &&
-              !group.users?.includes(userContext?.currentUser?.id.toString())
-            ) {
-              if (group.distance) group.distance = getDistance(group.region, userRegion);
-              recommended.push(group);
-              break;
+      //get recommended groups for New User with no groups
+      if (userContext?.currentUser?.groups.length === 0) {
+        groups.forEach((group: { tags: any; users: any[]; distance: number; region: string }) => {
+          let afflictions = userContext?.currentUser?.afflictions;
+          if (afflictions) {
+            for (const affl of afflictions) {
+              if (
+                group.tags.includes(affl) &&
+                !group.users?.includes(userContext?.currentUser?.id.toString())
+              ) {
+                if (group.distance) group.distance = getDistance(group.region, userRegion);
+                recommended.push(group);
+                break;
+              }
             }
           }
+        });
+        const sorted = recommended.sort((a, b) => a.distance - b.distance);
+        setRecommended(sorted);
+      } else {
+        //Get recommended based on existing correlations
+        const response = await api
+          .recommendations()
+          .getUserRecommendations(userContext?.currentUser?.id);
+        const recommended = [];
+        for (let i = 0; i < response.groups.length; i++) {
+          const groupInfo = await api.groups().getById(Number(response.groups[i]));
+          groupInfo.match = Number(response.correlations[i]);
+          recommended.push(groupInfo);
         }
-      });
-      const sorted = recommended.sort((a, b) => a.distance - b.distance);
-      setRecommended(sorted);
+        setRecommended(recommended);
+      }
       //Get quote of the day
       setQod(await api.utils().getQuoteOfTheDay());
     };
@@ -122,7 +136,9 @@ const Dashboard = () => {
       {recommended.length > 0 && (
         <View style={tailwind('my-2')}>
           <Text style={tailwind('text-center mb-2 font-medium text-base')}>
-            Here are some groups we think you might like:
+            {userContext?.currentUser?.groups.length === 0
+              ? 'You are not in any groups yet! Here are some groups you might like:'
+              : 'Here are some groups we think you might like:'}
           </Text>
           <View style={tailwind('flex items-center ')}>
             {recommended.map((group, idx) => {
