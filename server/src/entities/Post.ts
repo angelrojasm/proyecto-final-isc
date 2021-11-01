@@ -7,7 +7,7 @@ export class Post {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 3000 })
   content: string;
 
   @Column()
