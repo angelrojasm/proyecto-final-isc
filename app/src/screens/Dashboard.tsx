@@ -72,16 +72,22 @@ const Dashboard = () => {
         setRecommended(sorted);
       } else {
         //Get recommended based on existing correlations
-        const response = await api
-          .recommendations()
-          .getUserRecommendations(userContext?.currentUser?.id);
-        const recommended = [];
-        for (let i = 0; i < response.groups.length; i++) {
-          const groupInfo = await api.groups().getById(Number(response.groups[i]));
-          groupInfo.match = Number(response.correlations[i]);
-          recommended.push(groupInfo);
-        }
-        setRecommended(recommended);
+        const userGroups: any[] = [];
+        userContext?.currentUser?.groups.forEach((group: any) => userGroups.push(group.id));
+        try {
+          const response = await api
+            .recommendations()
+            .getUserRecommendations(userContext?.currentUser?.id);
+          const recommended = [];
+          for (let i = 0; i < response.groups.length; i++) {
+            if (!userGroups.includes(Number(response.groups[i]))) {
+              const groupInfo = await api.groups().getById(Number(response.groups[i]));
+              groupInfo.match = Number(response.correlations[i]);
+              recommended.push(groupInfo);
+            }
+          }
+          setRecommended(recommended);
+        } catch (err) {}
       }
       //Get quote of the day
       setQod(await api.utils().getQuoteOfTheDay());
