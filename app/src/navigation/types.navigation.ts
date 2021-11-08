@@ -60,4 +60,5 @@ export type FeedParamList = {
   PostCreate: undefined;
   UserList: undefined;
   MessageChat: undefined;
+  GroupInfoEdit: undefined;
 };

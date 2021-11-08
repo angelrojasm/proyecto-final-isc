@@ -52,6 +52,13 @@ export default {
         });
         return response.data;
       },
+      updateUser: async (userId: number, attributes: any) => {
+        let response = await axios.patch(`${BASE_PATH}${route}/update`, {
+          userId,
+          attributes,
+        });
+        return response.data;
+      },
     };
   },
   groups(route = '/groups') {
@@ -127,6 +134,13 @@ export default {
         let response = await axios.post(`${BASE_PATH}${route}/removeUser`, {
           userId,
           group,
+        });
+        return response.data;
+      },
+      updateGroup: async (groupId: number, attributes: any) => {
+        let response = await axios.patch(`${BASE_PATH}${route}`, {
+          groupId,
+          attributes,
         });
         return response.data;
       },

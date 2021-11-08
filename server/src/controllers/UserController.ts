@@ -83,4 +83,8 @@ export class UserController {
     user.afflictions = afflictions;
     return this.userRepository.save(user);
   }
+  @Patch('/update')
+  async update(@BodyParam('userId') userId: number, @BodyParam('attributes') attrs: any) {
+    return this.userRepository.save({ id: userId, ...attrs });
+  }
 }

@@ -48,8 +48,6 @@ const PrivateMessaging = () => {
   return (
     <View style={{ ...tailwind('bg-white flex items-center'), height: '100%' }}>
       {conversations.map((conversation: any, idx: number) => {
-        console.log(conversations.length);
-        console.log(conversation, idx);
         return (
           <TouchableHighlight
             key={idx}

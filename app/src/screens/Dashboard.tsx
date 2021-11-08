@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import { GroupCard } from '../components';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import api from '../api';
 import { SessionContext } from '../context';
 import tailwind from 'tailwind-rn';
@@ -24,10 +24,65 @@ const Dashboard = () => {
   const [refreshing, setRefreshing] = useState(false);
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [refKey, setRefKey] = useState<number>(1);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
+
+  const getData = async () => {
+    const groups = await api.groups().getAll();
+    const recommended: any[] = [];
+    const userRegion = userContext?.currentUser?.country;
+    //get recommended groups for New User with no groups
+    if (userContext?.currentUser?.groups.length === 0) {
+      groups.forEach((group: { tags: any; users: any[]; distance: number; region: string }) => {
+        let afflictions = userContext?.currentUser?.afflictions;
+        if (afflictions) {
+          for (const affl of afflictions) {
+            if (
+              group.tags.includes(affl) &&
+              !group.users?.includes(userContext?.currentUser?.id.toString())
+            ) {
+              if (group.distance) group.distance = getDistance(group.region, userRegion);
+              recommended.push(group);
+              break;
+            }
+          }
+        }
+      });
+      const sorted = recommended.sort((a, b) => a.distance - b.distance);
+      setRecommended(sorted);
+    } else {
+      //Get recommended based on existing correlations
+      const userGroups: any[] = [];
+      userContext?.currentUser?.groups.forEach((group: any) => userGroups.push(group.id));
+      try {
+        const response = await api
+          .recommendations()
+          .getUserRecommendations(userContext?.currentUser?.id);
+        const recommended = [];
+        for (let i = 0; i < response.groups.length; i++) {
+          if (!userGroups.includes(Number(response.groups[i]))) {
+            const groupInfo = await api.groups().getById(Number(response.groups[i]));
+            groupInfo.match = Number(response.correlations[i]);
+            recommended.push(groupInfo);
+          }
+        }
+        setRecommended(recommended);
+      } catch (err) {}
+    }
+    //Get quote of the day
+    setQod(await api.utils().getQuoteOfTheDay());
+    setRefKey(Math.random());
+  };
+
+  useEffect(() => {
+    if (isFocused && !initialState) {
+      getData();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -47,51 +102,6 @@ const Dashboard = () => {
         />
       ),
     });
-    const getData = async () => {
-      const groups = await api.groups().getAll();
-      const recommended: any[] = [];
-      const userRegion = userContext?.currentUser?.country;
-      //get recommended groups for New User with no groups
-      if (userContext?.currentUser?.groups.length === 0) {
-        groups.forEach((group: { tags: any; users: any[]; distance: number; region: string }) => {
-          let afflictions = userContext?.currentUser?.afflictions;
-          if (afflictions) {
-            for (const affl of afflictions) {
-              if (
-                group.tags.includes(affl) &&
-                !group.users?.includes(userContext?.currentUser?.id.toString())
-              ) {
-                if (group.distance) group.distance = getDistance(group.region, userRegion);
-                recommended.push(group);
-                break;
-              }
-            }
-          }
-        });
-        const sorted = recommended.sort((a, b) => a.distance - b.distance);
-        setRecommended(sorted);
-      } else {
-        //Get recommended based on existing correlations
-        const userGroups: any[] = [];
-        userContext?.currentUser?.groups.forEach((group: any) => userGroups.push(group.id));
-        try {
-          const response = await api
-            .recommendations()
-            .getUserRecommendations(userContext?.currentUser?.id);
-          const recommended = [];
-          for (let i = 0; i < response.groups.length; i++) {
-            if (!userGroups.includes(Number(response.groups[i]))) {
-              const groupInfo = await api.groups().getById(Number(response.groups[i]));
-              groupInfo.match = Number(response.correlations[i]);
-              recommended.push(groupInfo);
-            }
-          }
-          setRecommended(recommended);
-        } catch (err) {}
-      }
-      //Get quote of the day
-      setQod(await api.utils().getQuoteOfTheDay());
-    };
     if (initialState) {
       getData();
       setInitialState(false);
@@ -149,7 +159,7 @@ const Dashboard = () => {
           <View style={tailwind('flex items-center ')}>
             {recommended.map((group, idx) => {
               if (idx < 2) {
-                return <GroupCard key={idx} group={group} />;
+                return <GroupCard refKey={refKey} key={idx} group={group} />;
               }
               return null;
             })}

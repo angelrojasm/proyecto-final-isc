@@ -9,6 +9,7 @@ import api from '../../api';
 import Toast from 'react-native-toast-message';
 import CountryFlag from '../profile/CountryFlag';
 import { Entypo } from '@expo/vector-icons';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 type IGroupCardProps = {
   group: {
@@ -22,9 +23,10 @@ type IGroupCardProps = {
     region?: string;
     match?: number;
   };
+  refKey: number;
 };
 
-const GroupCard = ({ group }: IGroupCardProps) => {
+const GroupCard = ({ group, refKey }: IGroupCardProps) => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
@@ -72,6 +74,7 @@ const GroupCard = ({ group }: IGroupCardProps) => {
 
   return (
     <View
+      key={refKey}
       style={{
         ...tailwind('bg-white rounded flex w-11/12 my-2'),
         shadowColor: '#000',
@@ -160,14 +163,24 @@ const GroupCard = ({ group }: IGroupCardProps) => {
       </View>
       {group.match && (
         <View style={tailwind('flex flex-row justify-end mr-2')}>
-          <Text style={tailwind('font-bold')}>Match Rate:</Text>
-          <Text>
-            {' '}
-            {(group.match * 100)
-              .toString()
-              .slice(0, (group.match * 100).toString().indexOf('.') + 2)}
-            %
-          </Text>
+          <CircularProgress
+            value={Math.floor(group.match * 100)}
+            initialValue={0}
+            radius={40}
+            duration={1500}
+            textColor={'darkgrey'}
+            activeStrokeColor={Math.floor(group.match * 100) <= 70 ? 'yellow' : '#2ecc71'}
+            inActiveStrokeColor={'#ccc'}
+            maxValue={100}
+            title={'Match'}
+            titleColor={'darkgrey'}
+            titleStyle={{ fontWeight: 'bold' }}
+            titleFontSize={undefined}
+            circleBackgroundColor={undefined}
+            valueSuffix={'%'}
+            activeStrokeWidth={8}
+            inActiveStrokeWidth={8}
+          />
         </View>
       )}
       <View style={tailwind('flex flex-row justify-end my-2')}>

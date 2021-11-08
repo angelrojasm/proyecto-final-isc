@@ -6,7 +6,7 @@ import { SessionContext } from '../context';
 import { GroupEntry } from '../components';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import CountryFlag from '../components/profile/CountryFlag';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const regionNames: any = {
@@ -23,22 +23,30 @@ const Profile = () => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
+  const isFocused = useIsFocused();
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
 
-  useEffect(() => {
-    const refreshUser = async () => {
-      const uid: any = await AsyncStorage.getItem('uid');
-      userContext?.logIn(uid);
-    };
+  const refreshUser = async () => {
+    const uid: any = await AsyncStorage.getItem('uid');
+    userContext?.logIn(uid);
+  };
 
+  useEffect(() => {
+    if (isFocused) {
+      refreshUser();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
     if (refreshing) {
       refreshUser();
       setRefreshing(false);
     }
   }, [refreshing]);
+
   const handleLogout = async () => {
     await logOut();
     userContext?.logOut();

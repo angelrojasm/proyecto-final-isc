@@ -116,6 +116,16 @@ const GroupFeed = () => {
           }}
         />
       ),
+      headerRight: () => (
+        <Ionicons
+          name="information-circle-outline"
+          size={23}
+          style={tailwind('mr-5 self-center text-black')}
+          onPress={() => {
+            navigation.navigate('GroupInfoEdit');
+          }}
+        />
+      ),
     });
   };
 
