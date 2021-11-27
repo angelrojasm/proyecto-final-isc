@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../api';
 
 const image = {
-  uri: 'https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+  uri: 'https://proyecto-final-isc.s3.amazonaws.com/pexels-daniel-eliashevsky-7689070.jpg',
 };
 
 const Register = () => {
@@ -40,7 +40,7 @@ const Register = () => {
     if (duplicates?.length > 0) {
       setRegisterError(true);
     } else {
-      let { uid } = await signUp(userForm.email, userForm.password);
+      let { uid }: any = await signUp(userForm.email, userForm.password);
       if (uid) {
         navigation.navigate('profileSetup', { ...userForm, uid });
       }

@@ -13,12 +13,14 @@ const AfflictionTags = ({ afflictions }: { afflictions: string[] }) => {
     <View style={tailwind('flex flex-row mr-1')}>
       <Text style={tailwind('text-sm font-bold')}>Relevant Topics: </Text>
       {afflictions.map((affl: string, idx: number) => {
-        return (
-          <Text key={idx} style={tailwind('italic')}>
-            {affl}
-            {idx === afflictions.length - 1 ? '' : ', '}
-          </Text>
-        );
+        if (idx < 3) {
+          return (
+            <Text key={idx} style={tailwind('italic')}>
+              {affl}
+              {idx === afflictions.length - 1 ? '' : idx === 2 ? ', ....' : ', '}
+            </Text>
+          );
+        } else return null;
       })}
     </View>
   );

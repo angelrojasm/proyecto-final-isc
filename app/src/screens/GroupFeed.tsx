@@ -84,7 +84,7 @@ const GroupFeed = () => {
     const buffer: any = Buffer.from(base64, 'base64');
 
     const file = {
-      name: local.name,
+      name: `${userContext?.currentGroup?.id}/${local.name}`,
       buffer,
     };
     const response = await api
@@ -175,14 +175,19 @@ const GroupFeed = () => {
         <ScrollView
           contentContainerStyle={tailwind('')}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          {files.map((file, idx) => (
-            <FilePost
-              key={idx}
-              name={file.filename}
-              date={file.date}
-              poster={users.filter((user) => user.id === file.uploadedBy)[0].username}
-            />
-          ))}
+          {files.map((file, idx) => {
+            if (file.filename.split('/').length === 2) {
+              return (
+                <FilePost
+                  key={idx}
+                  name={file.filename}
+                  date={file.date}
+                  poster={users.filter((user) => user.id === file.uploadedBy)[0].username}
+                />
+              );
+            }
+            return null;
+          })}
         </ScrollView>
       ) : (
         <Text style={tailwind('text-center mt-3 text-base')}>

@@ -116,7 +116,7 @@ const GroupRoom = () => {
     navigation.setOptions({
       headerTitle: () => (
         <Text style={tailwind('text-center font-bold text-base')}>
-          {userContext?.currentGroup.name} Room Chat
+          {userContext?.currentGroup?.name} Room Chat
         </Text>
       ),
       headerRight: () => (

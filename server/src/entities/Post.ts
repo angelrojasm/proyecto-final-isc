@@ -19,6 +19,12 @@ export class Post {
   @Column()
   date: Date;
 
+  @Column()
+  hasAttachments: boolean;
+
+  @Column({ type: 'simple-array' })
+  attachments: string[];
+
   @OneToMany(() => Comment, (comment) => comment.leftIn)
   comments: Comment[];
 
@@ -28,7 +34,8 @@ export class Post {
     postedBy?: string,
     postedIn?: string,
     date?: Date,
-    comments?: Comment[]
+    comments?: Comment[],
+    attachments?: string[]
   );
 
   constructor(
@@ -36,12 +43,15 @@ export class Post {
     postedBy?: string,
     postedIn?: string,
     date?: Date,
-    comments?: Comment[]
+    comments?: Comment[],
+    attachments?: string[]
   ) {
     this.content = content || '';
     this.postedBy = postedBy || '';
     this.postedIn = postedIn || '';
     this.date = date || new Date();
     this.comments = comments || null;
+    this.attachments = attachments || [];
+    this.hasAttachments = attachments?.length > 0;
   }
 }

@@ -83,12 +83,18 @@ const Profile = () => {
             <View style={tailwind('flex flex-row')}>
               <Text style={tailwind('text-sm font-bold')}>Interests: </Text>
               {userContext?.currentUser?.afflictions.map((aff: any, idx: number) => {
-                return (
-                  <Text key={idx} style={tailwind('italic')}>
-                    {aff}
-                    {idx === userContext?.currentUser?.afflictions.length - 1 ? '' : ', '}
-                  </Text>
-                );
+                if (idx < 3) {
+                  return (
+                    <Text key={idx} style={tailwind('italic')}>
+                      {aff}
+                      {idx === userContext?.currentUser?.afflictions.length - 1
+                        ? ''
+                        : idx === 2
+                        ? ', ....'
+                        : ', '}
+                    </Text>
+                  );
+                } else return null;
               })}
             </View>
           </View>
@@ -96,6 +102,9 @@ const Profile = () => {
         <MaterialIcons
           name="edit"
           size={24}
+          onPress={() => {
+            navigation.navigate('EditProfile', { info: userContext?.currentUser });
+          }}
           style={tailwind(
             'self-center p-2 border border-blue-400 text-blue-500 rounded-lg mr-8 mb-2'
           )}
@@ -105,7 +114,7 @@ const Profile = () => {
       <View style={tailwind('ml-8')}>
         <Text style={tailwind('font-bold text-3xl tracking-wide mb-4')}>Your Groups</Text>
         {userContext?.currentUser?.groups.map((group: any, idx: number) => {
-          return <GroupEntry key={idx} groupName={group.name} groupId={group.id} />;
+          return <GroupEntry key={idx} groupName={group?.name} groupId={group?.id} />;
         })}
       </View>
       {userContext?.currentUser?.groups.length === 0 && (

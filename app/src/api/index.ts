@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = 'https://epr.codes';
+const BASE_PATH = 'https://11c1-186-7-62-9.ngrok.io';
 export default {
   users(route = '/users') {
     return {
@@ -156,12 +156,13 @@ export default {
         let response = await axios.get(`${BASE_PATH}${route}/${id}`);
         return response.data;
       },
-      create: async (userId: number, groupId: number, content: string) => {
+      create: async (userId: number, groupId: number, content: string, attachments: any) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
           userId,
           groupId,
           post: {
             content,
+            attachments,
           },
         });
         return response.data;

@@ -10,7 +10,7 @@ import {
   BodyParam,
   Param,
 } from 'routing-controllers';
-import { EntityFromParam, EntityFromBodyParam } from 'typeorm-routing-controllers-extensions';
+import { EntityFromParam } from 'typeorm-routing-controllers-extensions';
 import { GroupController } from './GroupController';
 import { UserController } from './UserController';
 
@@ -43,6 +43,7 @@ export class PostController {
   ) {
     let group = await new GroupController().findById(groupId);
     let user = await new UserController().findById(userId);
+    post.hasAttachments = post.attachments.length > 0;
     post.postedIn = group.name;
     post.postedBy = user.username;
     return this.postRepository.save(post);

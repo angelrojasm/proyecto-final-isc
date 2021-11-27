@@ -36,11 +36,11 @@ export default function GroupInfoEdit() {
   useEffect(() => {
     if (userContext) {
       let group = userContext?.currentGroup;
-      setName(group.name);
-      setDescription(group.description);
-      setType(group.isPrivate ? 'private' : 'public');
-      if (group.isPrivate) {
-        setPasscode(group.passcode);
+      setName(group?.name);
+      setDescription(group?.description);
+      setType(group?.isPrivate ? 'private' : 'public');
+      if (group?.isPrivate) {
+        setPasscode(group?.passcode);
       } else {
         getPasscode();
       }
@@ -74,7 +74,7 @@ export default function GroupInfoEdit() {
         </View>
       ) : (
         <Text style={tailwind('text-lg font-bold mt-6 ml-6')}>
-          {userContext?.currentGroup.name}
+          {userContext?.currentGroup?.name}
         </Text>
       )}
       {isEditing ? (

@@ -1,64 +1,78 @@
-import React, { useContext } from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
+import { Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import RNPickerSelect from 'react-native-picker-select';
+
 import api from '../api';
-import { SessionContext } from '../context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import tailwind from 'tailwind-rn';
 import { AfflictionCheckbox } from '../components';
 
-const ProfileSetup = ({ route }: { route: any }) => {
-  const { username, uid, email } = route.params;
-  const [region, setRegion] = useState<any>('NA');
-  const [afflictions, setAfflictions] = useState<any>({});
-  const userContext = useContext(SessionContext);
+const EditProfile = ({ route }: { route: any }) => {
+  const { info } = route.params;
+  const [userInfo, setUserInfo] = useState<any>(info);
   const navigation = useNavigation();
 
   const handleAfflictions = (name: string) => {
-    setAfflictions({
-      ...afflictions,
-      [name]: !afflictions[name],
+    name = name.toLowerCase();
+    let aff = [...userInfo.afflictions];
+    console.log(aff);
+    if (aff.includes(name)) {
+      aff = aff.filter((elem: string) => elem !== name);
+    } else {
+      aff.push(name);
+    }
+    setUserInfo({
+      ...userInfo,
+      afflictions: aff,
     });
   };
 
-  const handleCreate = async () => {
+  const changeUserInfo = (name: string, value: any) => {
+    console.log(name, value);
+    setUserInfo({
+      ...userInfo,
+      [name]: value,
+    });
+  };
+
+  const handleUpdate = async () => {
     let afflictionArr = [];
-    for (const [key, value] of Object.entries(afflictions)) {
+    for (const [key, value] of Object.entries(userInfo.afflictions)) {
       if (value) afflictionArr.push(key.toLowerCase());
     }
 
     if (afflictionArr.length > 0) {
+      let infoToEdit = Object.assign({}, userInfo);
+      delete infoToEdit.groups;
       try {
-        await api.users().create(uid, email, username, region, afflictionArr);
-        await userContext?.logIn(uid);
-        await AsyncStorage.setItem('uid', uid);
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Root' }],
-        });
+        await api.users().updateUser(userInfo.id, infoToEdit);
+        navigation.goBack();
       } catch (err) {
         console.log(err);
       }
     }
   };
   return (
-    <ScrollView contentContainerStyle={tailwind('mt-16')}>
-      <Text style={tailwind('text-blue-700 text-xl text-center font-bold mb-8')}>
-        Thanks for joining our ever-growing community!
-      </Text>
+    <ScrollView contentContainerStyle={tailwind('')}>
       <View style={tailwind('ml-8')}>
-        <Text style={tailwind('text-base font-bold mb-6')}>
-          Tell us a little more about yourself...
-        </Text>
+        <Text style={tailwind('text-base font-bold mt-8')}>Name:</Text>
+        <TextInput
+          value={userInfo.username}
+          onChangeText={(value) => {
+            changeUserInfo('username', value);
+          }}
+          style={{
+            ...tailwind('my-4 border bg-white border-black w-5/6 pl-2 pt-2 text-base rounded-md'),
+            textAlignVertical: 'top',
+          }}
+        />
         <Text style={tailwind('text-base')}>What region are you in?</Text>
         <View style={tailwind('my-2 border rounded-md border-gray-100 bg-gray-200 w-11/12')}>
           <Picker
             style={tailwind('p-8')}
-            selectedValue={region}
-            onValueChange={(value) => setRegion(value)}>
+            selectedValue={userInfo.country}
+            onValueChange={(value) => changeUserInfo('country', value)}>
             <Picker.Item label="North America" value="NA" />
             <Picker.Item label="South America & The Caribbean" value="SA" />
             <Picker.Item label="Asia" value="AS" />
@@ -76,31 +90,41 @@ const ProfileSetup = ({ route }: { route: any }) => {
           name="Autism"
           desc="Autism Spectrum Disorder"
           onChange={handleAfflictions}
+          isChecked={userInfo.afflictions.includes('autism')}
         />
-        <AfflictionCheckbox name="Anxiety" desc="Stress and Anxiety" onChange={handleAfflictions} />
+        <AfflictionCheckbox
+          name="Anxiety"
+          desc="Stress and Anxiety"
+          onChange={handleAfflictions}
+          isChecked={userInfo.afflictions.includes('anxiety')}
+        />
         <AfflictionCheckbox
           name="ADHD"
           desc="Attention Deficit Hyperactivity Disorder"
           onChange={handleAfflictions}
+          isChecked={userInfo.afflictions.includes('adhd')}
         />
         <AfflictionCheckbox
           name="Bipolar"
           desc="Bipolar Disorder and Mood Swings"
           onChange={handleAfflictions}
+          isChecked={userInfo.afflictions.includes('bipolar')}
         />
         <AfflictionCheckbox
           name="Depression"
           desc="Clinic and Chronic Depression"
           onChange={handleAfflictions}
+          isChecked={userInfo.afflictions.includes('depression')}
         />
         <AfflictionCheckbox
           name="Eating Disorders"
           desc="Bulimia, Anorexia and Other Eating Disorders"
           onChange={handleAfflictions}
+          isChecked={userInfo.afflictions.includes('eating disorders')}
         />
       </View>
       <View style={tailwind('flex items-center ')}>
-        <TouchableOpacity style={tailwind('mt-8 mb-20 w-1/3')} onPress={handleCreate}>
+        <TouchableOpacity style={tailwind('mt-8 mb-20 w-1/3')} onPress={handleUpdate}>
           <Text
             style={tailwind(
               'p-2 bg-blue-600 border border-blue-400 text-center mx-2 text-white font-bold rounded-lg'
@@ -113,4 +137,4 @@ const ProfileSetup = ({ route }: { route: any }) => {
   );
 };
 
-export default ProfileSetup;
+export default EditProfile;
