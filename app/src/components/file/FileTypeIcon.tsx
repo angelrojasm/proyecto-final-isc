@@ -5,7 +5,7 @@ import tailwind from 'tailwind-rn';
 
 const SIZE = 21;
 export default function FileTypeIcon({ type }: { type: string }) {
-  switch (type) {
+  switch (type.toLowerCase()) {
     case 'txt':
       return <AntDesign name="filetext1" size={SIZE} />;
     case 'pdf':

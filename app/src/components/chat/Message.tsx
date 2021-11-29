@@ -28,15 +28,16 @@ const ChatMessage = ({ message, ownMessage }: AppProps): JSX.Element => {
   return ownMessage ? (
     <View
       style={{
-        ...tailwind('py-4 px-2 bg-green-300 rounded-xl flex items-center border my-2 mr-2'),
+        ...tailwind('py-4 px-2 rounded-xl flex items-center border my-2 mr-2'),
         ...shadow,
         alignSelf: 'flex-end',
         minWidth: '30%',
         maxWidth: '70%',
+        backgroundColor: '#0e4da4'
       }}>
       <View style={tailwind('px-2')}>
-        <Text style={tailwind('text-xs font-medium text-black')}>{message.content}</Text>
-        <Text style={tailwind('text-gray-500 text-xs')}>
+        <Text style={tailwind('text-xs font-medium text-white')}>{message.content}</Text>
+        <Text style={tailwind('text-gray-300 text-xs')}>
           {moment(Date.parse(message.date)).format('LT')}
         </Text>
       </View>

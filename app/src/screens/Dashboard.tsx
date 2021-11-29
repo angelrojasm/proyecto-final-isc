@@ -89,14 +89,14 @@ const Dashboard = () => {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={tailwind('p-3 pl-4 text-base')}>
+        <Text style={tailwind('p-3 pl-4 text-base text-white')}>
           Hello, <Text style={tailwind('font-bold')}>{userContext?.currentUser?.username}!</Text>
         </Text>
       ),
       headerRight: () => (
         <MaterialCommunityIcons
           name="message-processing"
-          style={tailwind('text-gray-500 mr-5')}
+          style={tailwind('text-white mr-5')}
           size={30}
           onPress={() => {
             navigation.navigate('PrivateMessaging');

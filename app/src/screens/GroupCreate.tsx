@@ -83,7 +83,7 @@ const GroupCreate = () => {
             textAlignVertical: 'top',
           }}
         />
-        <Text style={tailwind('text-base')}>Give a short Description of the group?</Text>
+        <Text style={tailwind('text-base')}>Give a short Description of the group</Text>
         <TextInput
           placeholder="Input your group description!"
           value={description}

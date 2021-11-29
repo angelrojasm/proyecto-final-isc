@@ -41,7 +41,7 @@ const FeedPost = ({ post, refreshPosts }: IFeedPostProps) => {
       let arr: string[] = [];
       let attachments: string[] = [];
       post.attachments.forEach((fileName) => {
-        if (fileName.includes('.png') || fileName.includes('.jpg') || fileName.includes('.jpeg')) {
+        if (fileName.includes('.png') || fileName.includes('.jpg') || fileName.includes('.jpeg') || fileName.includes('.JPG') || fileName.includes('.JPEG') || fileName.includes('.PNG')) {
           arr.push(`${BASE_URL}${fileName}`);
         }
         attachments.push(`${BASE_URL}${fileName}`);

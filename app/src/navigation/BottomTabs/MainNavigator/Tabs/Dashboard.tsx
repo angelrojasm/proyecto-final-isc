@@ -10,7 +10,9 @@ const DashboardStack = createStackNavigator<DashboardParamList>();
 export default function DashboardNavigator() {
   return (
     <DashboardStack.Navigator>
-      <DashboardStack.Screen name="Dashboard" component={Dashboard} />
+      <DashboardStack.Screen name="Dashboard" component={Dashboard} 
+      options={{ headerStyle: {backgroundColor: '#0e4da4'} }}
+      />
       <DashboardStack.Screen
         name="RecommendedList"
         component={RecommendedList}

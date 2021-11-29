@@ -57,7 +57,7 @@ export default function GroupInfoEdit() {
         onPress={() => {
           setIsEditing(!isEditing);
         }}>
-        <Feather name="edit" size={22.5} color="#FAD02C" />
+        <Feather name="edit" size={22.5} color="#0A4DA4" />
       </TouchableOpacity>
 
       {isEditing ? (

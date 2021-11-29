@@ -27,7 +27,7 @@ export type DashboardParamList = {
 
 export type MainBottomTabParamList = {
   Dashboard: undefined;
-  Groups: undefined;
+  Discover: undefined;
   Profile: undefined;
 };
 
@@ -37,7 +37,7 @@ export type GroupBottomTabParamList = {
 };
 
 export type GroupParamList = {
-  Groups: undefined;
+  Discover: undefined;
   GroupSearch: undefined;
   GroupCreate: undefined;
   Group: undefined;

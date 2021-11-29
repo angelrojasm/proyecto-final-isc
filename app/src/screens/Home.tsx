@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Pressable, ImageBackground } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '../navigation/types.navigation';
@@ -19,12 +19,12 @@ const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
           <Text style={styles.text2}>Help us help you help yourself</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('logIn')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('logIn')}>
             <Text style={styles.buttonText}>Log In</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('register')}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('register')}>
             <Text style={styles.buttonText}>Register</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
@@ -58,14 +58,15 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     width: 260,
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: '#bd3e6d',
+    backgroundColor: 'white',
+    borderColor: 'white',
     borderWidth: 3,
     borderRadius: 50,
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     padding: 15,
+    fontWeight: 'bold'
   },
   image: {
     flex: 1,

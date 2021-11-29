@@ -46,6 +46,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
           <TextInput
             value={email}
             placeholder="Email"
+            placeholderTextColor="#606060"
             style={styles.input}
             onChangeText={(text) => {
               onEmailInput(text.toLowerCase());
@@ -54,6 +55,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
           <TextInput
             value={password}
             placeholder="Password"
+            placeholderTextColor="#606060"
             secureTextEntry
             style={styles.input}
             onChangeText={onPasswordInput}></TextInput>
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: 'transparent',
     marginBottom: 30,
-    borderColor: '#1742eb',
-    borderBottomWidth: 2,
+    borderColor: 'black',
+    borderBottomWidth: 2
   },
   buttonContainer: {
     backgroundColor: '#ff793f',
@@ -115,16 +117,18 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#1742eb',
+    color: 'black',
     fontWeight: 'bold',
   },
   help: {
     color: 'white',
     marginTop: 25,
+    position: 'relative',
+    top: 60
   },
   text1: {
     fontWeight: 'bold',
-    color: '#1742eb',
+    color: 'black',
   },
   register: {
     fontWeight: 'bold',

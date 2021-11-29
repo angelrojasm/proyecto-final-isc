@@ -14,10 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { signUp } from '../firebase/Auth';
 import { useNavigation } from '@react-navigation/native';
 import api from '../api';
-
-const image = {
-  uri: 'https://proyecto-final-isc.s3.amazonaws.com/pexels-daniel-eliashevsky-7689070.jpg',
-};
+import image from '../assets/images/bg.jpg'
 
 const Register = () => {
   const [registerError, setRegisterError] = useState<boolean>(false);
@@ -55,6 +52,7 @@ const Register = () => {
           <Text style={styles.text1}>Username</Text>
           <TextInput
             placeholder="Username"
+            placeholderTextColor="#606060"
             style={styles.input}
             value={userForm.username}
             onChangeText={(text) => {
@@ -63,6 +61,7 @@ const Register = () => {
           <Text style={styles.text1}>Email</Text>
           <TextInput
             placeholder="Email"
+            placeholderTextColor="#606060"
             style={styles.input}
             value={userForm.email}
             onChangeText={(text) => {
@@ -71,6 +70,7 @@ const Register = () => {
           <Text style={styles.text1}>Password</Text>
           <TextInput
             placeholder="Password"
+            placeholderTextColor="#606060"
             secureTextEntry
             style={styles.input}
             value={userForm.password}
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     width: '85%',
     backgroundColor: 'transparent',
     marginBottom: 30,
-    borderColor: '#1742eb',
+    borderColor: 'black',
     borderBottomWidth: 2,
   },
   buttonContainer: {
@@ -133,16 +133,16 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#1742eb',
+    color: 'black',
     fontWeight: 'bold',
   },
   help: {
     color: 'white',
-    marginTop: 25,
+    marginTop: 90,
   },
   text1: {
     fontWeight: 'bold',
-    color: '#1742eb',
+    color: 'black',
   },
   register: {
     fontWeight: 'bold',
