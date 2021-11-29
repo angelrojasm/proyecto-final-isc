@@ -11,17 +11,18 @@ const PrivateMessaging = () => {
   const userContext = useContext(SessionContext);
   const [conversations, setConversations] = useState<any[]>([]);
   const navigation = useNavigation();
-  const [convName, setConvName] = useState<string>('');
+  const [convNames, setConvNames] = useState<any[]>([]);
 
   useEffect(() => {
     let convs: any[] = [];
+    let convNames: any[] = [];
     firebase
       .database()
       .ref(`private_messages`)
       .on('value', async (snapshot) => {
         snapshot.forEach((elem) => {
           if (elem.key?.includes(userContext?.currentUser?.username)) {
-            setConvName(elem.key);
+            convNames.push(elem.key);
             let endUser = elem.key
               .split('---')
               .filter((elem) => elem !== userContext?.currentUser?.username)[0];
@@ -33,7 +34,10 @@ const PrivateMessaging = () => {
             });
           }
         });
-        setConversations(convs);
+        if (convs !== conversations) {
+          setConversations(convs);
+        }
+        setConvNames(convNames);
       });
 
     return () => {
@@ -43,35 +47,40 @@ const PrivateMessaging = () => {
 
   return (
     <View style={{ ...tailwind('bg-white flex items-center'), height: '100%' }}>
-      {conversations.map((conversation: any, idx: number) => (
-        <TouchableHighlight
-          key={idx}
-          style={{ ...tailwind('border-b border-gray-200 flex items-center '), width: '100%' }}
-          activeOpacity={0.3}
-          underlayColor="#eee"
-          onPress={() =>
-            navigation.navigate('MessageChat', {
-              convName,
-            })
-          }>
-          <View style={tailwind('w-11/12 flex flex-row justify-between')}>
-            <View style={tailwind('flex flex-row')}>
-              <FontAwesome
-                name="user-circle"
-                size={50}
-                style={tailwind('self-center text-gray-400 mr-2')}
-              />
-              <View>
-                <Text style={tailwind('mx-2 mt-2 text-lg font-bold')}>{conversation.endUser}</Text>
-                <Text style={tailwind('mx-2 mb-3 text-sm font-medium text-gray-500')}>
-                  {conversation.lastMessage}
-                </Text>
+      {conversations.map((conversation: any, idx: number) => {
+        return (
+          <TouchableHighlight
+            key={idx}
+            style={{ ...tailwind('border-b border-gray-200 flex items-center '), width: '100%' }}
+            activeOpacity={0.3}
+            underlayColor="#eee"
+            onPress={() => {
+              let convName = convNames.filter((conv) => conv.includes(conversation.endUser))[0];
+              navigation.navigate('MessageChat', {
+                convName,
+              });
+            }}>
+            <View style={tailwind('w-11/12 flex flex-row justify-between')}>
+              <View style={tailwind('flex flex-row')}>
+                <FontAwesome
+                  name="user-circle"
+                  size={50}
+                  style={tailwind('self-center text-gray-400 mr-2')}
+                />
+                <View>
+                  <Text style={tailwind('mx-2 mt-2 text-lg font-bold')}>
+                    {conversation.endUser}
+                  </Text>
+                  <Text style={tailwind('mx-2 mb-3 text-sm font-medium text-gray-500')}>
+                    {conversation.lastMessage}
+                  </Text>
+                </View>
               </View>
+              <AntDesign name="right" size={30} style={tailwind('self-center')} />
             </View>
-            <AntDesign name="right" size={30} style={tailwind('self-center')} />
-          </View>
-        </TouchableHighlight>
-      ))}
+          </TouchableHighlight>
+        );
+      })}
     </View>
   );
 };

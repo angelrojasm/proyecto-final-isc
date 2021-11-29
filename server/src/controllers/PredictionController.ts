@@ -23,7 +23,7 @@ export class PredictionController {
       where: { type: prediction.type, entityId: prediction.entityId },
     });
     //return predictions;
-    if (predictions.length >= 2) {
+    if (predictions.length >= 10) {
       const values: number[] = [0, 0, 0, 0, 0, 0, 0];
       predictions.forEach((prediction) => {
         prediction.values.forEach((val, idx) => {

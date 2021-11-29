@@ -17,7 +17,7 @@ import { SessionContext } from '../context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const image = {
-  uri: 'https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+  uri: 'https://proyecto-final-isc.s3.amazonaws.com/pexels-daniel-eliashevsky-7689070.jpg',
 };
 
 const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => {
@@ -46,6 +46,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
           <TextInput
             value={email}
             placeholder="Email"
+            placeholderTextColor="#606060"
             style={styles.input}
             onChangeText={(text) => {
               onEmailInput(text.toLowerCase());
@@ -54,6 +55,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
           <TextInput
             value={password}
             placeholder="Password"
+            placeholderTextColor="#606060"
             secureTextEntry
             style={styles.input}
             onChangeText={onPasswordInput}></TextInput>
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: 'transparent',
     marginBottom: 30,
-    borderColor: '#1742eb',
-    borderBottomWidth: 2,
+    borderColor: 'black',
+    borderBottomWidth: 2
   },
   buttonContainer: {
     backgroundColor: '#ff793f',
@@ -115,16 +117,18 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#1742eb',
+    color: 'black',
     fontWeight: 'bold',
   },
   help: {
     color: 'white',
     marginTop: 25,
+    position: 'relative',
+    top: 60
   },
   text1: {
     fontWeight: 'bold',
-    color: '#1742eb',
+    color: 'black',
   },
   register: {
     fontWeight: 'bold',

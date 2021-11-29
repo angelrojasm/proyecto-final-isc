@@ -6,7 +6,7 @@ import { SessionContext } from '../context';
 import { GroupEntry } from '../components';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import CountryFlag from '../components/profile/CountryFlag';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const regionNames: any = {
@@ -23,22 +23,30 @@ const Profile = () => {
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
+  const isFocused = useIsFocused();
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
 
-  useEffect(() => {
-    const refreshUser = async () => {
-      const uid: any = await AsyncStorage.getItem('uid');
-      userContext?.logIn(uid);
-    };
+  const refreshUser = async () => {
+    const uid: any = await AsyncStorage.getItem('uid');
+    userContext?.logIn(uid);
+  };
 
+  useEffect(() => {
+    if (isFocused) {
+      refreshUser();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
     if (refreshing) {
       refreshUser();
       setRefreshing(false);
     }
   }, [refreshing]);
+
   const handleLogout = async () => {
     await logOut();
     userContext?.logOut();
@@ -75,12 +83,18 @@ const Profile = () => {
             <View style={tailwind('flex flex-row')}>
               <Text style={tailwind('text-sm font-bold')}>Interests: </Text>
               {userContext?.currentUser?.afflictions.map((aff: any, idx: number) => {
-                return (
-                  <Text key={idx} style={tailwind('italic')}>
-                    {aff}
-                    {idx === userContext?.currentUser?.afflictions.length - 1 ? '' : ', '}
-                  </Text>
-                );
+                if (idx < 3) {
+                  return (
+                    <Text key={idx} style={tailwind('italic')}>
+                      {aff}
+                      {idx === userContext?.currentUser?.afflictions.length - 1
+                        ? ''
+                        : idx === 2
+                        ? ', ....'
+                        : ', '}
+                    </Text>
+                  );
+                } else return null;
               })}
             </View>
           </View>
@@ -88,6 +102,9 @@ const Profile = () => {
         <MaterialIcons
           name="edit"
           size={24}
+          onPress={() => {
+            navigation.navigate('EditProfile', { info: userContext?.currentUser });
+          }}
           style={tailwind(
             'self-center p-2 border border-blue-400 text-blue-500 rounded-lg mr-8 mb-2'
           )}
@@ -97,7 +114,7 @@ const Profile = () => {
       <View style={tailwind('ml-8')}>
         <Text style={tailwind('font-bold text-3xl tracking-wide mb-4')}>Your Groups</Text>
         {userContext?.currentUser?.groups.map((group: any, idx: number) => {
-          return <GroupEntry key={idx} groupName={group.name} groupId={group.id} />;
+          return <GroupEntry key={idx} groupName={group?.name} groupId={group?.id} />;
         })}
       </View>
       {userContext?.currentUser?.groups.length === 0 && (

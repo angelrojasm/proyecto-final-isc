@@ -1,6 +1,6 @@
 import { getRepository, Repository, Like } from 'typeorm';
 import { Group } from '../entities/Group';
-import { JsonController, Get, Post, Delete, BodyParam, Param } from 'routing-controllers';
+import { JsonController, Get, Post, Delete, BodyParam, Param, Patch } from 'routing-controllers';
 import { EntityFromParam, EntityFromBodyParam } from 'typeorm-routing-controllers-extensions';
 import { UserController } from './UserController';
 
@@ -93,7 +93,7 @@ export class GroupController {
 
   @Post(`/removeUser`)
   async removeUser(
-    @EntityFromBodyParam('userId') userId: number,
+    @BodyParam('userId') userId: number,
     @EntityFromBodyParam('group') group: Group
   ) {
     const userController = new UserController();
@@ -103,6 +103,11 @@ export class GroupController {
     user.groups = user.groups.filter((userGroup) => userGroup !== group.id);
     await userController.add(user);
     return this.groupRepository.save(group);
+  }
+
+  @Patch('/')
+  async update(@BodyParam('groupId') groupId: number, @BodyParam('attributes') attrs: any) {
+    return this.groupRepository.save({ id: groupId, ...attrs });
   }
 
   @Delete(`/:id`)

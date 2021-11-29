@@ -83,7 +83,7 @@ const GroupCreate = () => {
             textAlignVertical: 'top',
           }}
         />
-        <Text style={tailwind('text-base')}>Give a short Description of the group?</Text>
+        <Text style={tailwind('text-base')}>Give a short Description of the group</Text>
         <TextInput
           placeholder="Input your group description!"
           value={description}
@@ -104,14 +104,29 @@ const GroupCreate = () => {
       {/* Affliction Section */}
       <View style={tailwind('flex items-center')}>
         <AfflictionCheckbox
-          name="PTSD"
-          desc="Post-Traumattic Stress Disorder"
+          name="Autism"
+          desc="Autism Spectrum Disorder"
           onChange={handleAfflictions}
         />
         <AfflictionCheckbox name="Anxiety" desc="Stress and Anxiety" onChange={handleAfflictions} />
         <AfflictionCheckbox
+          name="ADHD"
+          desc="Attention Deficit Hyperactivity Disorder"
+          onChange={handleAfflictions}
+        />
+        <AfflictionCheckbox
+          name="Bipolar"
+          desc="Bipolar Disorder and Mood Swings"
+          onChange={handleAfflictions}
+        />
+        <AfflictionCheckbox
           name="Depression"
           desc="Clinic and Chronic Depression"
+          onChange={handleAfflictions}
+        />
+        <AfflictionCheckbox
+          name="Eating Disorders"
+          desc="Bulimia, Anorexia and Other Eating Disorders"
           onChange={handleAfflictions}
         />
       </View>

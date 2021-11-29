@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, View, StyleSheet, Pressable, ImageBackground } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '../navigation/types.navigation';
 
 const image = {
-  uri: 'https://s3-alpha-sig.figma.com/img/7097/0fd2/d966e5b8be303a79ccbbbd7449f4e0c6?Expires=1627257600&Signature=Kx9Ry1bTNyyv8jG~pikaATy~C9WLbfrf0lrC3wF8YvgLij6vMKcHkp7ayznvEbgi3elUGlQ3XPVhS2catIggOQvVgRMTVH7LCeI2VcVjC2r1UGUf-fcQBWJgpfYv~oCKYgiESZqetS4dD5Am8~NsXOE7AdZFn6cHpxiazcdTxsdpriDKlbhGE42M9CC-XBWPVKfhgl0pxuiKkrIY3yLA~yGiqwVuavfuxFn-pAPTsFGCcRh1IT9SM-3-rIUSwTDGKi7abxVEsEvPfLZBuqOe0CQGgo6O~Q-2pXs-T1foaglgrzs7Fkm6-HWhVaouLfl28veN~6qEwbpHJcDRYkcssw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+  uri: 'https://proyecto-final-isc.s3.amazonaws.com/pexels-daniel-eliashevsky-7689070.jpg',
 };
 
 const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
@@ -15,16 +15,16 @@ const Home = ({ navigation }: StackScreenProps<AuthStackParamList, 'home'>) => {
         <LinearGradient colors={['#2544B3', 'transparent']} style={styles.gradient1} />
         <LinearGradient colors={['transparent', '#0A94B7']} style={styles.gradient2} />
         <View style={styles.header}>
-          <Text style={styles.text1}>App Name</Text>
+          <Text style={styles.text1}>HandyPsych</Text>
           <Text style={styles.text2}>Help us help you help yourself</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('logIn')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('logIn')}>
             <Text style={styles.buttonText}>Log In</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('register')}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('register')}>
             <Text style={styles.buttonText}>Register</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
@@ -58,14 +58,15 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     width: 260,
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: '#bd3e6d',
+    backgroundColor: 'white',
+    borderColor: 'white',
     borderWidth: 3,
     borderRadius: 50,
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     padding: 15,
+    fontWeight: 'bold'
   },
   image: {
     flex: 1,

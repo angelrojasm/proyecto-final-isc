@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 interface IAfflictionCheckbox {
   name: string;
   desc: string;
+  isChecked?: boolean;
   onChange: (name: string) => void;
 }
 
@@ -13,8 +14,8 @@ const checkedStyle = tailwind('bg-blue-500 border border-blue-400');
 
 const baseStyle = tailwind('bg-gray-300 border border-gray-300');
 
-const AfflictionCheckbox = ({ name, desc, onChange }: IAfflictionCheckbox) => {
-  const [checked, setChecked] = useState<boolean>(false);
+const AfflictionCheckbox = ({ name, desc, onChange, isChecked }: IAfflictionCheckbox) => {
+  const [checked, setChecked] = useState<boolean>(isChecked || false);
 
   return (
     <Pressable

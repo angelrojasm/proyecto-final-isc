@@ -23,7 +23,7 @@ export default function FilePost({ name, date, poster }: IFilePostProps) {
       <View style={tailwind('flex items-center flex-row w-2/5')}>
         <FileTypeIcon type={name.split('.')[1]} />
         <Text style={{ ...tailwind('ml-2 text-sm text-blue-600 underline'), flexShrink: 1 }}>
-          {name}
+          {name.split('/')[1]}
         </Text>
       </View>
       <Text style={tailwind('text-sm text-center self-center w-1/3')}>

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Text, ScrollView, View, RefreshControl } from 'react-native';
 import { GroupCard } from '../components';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import api from '../api';
 import { SessionContext } from '../context';
 import tailwind from 'tailwind-rn';
@@ -24,34 +24,19 @@ const Dashboard = () => {
   const [refreshing, setRefreshing] = useState(false);
   const userContext = useContext(SessionContext);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [refKey, setRefKey] = useState<number>(1);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <Text style={tailwind('p-3 pl-4 text-base')}>
-          Hello, <Text style={tailwind('font-bold')}>{userContext?.currentUser?.username}!</Text>
-        </Text>
-      ),
-      headerRight: () => (
-        <MaterialCommunityIcons
-          name="message-processing"
-          style={tailwind('text-gray-500 mr-5')}
-          size={30}
-          onPress={() => {
-            navigation.navigate('PrivateMessaging');
-          }}
-        />
-      ),
-    });
-    const getData = async () => {
-      const groups = await api.groups().getAll();
-      const recommended: any[] = [];
-      const userRegion = userContext?.currentUser?.country;
-      //get recommended groups
+  const getData = async () => {
+    const groups = await api.groups().getAll();
+    const recommended: any[] = [];
+    const userRegion = userContext?.currentUser?.country;
+    //get recommended groups for New User with no groups
+    if (userContext?.currentUser?.groups.length === 0) {
       groups.forEach((group: { tags: any; users: any[]; distance: number; region: string }) => {
         let afflictions = userContext?.currentUser?.afflictions;
         if (afflictions) {
@@ -69,9 +54,56 @@ const Dashboard = () => {
       });
       const sorted = recommended.sort((a, b) => a.distance - b.distance);
       setRecommended(sorted);
-      //Get quote of the day
-      setQod(await api.utils().getQuoteOfTheDay());
-    };
+    } else {
+      if (userContext?.currentUser?.groups) {
+        //Get recommended based on existing correlations
+        const userGroups: any[] = [];
+        userContext?.currentUser?.groups.forEach((group: any) => userGroups.push(group.id));
+        try {
+          const response = await api
+            .recommendations()
+            .getUserRecommendations(userContext?.currentUser?.id);
+          const recommended = [];
+          for (let i = 0; i < response.groups.length; i++) {
+            if (!userGroups.includes(Number(response.groups[i]))) {
+              const groupInfo = await api.groups().getById(Number(response.groups[i]));
+              groupInfo.match = Number(response.correlations[i]);
+              recommended.push(groupInfo);
+            }
+          }
+          setRecommended(recommended);
+        } catch (err) {}
+      }
+    }
+    //Get quote of the day
+    setQod(await api.utils().getQuoteOfTheDay());
+    setRefKey(Math.random());
+  };
+
+  useEffect(() => {
+    if (isFocused && !initialState) {
+      getData();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Text style={tailwind('p-3 pl-4 text-base text-white')}>
+          Hello, <Text style={tailwind('font-bold')}>{userContext?.currentUser?.username}!</Text>
+        </Text>
+      ),
+      headerRight: () => (
+        <MaterialCommunityIcons
+          name="message-processing"
+          style={tailwind('text-white mr-5')}
+          size={30}
+          onPress={() => {
+            navigation.navigate('PrivateMessaging');
+          }}
+        />
+      ),
+    });
     if (initialState) {
       getData();
       setInitialState(false);
@@ -122,12 +154,14 @@ const Dashboard = () => {
       {recommended.length > 0 && (
         <View style={tailwind('my-2')}>
           <Text style={tailwind('text-center mb-2 font-medium text-base')}>
-            Here are some groups we think you might like:
+            {userContext?.currentUser?.groups.length === 0
+              ? 'You are not in any groups yet! Here are some groups you might like:'
+              : 'Here are some groups we think you might like:'}
           </Text>
           <View style={tailwind('flex items-center ')}>
             {recommended.map((group, idx) => {
               if (idx < 2) {
-                return <GroupCard key={idx} group={group} />;
+                return <GroupCard refKey={refKey} key={idx} group={group} />;
               }
               return null;
             })}

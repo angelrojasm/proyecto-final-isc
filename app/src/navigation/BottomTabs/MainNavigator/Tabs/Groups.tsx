@@ -9,9 +9,9 @@ export default function GroupsNavigator() {
   return (
     <GroupStack.Navigator>
       <GroupStack.Screen
-        name="Groups"
+        name="GroupSearch"
         component={GroupSearch}
-        options={{ headerTitle: 'Group Search' }}
+        options={{ headerTitle: 'Discover new groups!' }}
       />
       <GroupStack.Screen
         name="GroupCreate"

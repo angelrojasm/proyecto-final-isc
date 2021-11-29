@@ -40,7 +40,7 @@ export default function BottomTabNavigator() {
           }}
         />
         <BottomTab.Screen
-          name="Groups"
+          name="Discover"
           component={GroupsNavigator}
           options={{
             tabBarIcon: ({ color }) => (

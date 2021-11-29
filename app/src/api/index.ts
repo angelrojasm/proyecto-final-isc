@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const BASE_PATH = 'https://cddb-186-7-62-9.ngrok.io';
+// const BASE_PATH = 'https://4f9b-186-7-62-9.ngrok.io';
+const BASE_PATH = 'https://epr.codes';
+
 export default {
   users(route = '/users') {
     return {
@@ -49,6 +51,13 @@ export default {
         let response = await axios.patch(`${BASE_PATH}${route}`, {
           id,
           afflictions,
+        });
+        return response.data;
+      },
+      updateUser: async (userId: number, attributes: any) => {
+        let response = await axios.patch(`${BASE_PATH}${route}/update`, {
+          userId,
+          attributes,
         });
         return response.data;
       },
@@ -130,6 +139,13 @@ export default {
         });
         return response.data;
       },
+      updateGroup: async (groupId: number, attributes: any) => {
+        let response = await axios.patch(`${BASE_PATH}${route}`, {
+          groupId,
+          attributes,
+        });
+        return response.data;
+      },
       delete: async (id: number) => {
         let response = await axios.delete(`${BASE_PATH}${route}/${id}`);
         return response.data;
@@ -142,12 +158,13 @@ export default {
         let response = await axios.get(`${BASE_PATH}${route}/${id}`);
         return response.data;
       },
-      create: async (userId: number, groupId: number, content: string) => {
+      create: async (userId: number, groupId: number, content: string, attachments: any) => {
         let response = await axios.post(`${BASE_PATH}${route}`, {
           userId,
           groupId,
           post: {
             content,
+            attachments,
           },
         });
         return response.data;
