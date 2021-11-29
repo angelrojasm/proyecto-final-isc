@@ -55,7 +55,7 @@ const Dashboard = () => {
       const sorted = recommended.sort((a, b) => a.distance - b.distance);
       setRecommended(sorted);
     } else {
-      if (userContext?.currentGroup?.groups) {
+      if (userContext?.currentUser?.groups) {
         //Get recommended based on existing correlations
         const userGroups: any[] = [];
         userContext?.currentUser?.groups.forEach((group: any) => userGroups.push(group.id));

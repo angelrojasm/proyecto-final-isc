@@ -128,7 +128,7 @@ const FeedPostCreate = ({ route }: any) => {
               }}>
               <FileTypeIcon type={file.name.split('.')[1]} />
               <Text style={{ ...tailwind('mx-2 text-sm text-black'), flexShrink: 1 }}>
-                {file.name}
+                {file.name.split('/')[2]}
               </Text>
             </View>
           ) : (

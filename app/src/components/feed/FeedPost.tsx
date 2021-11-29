@@ -81,7 +81,6 @@ const FeedPost = ({ post, refreshPosts }: IFeedPostProps) => {
   };
 
   const ImageDisplayer = () => {
-    console.log(images);
     return (
       <>
         {images.length > 1 ? (
