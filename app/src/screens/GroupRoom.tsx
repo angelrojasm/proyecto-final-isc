@@ -115,7 +115,7 @@ const GroupRoom = () => {
   const setNavigationHeader = (num: number) => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={tailwind('text-center font-bold text-base')}>
+        <Text style={tailwind('text-center font-bold text-base text-white')}>
           {userContext?.currentGroup?.name} Room Chat
         </Text>
       ),
@@ -123,7 +123,7 @@ const GroupRoom = () => {
         <FontAwesome5
           name="users"
           size={23}
-          style={tailwind('mr-5 self-center text-black')}
+          style={tailwind('mr-5 self-center text-white')}
           onPress={() => {
             navigation.navigate('UserList');
           }}

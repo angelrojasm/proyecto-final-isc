@@ -10,7 +10,7 @@ interface IAfflictionCheckbox {
   onChange: (name: string) => void;
 }
 
-const checkedStyle = tailwind('bg-blue-500 border border-blue-400');
+const checkedStyle = { backgroundColor: '#0e4da4' };
 
 const baseStyle = tailwind('bg-gray-300 border border-gray-300');
 

@@ -34,9 +34,7 @@ export default function Navigation() {
           x = await userContext?.logIn(uid);
         }
         setIsLoaded(true);
-      } catch (err) {
-        console.log(x);
-      }
+      } catch (err) {}
     };
     getUid();
   }, []);

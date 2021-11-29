@@ -29,7 +29,9 @@ export default function GroupInfoEdit() {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={tailwind('text-base w-4/5 text-center')}>Group Info</Text>,
+      headerTitle: () => (
+        <Text style={tailwind('text-base w-4/5 text-center text-white')}>Group Info</Text>
+      ),
     });
   }, []);
 
@@ -129,9 +131,10 @@ export default function GroupInfoEdit() {
       )}
       {isEditing && (
         <TouchableOpacity
-          style={tailwind(
-            'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-4 px-8 py-2 self-center'
-          )}
+          style={{
+            ...tailwind('bg-transparent  rounded-md flex items-center my-4 px-8 py-2 self-center'),
+            backgroundColor: '#0e4da4',
+          }}
           onPress={async () => {
             await api
               .groups()
@@ -148,12 +151,18 @@ export default function GroupInfoEdit() {
         <TouchableOpacity
           style={
             isEditing
-              ? tailwind(
-                  'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center px-8 py-2 w-3/4 self-center mt-4 mb-2'
-                )
-              : tailwind(
-                  'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center px-8 py-2 w-3/4 self-center absolute bottom-6'
-                )
+              ? {
+                  ...tailwind(
+                    'bg-transparent rounded-md flex items-center px-8 py-2 w-3/4 self-center mt-4 mb-2'
+                  ),
+                  backgroundColor: '#0e4da4',
+                }
+              : {
+                  ...tailwind(
+                    'bg-transparent rounded-md flex items-center px-8 py-2 w-3/4 self-center absolute bottom-6'
+                  ),
+                  backgroundColor: '#0e4da4',
+                }
           }
           onPress={() => {
             Alert.alert('Leave Group', 'Are you sure you want to leave this group?', [

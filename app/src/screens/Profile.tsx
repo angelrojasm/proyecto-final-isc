@@ -126,9 +126,12 @@ const Profile = () => {
       )}
       {/*Log out Button */}
       <TouchableOpacity
-        style={tailwind(
-          'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-16 px-8 py-2 w-3/4 self-center'
-        )}
+        style={{
+          ...tailwind(
+            'bg-transparent rounded-md flex items-center my-16 px-8 py-2 w-3/4 self-center'
+          ),
+          backgroundColor: '#0A4DA4',
+        }}
         onPress={handleLogout}>
         <Text style={tailwind('text-white font-bold')}>Sign Out</Text>
       </TouchableOpacity>

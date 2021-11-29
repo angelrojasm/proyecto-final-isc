@@ -10,10 +10,26 @@ const FeedStack = createStackNavigator<FeedParamList>();
 export default function FeedNavigator() {
   return (
     <FeedStack.Navigator>
-      <FeedStack.Screen name="Feed" component={GroupFeed} />
-      <FeedStack.Screen name="Replies" component={FeedReplies} />
-      <FeedStack.Screen name="PostCreate" component={FeedPostCreate} />
-      <FeedStack.Screen name="GroupInfoEdit" component={GroupInfoEdit} />
+      <FeedStack.Screen
+        name="Feed"
+        component={GroupFeed}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
+      <FeedStack.Screen
+        name="Replies"
+        component={FeedReplies}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
+      <FeedStack.Screen
+        name="PostCreate"
+        component={FeedPostCreate}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
+      <FeedStack.Screen
+        name="GroupInfoEdit"
+        component={GroupInfoEdit}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
     </FeedStack.Navigator>
   );
 }

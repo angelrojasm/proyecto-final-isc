@@ -39,9 +39,7 @@ const ProfileSetup = ({ route }: { route: any }) => {
           index: 0,
           routes: [{ name: 'Root' }],
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
   };
   return (
@@ -102,9 +100,10 @@ const ProfileSetup = ({ route }: { route: any }) => {
       <View style={tailwind('flex items-center ')}>
         <TouchableOpacity style={tailwind('mt-8 mb-20 w-1/3')} onPress={handleCreate}>
           <Text
-            style={tailwind(
-              'p-2 bg-blue-600 border border-blue-400 text-center mx-2 text-white font-bold rounded-lg'
-            )}>
+            style={{
+              ...tailwind('p-2 text-center mx-2 text-white font-bold rounded-lg'),
+              backgroundColor: '#0e4da4',
+            }}>
             Ready !
           </Text>
         </TouchableOpacity>

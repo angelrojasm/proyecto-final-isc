@@ -78,7 +78,6 @@ export default {
           let response = await axios.get(`${BASE_PATH}${route}/${groupId}`);
           return response.data;
         } catch (err) {
-          console.log(err);
           return;
         }
       },
@@ -87,7 +86,6 @@ export default {
           let response = await axios.get(`${BASE_PATH}${route}/name/${groupName}`);
           return response.data;
         } catch (err) {
-          console.log(err);
           return;
         }
       },
@@ -96,7 +94,6 @@ export default {
           let response = await axios.get(`${BASE_PATH}${route}/tag/${tagName}`);
           return response.data;
         } catch (err) {
-          console.log(err);
           return;
         }
       },

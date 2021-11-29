@@ -99,7 +99,7 @@ const GroupFeed = () => {
   const setNavigationHeader = () => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={tailwind('text-base font-bold w-4/5 text-center')}>
+        <Text style={tailwind('text-base text-white font-bold w-4/5 text-center')}>
           {userContext?.currentGroup?.name}
         </Text>
       ),
@@ -107,7 +107,7 @@ const GroupFeed = () => {
         <AntDesign
           name="arrowleft"
           size={25}
-          style={tailwind('ml-4 self-center')}
+          style={tailwind('ml-4 self-center text-white')}
           onPress={() => {
             navigation.reset({
               index: 0,
@@ -120,7 +120,7 @@ const GroupFeed = () => {
         <Ionicons
           name="information-circle-outline"
           size={23}
-          style={tailwind('mr-5 self-center text-black')}
+          style={tailwind('mr-5 self-center text-white')}
           onPress={() => {
             navigation.navigate('GroupInfoEdit');
           }}
@@ -155,7 +155,7 @@ const GroupFeed = () => {
       </TouchableOpacity>
       {posts.length > 0 ? (
         <ScrollView
-          contentContainerStyle={tailwind('flex items-center')}
+          contentContainerStyle={tailwind('flex items-center flex-col-reverse')}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           {posts.map((post, idx) => {
             return <FeedPost key={idx} post={post} refreshPosts={refreshPosts} />;

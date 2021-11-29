@@ -47,40 +47,49 @@ const PrivateMessaging = () => {
 
   return (
     <View style={{ ...tailwind('bg-white flex items-center'), height: '100%' }}>
-      {conversations.map((conversation: any, idx: number) => {
-        return (
-          <TouchableHighlight
-            key={idx}
-            style={{ ...tailwind('border-b border-gray-200 flex items-center '), width: '100%' }}
-            activeOpacity={0.3}
-            underlayColor="#eee"
-            onPress={() => {
-              let convName = convNames.filter((conv) => conv.includes(conversation.endUser))[0];
-              navigation.navigate('MessageChat', {
-                convName,
-              });
-            }}>
-            <View style={tailwind('w-11/12 flex flex-row justify-between')}>
-              <View style={tailwind('flex flex-row')}>
-                <FontAwesome
-                  name="user-circle"
-                  size={50}
-                  style={tailwind('self-center text-gray-400 mr-2')}
-                />
-                <View>
-                  <Text style={tailwind('mx-2 mt-2 text-lg font-bold')}>
-                    {conversation.endUser}
-                  </Text>
-                  <Text style={tailwind('mx-2 mb-3 text-sm font-medium text-gray-500')}>
-                    {conversation.lastMessage}
-                  </Text>
+      {conversations.length > 0 ? (
+        conversations.map((conversation: any, idx: number) => {
+          return (
+            <TouchableHighlight
+              key={idx}
+              style={{ ...tailwind('border-b border-gray-200 flex items-center '), width: '100%' }}
+              activeOpacity={0.3}
+              underlayColor="#eee"
+              onPress={() => {
+                let convName = convNames.filter((conv) => conv.includes(conversation.endUser))[0];
+                navigation.navigate('MessageChat', {
+                  convName,
+                });
+              }}>
+              <View style={tailwind('w-11/12 flex flex-row justify-between')}>
+                <View style={tailwind('flex flex-row')}>
+                  <FontAwesome
+                    name="user-circle"
+                    size={50}
+                    style={tailwind('self-center text-gray-400 mr-2')}
+                  />
+                  <View>
+                    <Text style={tailwind('mx-2 mt-2 text-lg font-bold')}>
+                      {conversation.endUser}
+                    </Text>
+                    <Text style={tailwind('mx-2 mb-3 text-sm font-medium text-gray-500')}>
+                      {conversation.lastMessage}
+                    </Text>
+                  </View>
                 </View>
+                <AntDesign name="right" size={30} style={tailwind('self-center')} />
               </View>
-              <AntDesign name="right" size={30} style={tailwind('self-center')} />
-            </View>
-          </TouchableHighlight>
-        );
-      })}
+            </TouchableHighlight>
+          );
+        })
+      ) : (
+        <>
+          <Text style={tailwind('text-center my-3 text-base')}>
+            You have no open conversations with anyone.
+          </Text>
+          <Text style={tailwind('text-center text-base ')}>Go say hello to someone!</Text>
+        </>
+      )}
     </View>
   );
 };

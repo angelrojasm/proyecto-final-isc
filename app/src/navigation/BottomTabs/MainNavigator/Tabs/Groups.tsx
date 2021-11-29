@@ -11,12 +11,20 @@ export default function GroupsNavigator() {
       <GroupStack.Screen
         name="GroupSearch"
         component={GroupSearch}
-        options={{ headerTitle: 'Discover new groups!' }}
+        options={{
+          headerTitle: 'Discover new groups!',
+          headerStyle: { backgroundColor: '#0e4da4' },
+          headerTintColor: 'white',
+        }}
       />
       <GroupStack.Screen
         name="GroupCreate"
         component={GroupCreate}
-        options={{ headerTitle: 'Create Group' }}
+        options={{
+          headerTitle: 'Create Group',
+          headerStyle: { backgroundColor: '#0e4da4' },
+          headerTintColor: 'white',
+        }}
       />
     </GroupStack.Navigator>
   );

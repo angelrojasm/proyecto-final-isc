@@ -22,7 +22,7 @@ const UserList = () => {
         });
         navigation.setOptions({
           headerTitle: () => (
-            <Text style={tailwind('text-base font-bold ')}>
+            <Text style={tailwind('text-base font-bold text-white')}>
               {messages.length} {messages.length === 1 ? 'User' : 'Users'} Online
             </Text>
           ),

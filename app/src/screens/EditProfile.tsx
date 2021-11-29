@@ -16,7 +16,6 @@ const EditProfile = ({ route }: { route: any }) => {
   const handleAfflictions = (name: string) => {
     name = name.toLowerCase();
     let aff = [...userInfo.afflictions];
-    console.log(aff);
     if (aff.includes(name)) {
       aff = aff.filter((elem: string) => elem !== name);
     } else {
@@ -29,7 +28,6 @@ const EditProfile = ({ route }: { route: any }) => {
   };
 
   const changeUserInfo = (name: string, value: any) => {
-    console.log(name, value);
     setUserInfo({
       ...userInfo,
       [name]: value,
@@ -48,9 +46,7 @@ const EditProfile = ({ route }: { route: any }) => {
       try {
         await api.users().updateUser(userInfo.id, infoToEdit);
         navigation.goBack();
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
   };
   return (
@@ -126,9 +122,10 @@ const EditProfile = ({ route }: { route: any }) => {
       <View style={tailwind('flex items-center ')}>
         <TouchableOpacity style={tailwind('mt-8 mb-20 w-1/3')} onPress={handleUpdate}>
           <Text
-            style={tailwind(
-              'p-2 bg-blue-600 border border-blue-400 text-center mx-2 text-white font-bold rounded-lg'
-            )}>
+            style={{
+              ...tailwind('p-2 text-center mx-2 text-white font-bold rounded-lg'),
+              backgroundColor: '#0e4da4',
+            }}>
             Ready !
           </Text>
         </TouchableOpacity>

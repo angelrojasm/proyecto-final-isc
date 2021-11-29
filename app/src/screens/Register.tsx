@@ -3,18 +3,19 @@ import {
   Text,
   View,
   StyleSheet,
-  Pressable,
   ImageBackground,
   KeyboardAvoidingView,
   TextInput,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { signUp } from '../firebase/Auth';
 import { useNavigation } from '@react-navigation/native';
 import api from '../api';
-import image from '../assets/images/bg.jpg'
+
+const image = {
+  uri: 'https://proyecto-final-isc.s3.amazonaws.com/pexels-daniel-eliashevsky-7689070.jpg',
+};
 
 const Register = () => {
   const [registerError, setRegisterError] = useState<boolean>(false);

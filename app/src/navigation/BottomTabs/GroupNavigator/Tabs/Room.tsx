@@ -9,9 +9,21 @@ const RoomStack = createStackNavigator<RoomParamList>();
 export default function RoomNavigator() {
   return (
     <RoomStack.Navigator>
-      <RoomStack.Screen name="Room" component={GroupRoom} />
-      <RoomStack.Screen name="UserList" component={UserList} />
-      <RoomStack.Screen name="MessageChat" component={MessageChat} />
+      <RoomStack.Screen
+        name="Room"
+        component={GroupRoom}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
+      <RoomStack.Screen
+        name="UserList"
+        component={UserList}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
+      <RoomStack.Screen
+        name="MessageChat"
+        component={MessageChat}
+        options={{ headerStyle: { backgroundColor: '#0e4da4' }, headerTintColor: 'white' }}
+      />
     </RoomStack.Navigator>
   );
 }

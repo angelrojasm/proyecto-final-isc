@@ -29,7 +29,7 @@ const MessageChat = ({ route }: any) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={tailwind('font-bold text-base')}>{endUser}</Text>,
+      headerTitle: () => <Text style={tailwind('font-bold text-base text-white')}>{endUser}</Text>,
     });
     firebase
       .database()

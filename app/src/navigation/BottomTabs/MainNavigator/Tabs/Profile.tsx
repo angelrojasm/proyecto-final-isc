@@ -11,9 +11,20 @@ export default function ProfileNavigator() {
       <ProfileStack.Screen
         name="Profile"
         component={Profile}
-        options={{ headerTitle: 'My Profile' }}
+        options={{
+          headerTitle: 'My Profile',
+          headerStyle: { backgroundColor: '#0e4da4' },
+          headerTintColor: 'white',
+        }}
       />
-      <ProfileStack.Screen name="EditProfile" component={EditProfile} />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerStyle: { backgroundColor: '#0e4da4' },
+          headerTintColor: 'white',
+        }}
+      />
     </ProfileStack.Navigator>
   );
 }

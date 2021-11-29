@@ -32,9 +32,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Auth'>) => 
         await userContext?.logIn(uid);
         await AsyncStorage.setItem('uid', uid);
         navigation.replace('Root');
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
   };
   return (
@@ -108,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginBottom: 30,
     borderColor: 'black',
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
   },
   buttonContainer: {
     backgroundColor: '#ff793f',
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 25,
     position: 'relative',
-    top: 60
+    top: 60,
   },
   text1: {
     fontWeight: 'bold',

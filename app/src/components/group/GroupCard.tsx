@@ -23,7 +23,7 @@ type IGroupCardProps = {
     region?: string;
     match?: number;
   };
-  refKey: number;
+  refKey?: number;
 };
 
 const GroupCard = ({ group, refKey }: IGroupCardProps) => {
@@ -103,9 +103,10 @@ const GroupCard = ({ group, refKey }: IGroupCardProps) => {
             style={tailwind('border-b pl-2 py-2 w-4/5 mb-4')}
             onChangeText={setPassword}></TextInput>
           <TouchableOpacity
-            style={tailwind(
-              'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-10 py-2'
-            )}
+            style={{
+              ...tailwind('bg-transparent rounded-md flex items-center my-3 px-10 py-2'),
+              backgroundColor: '#0e4da4',
+            }}
             onPress={joinWithPassword}>
             <Text style={tailwind('text-white font-bold')}>Join</Text>
           </TouchableOpacity>
@@ -128,17 +129,19 @@ const GroupCard = ({ group, refKey }: IGroupCardProps) => {
         <View style={tailwind('flex items-center mr-4')}>
           {findInGroup() ? (
             <TouchableOpacity
-              style={tailwind(
-                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
-              )}
+              style={{
+                ...tailwind('bg-transparent rounded-md flex items-center my-3 px-8 py-2'),
+                backgroundColor: '#0e4da4',
+              }}
               onPress={visitGroup}>
               <Text style={tailwind('text-white font-bold')}>Visit</Text>
             </TouchableOpacity>
           ) : group.isPrivate ? (
             <TouchableOpacity
-              style={tailwind(
-                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-6 py-2 flex-row'
-              )}
+              style={{
+                ...tailwind('bg-transparent rounded-md flex items-center my-3 px-6 py-2 flex-row'),
+                backgroundColor: '#0e4da4',
+              }}
               onPress={() => {
                 setVisible(true);
               }}>
@@ -147,9 +150,10 @@ const GroupCard = ({ group, refKey }: IGroupCardProps) => {
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
-              style={tailwind(
-                'bg-transparent border border-blue-400 bg-blue-600 rounded-md flex items-center my-3 px-8 py-2'
-              )}
+              style={{
+                ...tailwind('bg-transparent rounded-md flex items-center my-3 px-8 py-2'),
+                backgroundColor: '#0e4da4',
+              }}
               onPress={joinGroup}>
               <Text style={tailwind('text-white font-bold')}>Join</Text>
             </TouchableOpacity>

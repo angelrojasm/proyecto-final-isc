@@ -23,17 +23,20 @@ const GroupSearch = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const navigation = useNavigation();
 
-  const searchGroups = async (): Promise<void> => {
-    if (search === '') {
+  useEffect(() => {
+    (async () => {
       setGroups(await api.groups().getAll());
       setSearchTerm('All Groups');
-    } else {
+    })();
+  }, []);
+
+  const searchGroups = async (): Promise<void> => {
+    if (search) {
       let returnArr: any = [];
       if (tags.includes(search.toLowerCase())) {
         returnArr = await api.groups().getByTags(search.toLowerCase());
       }
       let groupNames = await api.groups().getByName(search.toLowerCase());
-      console.log(groupNames);
       let newArr = returnArr.concat(groupNames);
 
       const filteredArr = newArr.filter(
